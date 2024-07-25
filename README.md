@@ -1,6 +1,6 @@
 # happit_flutter
 
-A new Flutter project.
+내가 쓰려고 만든 습관 트래커.
 
 ## Getting Started
 
