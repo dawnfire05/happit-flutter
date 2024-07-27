@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/screens/home.dart';
 import 'package:happit_flutter/widgets/bottom_navigation_bar.dart';
 
-class OneDepth extends StatelessWidget {
-  const OneDepth({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('depth 1'),
+        title: const Text('로그인'),
       ),
       body: Center(
         child: IconButton(

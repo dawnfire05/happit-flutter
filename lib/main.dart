@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/screens/home.dart';
+import 'package:happit_flutter/routes/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Home(),
+    return MaterialApp(
+      initialRoute: AppRoutes.home,
+      routes: AppRoutes.routes,
     );
   }
 }

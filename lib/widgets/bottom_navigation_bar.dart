@@ -7,21 +7,29 @@ class MyBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+    return BottomNavigationBar(items: [
+      BottomNavigationBarItem(
+        icon: IconButton(
+          icon: const Icon(Icons.home),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/'),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(
+        icon: IconButton(
+          icon: const Icon(Icons.person),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'Add',
+        label: 'profile',
+      ),
+      BottomNavigationBarItem(
+        icon: IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () =>
+              Navigator.pushReplacementNamed(context, '/habit/new'),
         ),
-      ],
-    );
+        label: 'new habit',
+      ),
+    ]);
   }
 }
