@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/screens/login_screen.dart';
 import 'package:happit_flutter/widgets/bottom_navigation_bar.dart';
 import 'package:happit_flutter/widgets/habit_widget.dart';
 

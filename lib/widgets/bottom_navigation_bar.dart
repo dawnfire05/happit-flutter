@@ -26,7 +26,7 @@ class MyBottomNavigationBar extends StatelessWidget {
         icon: IconButton(
           icon: const Icon(Icons.add),
           onPressed: () =>
-              Navigator.pushReplacementNamed(context, '/habit/new'),
+              Navigator.pushReplacementNamed(context, '/habit/add'),
         ),
         label: 'new habit',
       ),

@@ -15,10 +15,6 @@ class HabitWidget extends StatelessWidget {
             children: [
               Container(
                 child: const Text('잔디밭이 여기에 들어옵니다.'),
-              ),
-              ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/habit/new'),
-                child: const Icon(Icons.add),
               )
             ],
           )
