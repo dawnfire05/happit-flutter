@@ -21,6 +21,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
   final FocusNode myFocusNode = FocusNode();
   List<String> repeatTypes = ['매일', '요일별'];
   String habitRepeatType = 'daily';
+  int selectedColorIndex = -1; // Added to track selected color index
 
   @override
   void dispose() {
@@ -78,6 +79,13 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
         }
       },
     );
+  }
+
+  void selectColor(int index, Color color) {
+    setState(() {
+      selectedColorIndex = index;
+      themeColor = color.value; // Save the color value as int
+    });
   }
 
   @override
@@ -164,11 +172,16 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                         Wrap(
                           spacing: 12,
                           children: [
-                            _buildColorThemeContainer(const Color(0xff66D271)),
-                            _buildColorThemeContainer(const Color(0xff7D5BA6)),
-                            _buildColorThemeContainer(const Color(0xffFC6471)),
-                            _buildColorThemeContainer(const Color(0xffF8C630)),
-                            _buildColorThemeContainer(const Color(0xff30C5FF))
+                            _buildColorThemeContainer(
+                                0, const Color(0xff66D271)),
+                            _buildColorThemeContainer(
+                                1, const Color(0xff7D5BA6)),
+                            _buildColorThemeContainer(
+                                2, const Color(0xffFC6471)),
+                            _buildColorThemeContainer(
+                                3, const Color(0xffF8C630)),
+                            _buildColorThemeContainer(
+                                4, const Color(0xff30C5FF))
                           ],
                         )
                       ],
@@ -219,10 +232,11 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     );
   }
 
-  Widget _buildColorThemeContainer(Color color) {
-    bool isChecked = true;
-    return TapRegion(
-      onTapInside: (event) => {!isChecked},
+  Widget _buildColorThemeContainer(int index, Color color) {
+    bool isSelected =
+        selectedColorIndex == index; // Check if the color is selected
+    return GestureDetector(
+      onTap: () => selectColor(index, color),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -245,7 +259,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             ),
           ),
           Visibility(
-            visible: isChecked,
+            visible: isSelected, // Change visibility based on selection
             child: SvgPicture.asset(
               'assets/icons/Check.svg',
             ),
