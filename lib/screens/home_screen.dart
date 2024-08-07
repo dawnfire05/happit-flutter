@@ -11,8 +11,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        shadowColor: Colors.white,
         title: Container(
-          decoration: const BoxDecoration(color: Colors.white),
           child: Row(
             // mainAxisSize: MainAxisSize.max,
             children: [
@@ -70,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF1F2329),
                       fontSize: 18,
-                      fontFamily: 'NotoSansKR',
+                      fontFamily: 'Noto Sans KR',
                       fontWeight: FontWeight.w700,
                       height: 0,
                       letterSpacing: -1.44,
@@ -94,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(
                     color: Color(0xFF56B45F),
                     fontSize: 14,
-                    fontFamily: 'NotoSansKR',
+                    fontFamily: 'Noto Sans KR',
                     fontWeight: FontWeight.w700,
                     height: 0,
                     letterSpacing: -1.12,

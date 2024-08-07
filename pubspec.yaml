@@ -82,7 +82,7 @@ flutter:
       fonts:
         - asset: fonts/MontserratAlternates-ExtraBold.ttf
           weight: 800
-    - family: NotoSansKR
+    - family: Noto Sans KR
       fonts:
         - asset: fonts/NotoSansKR-Thin.ttf
           weight: 100
