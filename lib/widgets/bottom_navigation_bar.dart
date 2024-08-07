@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   const MyBottomNavigationBar({
@@ -10,25 +11,34 @@ class MyBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(items: [
       BottomNavigationBarItem(
         icon: IconButton(
-          icon: const Icon(Icons.home),
+          icon: SvgPicture.asset('assets/icons/home-black.svg'),
           onPressed: () => Navigator.pushReplacementNamed(context, '/'),
         ),
-        label: 'Home',
+        label: '',
       ),
       BottomNavigationBarItem(
         icon: IconButton(
-          icon: const Icon(Icons.person),
+          icon: SvgPicture.asset('assets/icons/profile-outline.svg'),
           onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
         ),
-        label: 'profile',
+        label: '',
       ),
       BottomNavigationBarItem(
         icon: IconButton(
-          icon: const Icon(Icons.add),
+          icon: Container(
+            height: 48,
+            width: 48,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xff66D271),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: SvgPicture.asset('assets/icons/Pluse.svg'),
+          ),
           onPressed: () =>
               Navigator.pushReplacementNamed(context, '/habit/add'),
         ),
-        label: 'new habit',
+        label: '',
       ),
     ]);
   }
