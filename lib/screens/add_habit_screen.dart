@@ -20,8 +20,9 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
   int themeColor = 0;
   final FocusNode myFocusNode = FocusNode();
   List<String> repeatTypes = ['매일', '요일별'];
+  String selectedRepeatType = 'daily';
   String habitRepeatType = 'daily';
-  int selectedColorIndex = -1; // Added to track selected color index
+  int selectedColorIndex = -1;
 
   @override
   void dispose() {
@@ -35,11 +36,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
   Future<void> addHabit() async {
     final String habitName = habitNameController.text;
     final String habitDescription = habitDescriptionController.text;
-
-    // Map<String, String> repeatType = {
-    //   '매일': 'daily',
-    //   '요일별': 'weekly',
-    // };
 
     const String endpoint = 'http://43.203.208.152:3000/habit';
 
@@ -88,6 +84,13 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     });
   }
 
+  void selectRepeatType(String repeatType) {
+    setState(() {
+      selectedRepeatType = repeatType;
+    });
+  }
+
+  // 메인
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,19 +118,8 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                   InputWidget(
                       habitNameController: habitDescriptionController,
                       hintText: '설명을 입력해주세요'),
-                  // DropdownButton<String>(
-                  //     value: habitRepeatType,
-                  //     items: repeatTypes.map(
-                  //       (String items) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: items,
-                  //           child: Text(items),
-                  //         );
-                  //       },
-                  //     ).toList(),
-                  //     onChanged: (String? newValue) {
-                  //       habitRepeatType = newValue!;
-                  //     }),
+                  const SizedBox(height: 20),
+                  _selectRepeatTypeWidget(),
                   const SizedBox(height: 20),
                   _selectDayOfWeek(),
                   const SizedBox(height: 20),
@@ -155,79 +147,165 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                         )
                       ],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Text(
-                          '테마 색상',
-                          style: TextStyle(
-                            color: Color(0xFF8C929D),
-                            fontSize: 13,
-                            fontFamily: 'Noto Sans KR',
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                            letterSpacing: -1.04,
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            '알림 시각',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                              fontFamily: 'Noto Sans KR',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                              letterSpacing: -1.04,
+                            ),
                           ),
                         ),
-                        Wrap(
-                          spacing: 12,
-                          children: [
-                            _buildColorThemeContainer(
-                                0, const Color(0xff66D271)),
-                            _buildColorThemeContainer(
-                                1, const Color(0xff7D5BA6)),
-                            _buildColorThemeContainer(
-                                2, const Color(0xffFC6471)),
-                            _buildColorThemeContainer(
-                                3, const Color(0xffF8C630)),
-                            _buildColorThemeContainer(
-                                4, const Color(0xff30C5FF))
-                          ],
-                        )
+                        Expanded(flex: 2, child: TextField())
                       ],
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 20),
+                  _selectTheme(),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
-              Container(
-                height: 64,
-                decoration: ShapeDecoration(
-                    color: const Color(0xff66D271),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x4C66D271),
-                        blurRadius: 24,
-                        offset: Offset(0, 0),
-                        spreadRadius: 0,
-                      )
-                    ]),
-                child: TextButton(
-                  style: const ButtonStyle(),
-                  onPressed: addHabit,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '습관 추가하기',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'Noto Sans KR',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                          letterSpacing: -1.28,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _mainButton(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _selectRepeatTypeWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+      height: 56,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        shadows: const [
+          BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 1,
+            offset: Offset(0, 0),
+            spreadRadius: 1,
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildRepeatTypeSelector('daily', '매일'),
+          const SizedBox(width: 12),
+          _buildRepeatTypeSelector('weekly', '요일별')
+        ],
+      ),
+    );
+  }
+
+  Container _mainButton() {
+    return Container(
+      height: 64,
+      decoration: ShapeDecoration(
+          color: const Color(0xff66D271),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x4C66D271),
+              blurRadius: 24,
+              offset: Offset(0, 0),
+              spreadRadius: 0,
+            )
+          ]),
+      child: TextButton(
+        style: const ButtonStyle(),
+        onPressed: addHabit,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '습관 추가하기',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'Noto Sans KR',
+                fontWeight: FontWeight.w700,
+                height: 0,
+                letterSpacing: -1.28,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _selectTheme() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      height: 56,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        shadows: const [
+          BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 1,
+            offset: Offset(0, 0),
+            spreadRadius: 1,
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            '테마 색상',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 13,
+              fontFamily: 'Noto Sans KR',
+              fontWeight: FontWeight.w400,
+              height: 0,
+              letterSpacing: -1.04,
+            ),
+          ),
+          Wrap(
+            spacing: 12,
+            children: [
+              _buildColorThemeContainer(0, const Color(0xff66D271)),
+              _buildColorThemeContainer(1, const Color(0xff7D5BA6)),
+              _buildColorThemeContainer(2, const Color(0xffFC6471)),
+              _buildColorThemeContainer(3, const Color(0xffF8C630)),
+              _buildColorThemeContainer(4, const Color(0xff30C5FF))
+            ],
+          )
+        ],
       ),
     );
   }
@@ -265,6 +343,44 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildRepeatTypeSelector(String repeatType, String label) {
+    bool isSelected = selectedRepeatType == repeatType;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => selectRepeatType(repeatType),
+        child: Container(
+          decoration: ShapeDecoration(
+            shadows: const [
+              BoxShadow(
+                color: Color(0x99DBE5EC),
+                blurRadius: 24,
+                offset: Offset(0, 8),
+                spreadRadius: 0,
+              )
+            ],
+            color: isSelected ? const Color(0xff66D271) : Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? Colors.white : const Color(0xff8C929D),
+                fontSize: 15,
+                fontFamily: 'Noto Sans KR',
+                fontWeight: FontWeight.w400,
+                height: 0,
+                letterSpacing: -1.20,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
