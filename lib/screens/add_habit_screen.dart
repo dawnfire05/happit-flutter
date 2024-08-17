@@ -44,6 +44,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
       'description': habitDescription,
       'repeatType': habitRepeatType,
       'repeatDay': repeatDays,
+      'themeColor': selectedColorIndex
     };
 
     final response = await http.post(
@@ -51,7 +52,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJzdWIiOjEsImlhdCI6MTcyMzAxOTQ0NywiZXhwIjoxNzIzMDIzMDQ3fQ.gIdPicoMDNukh3-yu5okPH8uWviG89ddG-2Rrfwv3FM',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJzdWIiOjEsImlhdCI6MTcyMzUzNDEyOSwiZXhwIjoxNzIzNTM1OTI5fQ.DoflVCuTYxIPCNOR3hCHdz1A9tx2QYqdayhFBRfCxFU',
       },
       body: jsonEncode(habitData),
     );
@@ -90,6 +91,21 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     });
   }
 
+  TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+        print("wowwowwow $selectedTime");
+      });
+    }
+  }
+
   // 메인
   @override
   Widget build(BuildContext context) {
@@ -123,51 +139,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                   const SizedBox(height: 20),
                   _selectDayOfWeek(),
                   const SizedBox(height: 20),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                    height: 56,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x99DBE5EC),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                        BoxShadow(
-                          color: Color(0x99DBE5EC),
-                          blurRadius: 1,
-                          offset: Offset(0, 0),
-                          spreadRadius: 1,
-                        )
-                      ],
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            '알림 시각',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontFamily: 'Noto Sans KR',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                              letterSpacing: -1.04,
-                            ),
-                          ),
-                        ),
-                        Expanded(flex: 2, child: TextField())
-                      ],
-                    ),
-                  ),
+                  _selectNoticeTime(context),
                   const SizedBox(height: 20),
                   _selectTheme(),
                   const SizedBox(
@@ -179,6 +151,74 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _selectNoticeTime(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      height: 56,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        shadows: const [
+          BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 1,
+            offset: Offset(0, 0),
+            spreadRadius: 1,
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Expanded(
+            flex: 1,
+            child: Text(
+              '알림 시각',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+                fontFamily: 'Noto Sans KR',
+                fontWeight: FontWeight.w400,
+                height: 0,
+                letterSpacing: -1.04,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  child: Text(
+                    selectedTime.format(context),
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: 'Noto Sans KR',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                  onPressed: () => _selectTime(context),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -545,6 +585,7 @@ class _InputWidgetState extends State<InputWidget> {
               fontFamily: 'Noto Sans KR',
               fontWeight: FontWeight.w400,
               letterSpacing: -1.04,
+              wordSpacing: 1,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,
