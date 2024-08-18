@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "284385154560",
+    "project_id": "happit-e9fdc",
+    "storage_bucket": "happit-e9fdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284385154560:android:699d43211563a048beaae5",
+        "android_client_info": {
+          "package_name": "com.happit.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmyGJ-2jaHrsAWRdYxB2TzWMDppNzhl_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
