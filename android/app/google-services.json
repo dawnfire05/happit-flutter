@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:284385154560:android:699d43211563a048beaae5",
         "android_client_info": {
-          "package_name": "com.happit.app"
+          "package_name": "com.example.happit_flutter"
         }
       },
       "oauth_client": [],
