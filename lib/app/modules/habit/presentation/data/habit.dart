@@ -2,7 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-Future<void> habitPost(String habitName, String habitDescription) async {
+void addHabit(
+  String habitName,
+  String habitDescription,
+  String habitRepeatType,
+  List<String> repeatDays,
+  int selectedColorIndex,
+) async {
   const String endpoint = 'http://43.203.208.152:3000/habit';
 
   final Map<String, dynamic> habitData = {
@@ -22,4 +28,10 @@ Future<void> habitPost(String habitName, String habitDescription) async {
     },
     body: jsonEncode(habitData),
   );
+
+  if (response.statusCode == 201) {
+    print('Habit added successfully');
+  } else {
+    print('Failed to add habit: ${response.body}');
+  }
 }

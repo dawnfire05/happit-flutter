@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:happit_flutter/app/modules/habit/presentation/data/habit.dart';
 
 class AddHabitScreen extends StatefulWidget {
   const AddHabitScreen({super.key});
@@ -31,39 +30,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     habitRepeatDayController.dispose();
     myFocusNode.dispose();
     super.dispose();
-  }
-
-  Future<void> addHabit() async {
-    final String habitName = habitNameController.text;
-    final String habitDescription = habitDescriptionController.text;
-
-    const String endpoint = 'http://43.203.208.152:3000/habit';
-
-    final Map<String, dynamic> habitData = {
-      'name': habitName,
-      'description': habitDescription,
-      'repeatType': habitRepeatType,
-      'repeatDay': repeatDays,
-      'themeColor': selectedColorIndex
-    };
-
-    final response = await http.post(
-      Uri.parse(endpoint),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJzdWIiOjEsImlhdCI6MTcyMzUzNDEyOSwiZXhwIjoxNzIzNTM1OTI5fQ.DoflVCuTYxIPCNOR3hCHdz1A9tx2QYqdayhFBRfCxFU',
-      },
-      body: jsonEncode(habitData),
-    );
-
-    if (response.statusCode == 201) {
-      // Handle success
-      print('Habit added successfully');
-    } else {
-      // Handle error
-      print('Failed to add habit: ${response.body}');
-    }
   }
 
   void addDayOfWeek(String day) {
@@ -276,7 +242,13 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
           ]),
       child: TextButton(
         style: const ButtonStyle(),
-        onPressed: addHabit,
+        onPressed: () => addHabit(
+          habitNameController.text,
+          habitDescriptionController.text,
+          habitRepeatType,
+          repeatDays,
+          selectedColorIndex,
+        ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
