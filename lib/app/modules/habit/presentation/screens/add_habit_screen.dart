@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/data/habit.dart';
+import 'package:happit_flutter/app/modules/habit/data/habit.dart';
 
 class AddHabitScreen extends StatefulWidget {
   const AddHabitScreen({super.key});
@@ -59,19 +59,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
 
   TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
 
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-    if (picked != null && picked != selectedTime) {
-      setState(() {
-        selectedTime = picked;
-        print("wowwowwow $selectedTime");
-      });
-    }
-  }
-
   // 메인
   @override
   Widget build(BuildContext context) {
@@ -105,7 +92,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                   const SizedBox(height: 20),
                   _selectDayOfWeek(),
                   const SizedBox(height: 20),
-                  _selectNoticeTime(context),
+                  selectNoticeTime(context),
                   const SizedBox(height: 20),
                   _selectTheme(),
                   const SizedBox(
@@ -121,7 +108,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     );
   }
 
-  Container _selectNoticeTime(BuildContext context) {
+  Container selectNoticeTime(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       height: 56,
@@ -155,7 +142,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 13,
-                fontFamily: 'Noto Sans KR',
+              fontFamily: 'Noto Sans KR',
                 fontWeight: FontWeight.w400,
                 height: 0,
                 letterSpacing: -1.04,
@@ -179,7 +166,18 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                       height: 0,
                     ),
                   ),
-                  onPressed: () => _selectTime(context),
+                  onPressed: () async {
+                    final TimeOfDay? picked = await showTimePicker(
+                      context: context,
+                      initialTime: selectedTime,
+                    );
+                    if (picked != null && picked != selectedTime) {
+                      setState(() {
+                        selectedTime = picked;
+                        print("wowwowwow $selectedTime");
+                      });
+                    }
+                  },
                 ),
               ],
             ),
