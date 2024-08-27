@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/screens/add_habit_screen.dart';
-import 'package:happit_flutter/screens/home_screen.dart';
-import 'package:happit_flutter/screens/login_screen.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/screens/add_habit_screen.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/screens/home_screen.dart';
+import 'package:happit_flutter/app/modules/auth/presentation/screens/login_screen.dart';
 
 class AppRoutes {
   static const String home = "/";

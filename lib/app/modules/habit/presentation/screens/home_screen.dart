@@ -1,10 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happit_flutter/widgets/bottom_navigation_bar.dart';
+import 'package:happit_flutter/app/modules/global/widgets/bottom_navigation_bar.dart';
 import 'dart:io' show Platform;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+  void initState() {
+    super.initState();
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id',
+      'your_channel_name',
+      importance: Importance.high,
+      priority: Priority.high,
+      showWhen: false,
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      '제목',
+      '내용',
+      platformChannelSpecifics,
+      payload: 'item id 2',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +80,12 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: ListView(
           children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: _showNotification,
+                child: const Text('알림 보내기'),
+              ),
+            ),
             habitWidget(),
             const SizedBox(height: 32),
             habitWidget(),
