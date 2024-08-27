@@ -24,7 +24,7 @@ void addHabit(
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJzdWIiOjEsImlhdCI6MTcyMzUzNDEyOSwiZXhwIjoxNzIzNTM1OTI5fQ.DoflVCuTYxIPCNOR3hCHdz1A9tx2QYqdayhFBRfCxFU',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJzdWIiOjEsImlhdCI6MTcyNDc2MzU4NywiZXhwIjoxNzI0NzY1Mzg3fQ.uSBT1xGtIqwMHxYKNpjZgqCPCsWEt74GttSo2FtLWEw',
     },
     body: jsonEncode(habitData),
   );
