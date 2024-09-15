@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -12,7 +14,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp(); // 여기에 initializeApp을 다시 해줄 필요가 있나?
 
-  print("Handling a background message: ${message.messageId}");
+  log("Handling a background message: ${message.messageId}");
 }
 
 @pragma('vm:entry-point')
@@ -21,39 +23,38 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
 
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print(fcmToken);
+//   final fcmToken = await FirebaseMessaging.instance.getToken();
+//   print(fcmToken);
 
-  // await FirebaseMessaging messaging = FirebaseMessaging.instance.setAutoInitEnabled(true); fcm Token 관련 설정
+//   // await FirebaseMessaging messaging = FirebaseMessaging.instance.setAutoInitEnabled(true); fcm Token 관련 설정
 
-  // 포그라운드 알림 수신
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
+//   // 포그라운드 알림 수신
+//   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//     log('Got a message whilst in the foreground!');
+//     log('Message data: ${message.data}');
 
-    if (message.notification != null) {
-      print(
-          'Message also contained a notification: ${message.notification?.title}, ${message.notification?.body}');
-    }
-  });
+//     if (message.notification != null) {
+//       log('Message also contained a notification: ${message.notification?.title}, ${message.notification?.body}');
+//     }
+//   });
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
 
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+// // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+//   const AndroidInitializationSettings initializationSettingsAndroid =
+//       AndroidInitializationSettings('@mipmap/ic_launcher');
+//   const InitializationSettings initializationSettings =
+//       InitializationSettings(android: initializationSettingsAndroid);
 
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   runApp(const MyApp());
 }
