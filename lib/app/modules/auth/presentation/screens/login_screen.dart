@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/app/modules/global/widgets/bottom_navigation_bar.dart';
+import 'package:happit_flutter/app/modules/common/widgets/bottom_navigation_bar.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
