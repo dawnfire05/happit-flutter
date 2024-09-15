@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:happit_flutter/app/modules/common/widgets/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/blocs/habit/habit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/select_repeat_type_widget.dart';
@@ -99,7 +100,19 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                     ),
                   ],
                 ),
-                _mainButton(),
+                MainButton(
+                  text: '습관 추가하기',
+                  onPressed: () => context.read<HabitBloc>().add(
+                        AddHabitEvent(
+                          habitName: habitNameController.text,
+                          habitDescription: habitDescriptionController.text,
+                          repeatType: selectedRepeatType,
+                          repeatDays: repeatDays,
+                          selectedTime: selectedTime,
+                          themeColor: themeColor,
+                        ),
+                      ),
+                ),
               ],
             ),
           ),
@@ -167,20 +180,20 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    final picked = await showTimePicker(
-                      context: context,
-                      initialTime: selectedTime,
-                    );
-                    if (picked != null && picked != selectedTime) {
-                      context
-                          .watch<HabitBloc>()
-                          .state
-                          .copyWith(selectedTime: picked);
-                      setState(() {
-                        selectedTime = picked;
-                        print("wowwowwow $selectedTime");
-                      });
-                    }
+                    //   final picked = await showTimePicker(
+                    //     context: context,
+                    //     initialTime: selectedTime,
+                    //   );
+                    //   if (picked != null && picked != selectedTime) {
+                    //     context
+                    //         .watch<HabitBloc>()
+                    //         .state
+                    //         .copyWith(selectedTime: picked);
+                    //     setState(() {
+                    //       selectedTime = picked;
+                    //       print("wowwowwow $selectedTime");
+                    //     });
+                    //   }
                   },
                 ),
               ],
@@ -188,56 +201,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
           )
         ],
       ),
-    );
-  }
-
-  Container _mainButton() {
-    return Container(
-      height: 64,
-      decoration: ShapeDecoration(
-          color: const Color(0xff66D271),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          shadows: const [
-            BoxShadow(
-              color: Color(0x4C66D271),
-              blurRadius: 24,
-              offset: Offset(0, 0),
-              spreadRadius: 0,
-            )
-          ]),
-      child: Builder(builder: (context) {
-        return TextButton(
-          style: const ButtonStyle(),
-          onPressed: () => context.read<HabitBloc>().add(
-                AddHabitEvent(
-                  habitName: habitNameController.text,
-                  habitDescription: habitDescriptionController.text,
-                  repeatType: selectedRepeatType,
-                  repeatDays: repeatDays,
-                  selectedTime: selectedTime,
-                  themeColor: themeColor,
-                ),
-              ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '습관 추가하기',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontFamily: 'Noto Sans KR',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                  letterSpacing: -1.28,
-                ),
-              ),
-            ],
-          ),
-        );
-      }),
     );
   }
 
