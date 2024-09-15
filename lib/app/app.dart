@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Palette.white,
           ),
           scaffoldBackgroundColor: Palette.white),
-      initialRoute: AppRoutes.habitDone,
+      initialRoute: AppRoutes.splash,
       routes: AppRoutes.routes,
     );
   }
