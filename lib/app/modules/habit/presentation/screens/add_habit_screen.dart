@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happit_flutter/app/modules/habit/data/habit.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/blocs/habit/habit_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_widget.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/widgets/select_repeat_type_widget.dart';
 
 class AddHabitScreen extends StatefulWidget {
   const AddHabitScreen({super.key});
@@ -13,21 +16,21 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
   final TextEditingController habitNameController = TextEditingController();
   final TextEditingController habitDescriptionController =
       TextEditingController();
-  final TextEditingController habitRepeatDayController =
-      TextEditingController();
+
+  String selectedRepeatType = 'daily';
   List<String> repeatDays = [];
+  TimeOfDay? picked;
   int themeColor = 0;
+
   final FocusNode myFocusNode = FocusNode();
   List<String> repeatTypes = ['매일', '요일별'];
-  String selectedRepeatType = 'daily';
-  String habitRepeatType = 'daily';
-  int selectedColorIndex = -1;
+
+  int selectedColorIndex = 0;
 
   @override
   void dispose() {
     habitNameController.dispose();
     habitDescriptionController.dispose();
-    habitRepeatDayController.dispose();
     myFocusNode.dispose();
     super.dispose();
   }
@@ -51,57 +54,54 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     });
   }
 
-  void selectRepeatType(String repeatType) {
-    setState(() {
-      selectedRepeatType = repeatType;
-    });
-  }
-
   TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
 
   // 메인
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('습관 추가'),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
+    return BlocProvider<HabitBloc>(
+      create: (context) => HabitBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('습관 추가'),
         ),
-        padding: const EdgeInsets.all(20),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  InputWidget(
-                    habitNameController: habitNameController,
-                    hintText: '추가할 습관을 입력해주세요',
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InputWidget(
-                      habitNameController: habitDescriptionController,
-                      hintText: '설명을 입력해주세요'),
-                  const SizedBox(height: 20),
-                  _selectRepeatTypeWidget(),
-                  const SizedBox(height: 20),
-                  _selectDayOfWeek(),
-                  const SizedBox(height: 20),
-                  selectNoticeTime(context),
-                  const SizedBox(height: 20),
-                  _selectTheme(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-              _mainButton(),
-            ],
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    InputWidget(
+                      habitNameController: habitNameController,
+                      hintText: '추가할 습관을 입력해주세요',
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InputWidget(
+                        habitNameController: habitDescriptionController,
+                        hintText: '설명을 입력해주세요'),
+                    const SizedBox(height: 20),
+                    const SelectRepeatTypeWidget(),
+                    const SizedBox(height: 20),
+                    _selectDayOfWeek(),
+                    const SizedBox(height: 20),
+                    selectNoticeTime(context),
+                    const SizedBox(height: 20),
+                    _selectTheme(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+                _mainButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -142,7 +142,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 13,
-              fontFamily: 'Noto Sans KR',
+                fontFamily: 'Noto Sans KR',
                 fontWeight: FontWeight.w400,
                 height: 0,
                 letterSpacing: -1.04,
@@ -167,11 +167,15 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    final TimeOfDay? picked = await showTimePicker(
+                    final picked = await showTimePicker(
                       context: context,
                       initialTime: selectedTime,
                     );
                     if (picked != null && picked != selectedTime) {
+                      context
+                          .watch<HabitBloc>()
+                          .state
+                          .copyWith(selectedTime: picked);
                       setState(() {
                         selectedTime = picked;
                         print("wowwowwow $selectedTime");
@@ -182,41 +186,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               ],
             ),
           )
-        ],
-      ),
-    );
-  }
-
-  Container _selectRepeatTypeWidget() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-      height: 56,
-      decoration: ShapeDecoration(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 1,
-            offset: Offset(0, 0),
-            spreadRadius: 1,
-          )
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildRepeatTypeSelector('daily', '매일'),
-          const SizedBox(width: 12),
-          _buildRepeatTypeSelector('weekly', '요일별')
         ],
       ),
     );
@@ -238,32 +207,37 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               spreadRadius: 0,
             )
           ]),
-      child: TextButton(
-        style: const ButtonStyle(),
-        onPressed: () => addHabit(
-          habitNameController.text,
-          habitDescriptionController.text,
-          habitRepeatType,
-          repeatDays,
-          selectedColorIndex,
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '습관 추가하기',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Noto Sans KR',
-                fontWeight: FontWeight.w700,
-                height: 0,
-                letterSpacing: -1.28,
+      child: Builder(builder: (context) {
+        return TextButton(
+          style: const ButtonStyle(),
+          onPressed: () => context.read<HabitBloc>().add(
+                AddHabitEvent(
+                  habitName: habitNameController.text,
+                  habitDescription: habitDescriptionController.text,
+                  repeatType: selectedRepeatType,
+                  repeatDays: repeatDays,
+                  selectedTime: selectedTime,
+                  themeColor: themeColor,
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '습관 추가하기',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'Noto Sans KR',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                  letterSpacing: -1.28,
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -357,44 +331,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
     );
   }
 
-  Widget _buildRepeatTypeSelector(String repeatType, String label) {
-    bool isSelected = selectedRepeatType == repeatType;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => selectRepeatType(repeatType),
-        child: Container(
-          decoration: ShapeDecoration(
-            shadows: const [
-              BoxShadow(
-                color: Color(0x99DBE5EC),
-                blurRadius: 24,
-                offset: Offset(0, 8),
-                spreadRadius: 0,
-              )
-            ],
-            color: isSelected ? const Color(0xff66D271) : Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: isSelected ? Colors.white : const Color(0xff8C929D),
-                fontSize: 15,
-                fontFamily: 'Noto Sans KR',
-                fontWeight: FontWeight.w400,
-                height: 0,
-                letterSpacing: -1.20,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Container _selectDayOfWeek() {
     return Container(
       height: 56,
@@ -463,114 +399,6 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             letterSpacing: -1.20,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class InputWidget extends StatefulWidget {
-  const InputWidget({
-    super.key,
-    required this.habitNameController,
-    required this.hintText,
-  });
-
-  final TextEditingController habitNameController;
-  final String hintText;
-
-  @override
-  State<InputWidget> createState() => _InputWidgetState();
-}
-
-class _InputWidgetState extends State<InputWidget> {
-  final FocusNode _focusNode = FocusNode();
-  bool _isFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(_onFocusChange);
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  _onFocusChange() {
-    setState(() {
-      _isFocused = _focusNode.hasFocus;
-    });
-  }
-
-  List<BoxShadow> focus = [
-    const BoxShadow(
-      color: Color(0x4C66D271),
-      blurRadius: 24,
-      offset: Offset(0, 0),
-      spreadRadius: 0,
-    )
-  ];
-  List<BoxShadow> done = [
-    const BoxShadow(
-      color: Color(0x99DBE5EC),
-      blurRadius: 8,
-      offset: Offset(0, 4),
-      spreadRadius: 0,
-    ),
-    const BoxShadow(
-      color: Color(0x99DBE5EC),
-      blurRadius: 1,
-      offset: Offset(0, 0),
-      spreadRadius: 1,
-    )
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-      decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-                width: 2,
-                color:
-                    _isFocused ? const Color(0xFF66D271) : Colors.transparent),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          shadows: _isFocused ? focus : done),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: widget.habitNameController,
-            focusNode: _focusNode,
-            style: const TextStyle(
-              color: Color(0xFF1F2329),
-              fontSize: 13,
-              fontFamily: 'Noto Sans KR',
-              fontWeight: FontWeight.w400,
-              letterSpacing: -1.04,
-              wordSpacing: 1,
-            ),
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              hintStyle: const TextStyle(
-                color: Color(0xFF8C929D),
-                fontSize: 13,
-                fontFamily: 'Noto Sans KR',
-                fontWeight: FontWeight.w400,
-                height: 0,
-                letterSpacing: -1.04,
-              ),
-              border: InputBorder.none,
-            ),
-          ),
-        ],
       ),
     );
   }
