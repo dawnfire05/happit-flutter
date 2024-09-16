@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SelectRepeatTypeWidget extends StatelessWidget {
+class InputRepeatTypeWidget extends StatelessWidget {
   final String selectedRepeatType = 'daily';
-  const SelectRepeatTypeWidget({super.key});
+  const InputRepeatTypeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

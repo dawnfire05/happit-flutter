@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happit_flutter/app/modules/common/widgets/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/blocs/habit/habit_bloc.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_widget.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/widgets/select_repeat_type_widget.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_text_widget.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_repeat_type_widget.dart';
 
 class HabitAddScreen extends StatefulWidget {
   const HabitAddScreen({super.key});

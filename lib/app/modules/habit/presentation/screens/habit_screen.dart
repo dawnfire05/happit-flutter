@@ -3,8 +3,8 @@ import 'package:happit_flutter/app/modules/common/widgets/bottom_navigation_bar.
 import 'dart:io' show Platform;
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/habit_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HabitScreen extends StatelessWidget {
+  const HabitScreen({super.key});
 
   // late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
