@@ -55,5 +55,5 @@ void main() async {
 
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
