@@ -6,14 +6,14 @@ import 'package:happit_flutter/app/modules/habit/presentation/blocs/habit/habit_
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/select_repeat_type_widget.dart';
 
-class AddHabitScreen extends StatefulWidget {
-  const AddHabitScreen({super.key});
+class HabitAddScreen extends StatefulWidget {
+  const HabitAddScreen({super.key});
 
   @override
-  State<AddHabitScreen> createState() => _AddHabitScreenState();
+  State<HabitAddScreen> createState() => _AddHabitScreenState();
 }
 
-class _AddHabitScreenState extends State<AddHabitScreen> {
+class _AddHabitScreenState extends State<HabitAddScreen> {
   final TextEditingController habitNameController = TextEditingController();
   final TextEditingController habitDescriptionController =
       TextEditingController();
@@ -100,19 +100,21 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                     ),
                   ],
                 ),
-                MainButton(
-                  text: '습관 추가하기',
-                  onPressed: () => context.read<HabitBloc>().add(
-                        AddHabitEvent(
-                          habitName: habitNameController.text,
-                          habitDescription: habitDescriptionController.text,
-                          repeatType: selectedRepeatType,
-                          repeatDays: repeatDays,
-                          selectedTime: selectedTime,
-                          themeColor: themeColor,
+                Builder(builder: (context) {
+                  return MainButton(
+                    text: '습관 추가하기',
+                    onPressed: () => context.read<HabitBloc>().add(
+                          AddHabitEvent(
+                            habitName: habitNameController.text,
+                            habitDescription: habitDescriptionController.text,
+                            repeatType: selectedRepeatType,
+                            repeatDays: repeatDays,
+                            selectedTime: selectedTime,
+                            themeColor: themeColor,
+                          ),
                         ),
-                      ),
-                ),
+                  );
+                }),
               ],
             ),
           ),

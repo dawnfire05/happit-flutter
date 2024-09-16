@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:happit_flutter/app/modules/common/widgets/main_button.dart';
+import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
 
-class AddHabitDoneScreen extends StatelessWidget {
-  const AddHabitDoneScreen({super.key});
+class HabitAddedScreen extends StatelessWidget {
+  const HabitAddedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,10 @@ class AddHabitDoneScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const MainButton(text: '메인 화면으로'),
+            MainButton(
+              text: '메인 화면으로',
+              onPressed: () => const HomeRoute().go(context),
+            ),
           ],
         ),
       ),

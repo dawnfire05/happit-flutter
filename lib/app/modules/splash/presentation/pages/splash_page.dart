@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:happit_flutter/app/modules/common/widgets/main_button.dart';
+import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
 
 class SplashPage extends StatelessWidget {
@@ -38,6 +40,10 @@ class SplashPage extends StatelessWidget {
                 letterSpacing: -2.40,
               ),
             ),
+            MainButton(
+              text: '메인 화면',
+              onPressed: () => const HomeRoute().go(context),
+            )
           ],
         ),
       ),

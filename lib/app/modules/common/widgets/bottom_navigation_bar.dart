@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:happit_flutter/routes/routes.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   const MyBottomNavigationBar({
@@ -14,14 +15,14 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: IconButton(
             icon: SvgPicture.asset('assets/icons/home-black.svg'),
-            onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+            onPressed: () => const HomeRoute().go(context),
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: IconButton(
             icon: SvgPicture.asset('assets/icons/profile-outline.svg'),
-            onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+            onPressed: () {},
           ),
           label: '',
         ),
@@ -37,8 +38,7 @@ class MyBottomNavigationBar extends StatelessWidget {
               ),
               child: SvgPicture.asset('assets/icons/Pluse.svg'),
             ),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, '/habit/add'),
+            onPressed: () => const HabitAddRoute().go(context),
           ),
           label: '',
         ),

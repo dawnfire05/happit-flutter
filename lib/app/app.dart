@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/routes/app_routes.dart';
+import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
 
 class MainApp extends StatelessWidget {
@@ -7,15 +7,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: ThemeData(
           fontFamily: 'NotoSansKR',
           appBarTheme: const AppBarTheme(
             backgroundColor: Palette.white,
           ),
           scaffoldBackgroundColor: Palette.white),
-      initialRoute: AppRoutes.splash,
-      routes: AppRoutes.routes,
+      routerConfig: router,
     );
   }
 }
