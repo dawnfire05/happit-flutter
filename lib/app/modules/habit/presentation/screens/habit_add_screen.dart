@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:happit_flutter/app/modules/common/widgets/main_button.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widgets/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/blocs/habit/habit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_text_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/input_repeat_type_widget.dart';
@@ -88,7 +88,7 @@ class _AddHabitScreenState extends State<HabitAddScreen> {
                         habitNameController: habitDescriptionController,
                         hintText: '설명을 입력해주세요'),
                     const SizedBox(height: 20),
-                    const SelectRepeatTypeWidget(),
+                    const InputRepeatTypeWidget(),
                     const SizedBox(height: 20),
                     _selectDayOfWeek(),
                     const SizedBox(height: 20),

@@ -127,7 +127,7 @@ class HabitWidget extends StatelessWidget {
 
 class GitHubGrassWidget extends StatelessWidget {
   final int rows = 7;
-  final int columns = 12;
+  final int columns = 9;
 
   const GitHubGrassWidget({super.key});
 

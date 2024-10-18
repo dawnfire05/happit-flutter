@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/app/modules/common/widgets/bottom_navigation_bar.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widgets/bottom_navigation_bar.dart';
 import 'dart:io' show Platform;
 import 'package:happit_flutter/app/modules/habit/presentation/widgets/habit_widget.dart';
 
