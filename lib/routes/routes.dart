@@ -12,6 +12,6 @@ part 'spash_routes.dart';
 
 final GoRouter router = GoRouter(
   routes: $appRoutes,
-  initialLocation: const HabitAddedRoute().location,
+  initialLocation: const HomeRoute().location,
   debugLogDiagnostics: kDebugMode,
 );
