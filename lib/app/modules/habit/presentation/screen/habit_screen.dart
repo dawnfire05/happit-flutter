@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/app/modules/common/presentation/widgets/bottom_navigation_bar.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/bottom_navigation_bar.dart';
 import 'dart:io' show Platform;
-import 'package:happit_flutter/app/modules/habit/presentation/widgets/habit_widget.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/widget/habit_widget.dart';
 
 class HabitScreen extends StatelessWidget {
   const HabitScreen({super.key});
