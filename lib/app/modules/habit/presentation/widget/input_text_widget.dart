@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InputWidget extends StatefulWidget {
-  const InputWidget({
+class InputTextWidget extends StatefulWidget {
+  const InputTextWidget({
     super.key,
     required this.habitNameController,
     required this.hintText,
@@ -11,10 +11,10 @@ class InputWidget extends StatefulWidget {
   final String hintText;
 
   @override
-  State<InputWidget> createState() => _InputWidgetState();
+  State<InputTextWidget> createState() => _InputWidgetState();
 }
 
-class _InputWidgetState extends State<InputWidget> {
+class _InputWidgetState extends State<InputTextWidget> {
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
 
@@ -32,9 +32,7 @@ class _InputWidgetState extends State<InputWidget> {
   }
 
   _onFocusChange() {
-    setState(() {
-      _isFocused = _focusNode.hasFocus;
-    });
+    setState(() => _isFocused = _focusNode.hasFocus);
   }
 
   List<BoxShadow> focus = [
@@ -86,8 +84,6 @@ class _InputWidgetState extends State<InputWidget> {
               fontSize: 13,
               fontFamily: 'Noto Sans KR',
               fontWeight: FontWeight.w400,
-              letterSpacing: -1.04,
-              wordSpacing: 1,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,
@@ -96,7 +92,6 @@ class _InputWidgetState extends State<InputWidget> {
                 fontSize: 13,
                 fontFamily: 'Noto Sans KR',
                 fontWeight: FontWeight.w400,
-                height: 0,
                 letterSpacing: -1.04,
               ),
               border: InputBorder.none,

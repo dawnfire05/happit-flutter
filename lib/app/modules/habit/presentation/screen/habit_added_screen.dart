@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:happit_flutter/app/modules/common/presentation/widgets/main_button.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
 

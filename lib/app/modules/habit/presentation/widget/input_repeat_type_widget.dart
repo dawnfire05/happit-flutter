@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class InputRepeatTypeWidget extends StatelessWidget {
-  final String selectedRepeatType = 'daily';
-  const InputRepeatTypeWidget({super.key});
+  final String selectedRepeatType;
+  final ValueChanged<String> onSelected;
+
+  const InputRepeatTypeWidget({
+    super.key,
+    required this.selectedRepeatType,
+    required this.onSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +51,7 @@ class InputRepeatTypeWidget extends StatelessWidget {
     bool isSelected = selectedRepeatType == repeatType;
     return Expanded(
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => onSelected(repeatType),
         child: Container(
           decoration: ShapeDecoration(
             shadows: const [

@@ -12,7 +12,9 @@ _$CreateHabitModelImpl _$$CreateHabitModelImplFromJson(
       name: json['name'] as String,
       description: json['description'] as String,
       repeatType: json['repeatType'] as String,
-      repeatDay: json['repeatDay'] as String?,
+      repeatDay: (json['repeatDay'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$CreateHabitModelImplToJson(

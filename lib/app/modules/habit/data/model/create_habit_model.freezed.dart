@@ -23,7 +23,7 @@ mixin _$CreateHabitModel {
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get repeatType => throw _privateConstructorUsedError;
-  String? get repeatDay => throw _privateConstructorUsedError;
+  List<String>? get repeatDay => throw _privateConstructorUsedError;
 
   /// Serializes this CreateHabitModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +42,10 @@ abstract class $CreateHabitModelCopyWith<$Res> {
       _$CreateHabitModelCopyWithImpl<$Res, CreateHabitModel>;
   @useResult
   $Res call(
-      {String name, String description, String repeatType, String? repeatDay});
+      {String name,
+      String description,
+      String repeatType,
+      List<String>? repeatDay});
 }
 
 /// @nodoc
@@ -81,7 +84,7 @@ class _$CreateHabitModelCopyWithImpl<$Res, $Val extends CreateHabitModel>
       repeatDay: freezed == repeatDay
           ? _value.repeatDay
           : repeatDay // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -95,7 +98,10 @@ abstract class _$$CreateHabitModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name, String description, String repeatType, String? repeatDay});
+      {String name,
+      String description,
+      String repeatType,
+      List<String>? repeatDay});
 }
 
 /// @nodoc
@@ -130,9 +136,9 @@ class __$$CreateHabitModelImplCopyWithImpl<$Res>
           : repeatType // ignore: cast_nullable_to_non_nullable
               as String,
       repeatDay: freezed == repeatDay
-          ? _value.repeatDay
+          ? _value._repeatDay
           : repeatDay // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
     ));
   }
 }
@@ -144,7 +150,8 @@ class _$CreateHabitModelImpl implements _CreateHabitModel {
       {required this.name,
       required this.description,
       required this.repeatType,
-      this.repeatDay});
+      final List<String>? repeatDay})
+      : _repeatDay = repeatDay;
 
   factory _$CreateHabitModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateHabitModelImplFromJson(json);
@@ -155,8 +162,15 @@ class _$CreateHabitModelImpl implements _CreateHabitModel {
   final String description;
   @override
   final String repeatType;
+  final List<String>? _repeatDay;
   @override
-  final String? repeatDay;
+  List<String>? get repeatDay {
+    final value = _repeatDay;
+    if (value == null) return null;
+    if (_repeatDay is EqualUnmodifiableListView) return _repeatDay;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
@@ -173,14 +187,14 @@ class _$CreateHabitModelImpl implements _CreateHabitModel {
                 other.description == description) &&
             (identical(other.repeatType, repeatType) ||
                 other.repeatType == repeatType) &&
-            (identical(other.repeatDay, repeatDay) ||
-                other.repeatDay == repeatDay));
+            const DeepCollectionEquality()
+                .equals(other._repeatDay, _repeatDay));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, description, repeatType, repeatDay);
+  int get hashCode => Object.hash(runtimeType, name, description, repeatType,
+      const DeepCollectionEquality().hash(_repeatDay));
 
   /// Create a copy of CreateHabitModel
   /// with the given fields replaced by the non-null parameter values.
@@ -204,7 +218,7 @@ abstract class _CreateHabitModel implements CreateHabitModel {
       {required final String name,
       required final String description,
       required final String repeatType,
-      final String? repeatDay}) = _$CreateHabitModelImpl;
+      final List<String>? repeatDay}) = _$CreateHabitModelImpl;
 
   factory _CreateHabitModel.fromJson(Map<String, dynamic> json) =
       _$CreateHabitModelImpl.fromJson;
@@ -216,7 +230,7 @@ abstract class _CreateHabitModel implements CreateHabitModel {
   @override
   String get repeatType;
   @override
-  String? get repeatDay;
+  List<String>? get repeatDay;
 
   /// Create a copy of CreateHabitModel
   /// with the given fields replaced by the non-null parameter values.
