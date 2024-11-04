@@ -3,8 +3,8 @@ import 'package:happit_flutter/app/modules/common/presentation/widget/bottom_nav
 import 'dart:io' show Platform;
 import 'package:happit_flutter/app/modules/habit/presentation/widget/habit_widget.dart';
 
-class HabitScreen extends StatelessWidget {
-  const HabitScreen({super.key});
+class HabitListScreen extends StatelessWidget {
+  const HabitListScreen({super.key});
 
   // late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 

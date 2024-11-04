@@ -42,7 +42,7 @@ class SplashPage extends StatelessWidget {
             ),
             MainButton(
               text: '메인 화면',
-              onPressed: () => const HomeRoute().go(context),
+              onPressed: () => const HabitListRoute().go(context),
             )
           ],
         ),

@@ -1,18 +1,18 @@
 part of 'routes.dart';
 
-@TypedGoRoute<HomeRoute>(
+@TypedGoRoute<HabitListRoute>(
   path: '/habit',
   routes: <TypedGoRoute<GoRouteData>>[
-    TypedGoRoute<HabitAddRoute>(path: 'add'),
-    TypedGoRoute<HabitAddedRoute>(path: 'added'),
+    TypedGoRoute<HabitAddRoute>(path: 'creating'),
+    TypedGoRoute<HabitAddedRoute>(path: 'created'),
   ],
 )
-class HomeRoute extends GoRouteData {
-  const HomeRoute();
+class HabitListRoute extends GoRouteData {
+  const HabitListRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const HabitScreen();
+    return const HabitListScreen();
   }
 }
 
@@ -21,7 +21,7 @@ class HabitAddRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const HabitAddScreen();
+    return const HabitCreatingScreen();
   }
 }
 
@@ -30,6 +30,6 @@ class HabitAddedRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const HabitAddedScreen();
+    return const HabitCreatedScreen();
   }
 }

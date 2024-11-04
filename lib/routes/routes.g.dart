@@ -7,27 +7,29 @@ part of 'routes.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $homeRoute,
+      $habitListRoute,
       $splashRoute,
+      $authRoute,
     ];
 
-RouteBase get $homeRoute => GoRouteData.$route(
+RouteBase get $habitListRoute => GoRouteData.$route(
       path: '/habit',
-      factory: $HomeRouteExtension._fromState,
+      factory: $HabitListRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'add',
+          path: 'creating',
           factory: $HabitAddRouteExtension._fromState,
         ),
         GoRouteData.$route(
-          path: 'added',
+          path: 'created',
           factory: $HabitAddedRouteExtension._fromState,
         ),
       ],
     );
 
-extension $HomeRouteExtension on HomeRoute {
-  static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
+extension $HabitListRouteExtension on HabitListRoute {
+  static HabitListRoute _fromState(GoRouterState state) =>
+      const HabitListRoute();
 
   String get location => GoRouteData.$location(
         '/habit',
@@ -47,7 +49,7 @@ extension $HabitAddRouteExtension on HabitAddRoute {
   static HabitAddRoute _fromState(GoRouterState state) => const HabitAddRoute();
 
   String get location => GoRouteData.$location(
-        '/habit/add',
+        '/habit/creating',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -65,7 +67,7 @@ extension $HabitAddedRouteExtension on HabitAddedRoute {
       const HabitAddedRoute();
 
   String get location => GoRouteData.$location(
-        '/habit/added',
+        '/habit/created',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -88,6 +90,28 @@ extension $SplashRouteExtension on SplashRoute {
 
   String get location => GoRouteData.$location(
         '/splash',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $authRoute => GoRouteData.$route(
+      path: '/auth',
+      factory: $AuthRouteExtension._fromState,
+    );
+
+extension $AuthRouteExtension on AuthRoute {
+  static AuthRoute _fromState(GoRouterState state) => const AuthRoute();
+
+  String get location => GoRouteData.$location(
+        '/auth',
       );
 
   void go(BuildContext context) => context.go(location);

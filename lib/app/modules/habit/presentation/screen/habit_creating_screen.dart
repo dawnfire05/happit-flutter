@@ -11,14 +11,14 @@ import 'package:happit_flutter/app/modules/habit/presentation/widget/input_repea
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_theme_widget.dart';
 import 'package:happit_flutter/routes/routes.dart';
 
-class HabitAddScreen extends StatefulWidget {
-  const HabitAddScreen({super.key});
+class HabitCreatingScreen extends StatefulWidget {
+  const HabitCreatingScreen({super.key});
 
   @override
-  State<HabitAddScreen> createState() => _AddHabitScreenState();
+  State<HabitCreatingScreen> createState() => _AddHabitScreenState();
 }
 
-class _AddHabitScreenState extends State<HabitAddScreen> {
+class _AddHabitScreenState extends State<HabitCreatingScreen> {
   final TextEditingController habitNameController = TextEditingController();
   final TextEditingController habitDescriptionController =
       TextEditingController();

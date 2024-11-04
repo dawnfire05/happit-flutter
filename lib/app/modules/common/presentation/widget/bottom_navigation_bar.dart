@@ -15,14 +15,14 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: IconButton(
             icon: SvgPicture.asset('assets/icons/home-black.svg'),
-            onPressed: () => const HomeRoute().go(context),
+            onPressed: () => const HabitListRoute().go(context),
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: IconButton(
             icon: SvgPicture.asset('assets/icons/profile-outline.svg'),
-            onPressed: () {},
+            onPressed: () => const AuthRoute().push(context),
           ),
           label: '',
         ),
