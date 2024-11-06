@@ -22,7 +22,7 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: IconButton(
             icon: SvgPicture.asset('assets/icons/profile-outline.svg'),
-            onPressed: () => const AuthRoute().push(context),
+            onPressed: () => const AuthRoute().go(context),
           ),
           label: '',
         ),
