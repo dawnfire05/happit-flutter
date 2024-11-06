@@ -19,9 +19,12 @@ class HabitCreatingScreen extends StatefulWidget {
 }
 
 class _AddHabitScreenState extends State<HabitCreatingScreen> {
-  final TextEditingController habitNameController = TextEditingController();
-  final TextEditingController habitDescriptionController =
+  final TextEditingController _habitNameController = TextEditingController();
+  final TextEditingController _habitDescriptionController =
       TextEditingController();
+  final FocusNode _habitNameFocusNode = FocusNode();
+  final FocusNode _habitDescriptionFocusNode = FocusNode();
+
   String selectedRepeatType = 'daily';
   List<String> repeatDays = [];
   TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
@@ -39,8 +42,10 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
 
   @override
   void dispose() {
-    habitNameController.dispose();
-    habitDescriptionController.dispose();
+    _habitNameController.dispose();
+    _habitDescriptionController.dispose();
+    _habitNameFocusNode.dispose();
+    _habitDescriptionFocusNode.dispose();
     super.dispose();
   }
 
@@ -92,12 +97,14 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                   Column(
                     children: [
                       InputTextWidget(
-                        habitNameController: habitNameController,
+                        controller: _habitNameController,
+                        focusNode: _habitNameFocusNode,
                         hintText: '추가할 습관을 입력해주세요',
                       ),
                       const SizedBox(height: 20),
                       InputTextWidget(
-                        habitNameController: habitDescriptionController,
+                        controller: _habitDescriptionController,
+                        focusNode: _habitDescriptionFocusNode,
                         hintText: '설명을 입력해주세요',
                       ),
                       const SizedBox(height: 20),
@@ -135,8 +142,8 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                         onPressed: () {
                           context.read<HabitBloc>().add(
                                 HabitEvent.add(
-                                  habitNameController.text,
-                                  habitDescriptionController.text,
+                                  _habitNameController.text,
+                                  _habitDescriptionController.text,
                                   selectedRepeatType,
                                   repeatDays,
                                   selectedTime,
