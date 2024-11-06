@@ -62,9 +62,7 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
   }
 
   void selectColor(int index) {
-    setState(() {
-      selectedColorIndex = index;
-    });
+    setState(() => selectedColorIndex = index);
   }
 
   @override
@@ -75,9 +73,7 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
         listener: (context, state) {
           state.when(
             initial: () {},
-            success: () {
-              const HabitAddedRoute().push(context);
-            },
+            success: () => const HabitAddedRoute().push(context),
             error: (error) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('습관 추가에 실패했습니다: $error')),
@@ -138,9 +134,8 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                   Builder(
                     builder: (context) {
                       return MainButton(
-                        text: '습관 추가하기',
-                        onPressed: () {
-                          context.read<HabitBloc>().add(
+                          text: '습관 추가하기',
+                          onPressed: () => context.read<HabitBloc>().add(
                                 HabitEvent.add(
                                   _habitNameController.text,
                                   _habitDescriptionController.text,
@@ -149,9 +144,7 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                                   selectedTime,
                                   themeColor,
                                 ),
-                              );
-                        },
-                      );
+                              ));
                     },
                   ),
                 ],
