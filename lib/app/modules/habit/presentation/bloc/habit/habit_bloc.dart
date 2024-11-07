@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -7,12 +8,13 @@ import 'package:happit_flutter/app/modules/habit/data/repository/habit_repositor
 part 'habit_bloc.freezed.dart';
 
 class HabitBloc extends Bloc<HabitEvent, HabitState> {
-  final HabitRepository client;
+  HabitRepository repository = HabitRepository(
+      Dio(BaseOptions(headers: {'Content-Type': 'application/json'})));
 
-  HabitBloc({required this.client}) : super(const HabitState.initial()) {
+  HabitBloc() : super(const HabitState.initial()) {
     on<_Add>((event, emit) async {
       try {
-        await client.addHabit(
+        await repository.addHabit(
           CreateHabitModel(
               name: event.habitName,
               description: event.habitDescription,

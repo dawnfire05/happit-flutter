@@ -14,7 +14,7 @@ class _AuthRepository implements AuthRepository {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://43.203.208.152:3000/auth';
+    baseUrl ??= 'http://43.203.208.152:3000/auth/';
   }
 
   final Dio _dio;
@@ -24,12 +24,12 @@ class _AuthRepository implements AuthRepository {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<void> login() async {
+  Future<SignInResponseModel> login(SignInModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(Options(
+    final _data = model;
+    final _options = _setStreamType<SignInResponseModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,15 @@ class _AuthRepository implements AuthRepository {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SignInResponseModel _value;
+    try {
+      _value = SignInResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
@@ -62,31 +70,6 @@ class _AuthRepository implements AuthRepository {
         .compose(
           _dio.options,
           'refresh',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    await _dio.fetch<void>(_options);
-  }
-
-  @override
-  Future<void> logout() async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'logout',
           queryParameters: queryParameters,
           data: _data,
         )

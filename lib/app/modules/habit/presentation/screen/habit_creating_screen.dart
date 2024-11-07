@@ -31,13 +31,13 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
   int themeColor = 0;
   int selectedColorIndex = 0;
 
-  late HabitRepository _habitRepository;
+  // late HabitRepository _habitRepository;
 
   @override
   void initState() {
     super.initState();
-    final dio = Dio(BaseOptions(headers: {'Content-Type': 'application/json'}));
-    _habitRepository = HabitRepository(dio);
+    // final dio = Dio(BaseOptions(headers: {'Content-Type': 'application/json'}));
+    // _habitRepository = HabitRepository(dio);
   }
 
   @override
@@ -68,7 +68,7 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HabitBloc>(
-      create: (context) => HabitBloc(client: _habitRepository),
+      create: (context) => HabitBloc(),
       child: BlocListener<HabitBloc, HabitState>(
         listener: (context, state) {
           state.when(
