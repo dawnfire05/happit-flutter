@@ -133,7 +133,7 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                   ),
                   Builder(
                     builder: (context) {
-                      return MainButton(
+                      return MainButton.cta(
                           text: '습관 추가하기',
                           onPressed: () => context.read<HabitBloc>().add(
                                 HabitEvent.add(

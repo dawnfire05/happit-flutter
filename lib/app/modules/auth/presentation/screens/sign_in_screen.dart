@@ -68,12 +68,12 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               Column(
                 children: [
-                  MainButton(
+                  MainButton.basic(
                     text: '회원가입으로 이동',
                     onPressed: () => const SignUpRoute().go(context),
                   ),
                   const SizedBox(height: 24),
-                  MainButton(text: '로그인', onPressed: () {}),
+                  MainButton.cta(text: '로그인', onPressed: () {}),
                 ],
               )
             ],

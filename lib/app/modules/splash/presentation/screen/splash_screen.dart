@@ -40,7 +40,7 @@ class SplashPage extends StatelessWidget {
                 letterSpacing: -2.40,
               ),
             ),
-            MainButton(
+            MainButton.cta(
               text: '메인 화면',
               onPressed: () => const HabitListRoute().go(context),
             )

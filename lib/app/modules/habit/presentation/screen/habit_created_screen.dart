@@ -128,7 +128,7 @@ class HabitCreatedScreen extends StatelessWidget {
                 ],
               ),
             ),
-            MainButton(
+            MainButton.cta(
               text: '메인 화면으로',
               onPressed: () => const HabitListRoute().go(context),
             ),
