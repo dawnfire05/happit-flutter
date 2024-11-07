@@ -92,13 +92,13 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                 children: [
                   Column(
                     children: [
-                      InputTextWidget(
+                      InputTextWidget.basic(
                         controller: _habitNameController,
                         focusNode: _habitNameFocusNode,
                         hintText: '추가할 습관을 입력해주세요',
                       ),
                       const SizedBox(height: 20),
-                      InputTextWidget(
+                      InputTextWidget.basic(
                         controller: _habitDescriptionController,
                         focusNode: _habitDescriptionFocusNode,
                         hintText: '설명을 입력해주세요',

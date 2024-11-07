@@ -1,10 +1,10 @@
 part of 'routes.dart';
 
 @TypedGoRoute<HabitListRoute>(
-  path: '/habit',
+  path: '/',
   routes: <TypedGoRoute<GoRouteData>>[
-    TypedGoRoute<HabitAddRoute>(path: 'creating'),
-    TypedGoRoute<HabitAddedRoute>(path: 'created'),
+    TypedGoRoute<HabitAddRoute>(path: 'habit/creating'),
+    TypedGoRoute<HabitAddedRoute>(path: 'habit/created'),
   ],
 )
 class HabitListRoute extends GoRouteData {

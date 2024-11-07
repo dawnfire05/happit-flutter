@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:happit_flutter/values/palette.dart';
 
 class MainButton extends StatelessWidget {
-  const MainButton({super.key, this.onPressed, required this.text});
+  const MainButton({
+    super.key,
+    this.onPressed,
+    required this.text,
+    this.color,
+  });
 
   final VoidCallback? onPressed;
   final String text;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 64,
       decoration: ShapeDecoration(
-          color: const Color(0xff66D271),
+          color: color ?? Palette.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
