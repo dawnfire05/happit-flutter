@@ -5,28 +5,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_in_model.dart';
-import 'package:happit_flutter/app/modules/auth/data/model/sign_in_response_model.dart';
+import 'package:happit_flutter/app/modules/auth/data/model/token_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
+import 'package:injectable/injectable.dart';
 
 part 'sign_in_bloc.freezed.dart';
 
+@injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  AuthRepository repository = AuthRepository(
-      Dio(BaseOptions(headers: {'Content-Type': 'application/json'})));
+  final AuthRepository _repository;
   final storage = const FlutterSecureStorage();
 
-  SignInBloc() : super(const SignInState.initial()) {
+  SignInBloc(this._repository) : super(const SignInState.initial()) {
     on<_SignIn>((event, emit) async {
       try {
-        SignInResponseModel response =
-            await repository.login(SignInModel(event.username, event.password));
+        TokenModel response = await _repository
+            .login(SignInModel(event.username, event.password));
         storage
           ..write(key: 'accessToken', value: response.access_token.toString())
           ..write(
               key: 'refreshToken', value: response.refresh_token.toString());
+        log('응 됏어~');
         emit(const SignInState.success());
         log(response.toString());
       } catch (e) {
+        log(e.toString());
         emit(SignInState.error(e.toString()));
       }
     });

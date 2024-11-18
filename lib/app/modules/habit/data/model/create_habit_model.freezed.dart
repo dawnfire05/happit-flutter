@@ -23,7 +23,9 @@ mixin _$CreateHabitModel {
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get repeatType => throw _privateConstructorUsedError;
-  List<String>? get repeatDay => throw _privateConstructorUsedError;
+  List<String>? get repeatDay =>
+      throw _privateConstructorUsedError; // required TimeOfDay noticeTime,
+  int get themeColor => throw _privateConstructorUsedError;
 
   /// Serializes this CreateHabitModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +47,8 @@ abstract class $CreateHabitModelCopyWith<$Res> {
       {String name,
       String description,
       String repeatType,
-      List<String>? repeatDay});
+      List<String>? repeatDay,
+      int themeColor});
 }
 
 /// @nodoc
@@ -67,6 +70,7 @@ class _$CreateHabitModelCopyWithImpl<$Res, $Val extends CreateHabitModel>
     Object? description = null,
     Object? repeatType = null,
     Object? repeatDay = freezed,
+    Object? themeColor = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -85,6 +89,10 @@ class _$CreateHabitModelCopyWithImpl<$Res, $Val extends CreateHabitModel>
           ? _value.repeatDay
           : repeatDay // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      themeColor: null == themeColor
+          ? _value.themeColor
+          : themeColor // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -101,7 +109,8 @@ abstract class _$$CreateHabitModelImplCopyWith<$Res>
       {String name,
       String description,
       String repeatType,
-      List<String>? repeatDay});
+      List<String>? repeatDay,
+      int themeColor});
 }
 
 /// @nodoc
@@ -121,6 +130,7 @@ class __$$CreateHabitModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? repeatType = null,
     Object? repeatDay = freezed,
+    Object? themeColor = null,
   }) {
     return _then(_$CreateHabitModelImpl(
       name: null == name
@@ -139,6 +149,10 @@ class __$$CreateHabitModelImplCopyWithImpl<$Res>
           ? _value._repeatDay
           : repeatDay // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      themeColor: null == themeColor
+          ? _value.themeColor
+          : themeColor // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -150,7 +164,8 @@ class _$CreateHabitModelImpl implements _CreateHabitModel {
       {required this.name,
       required this.description,
       required this.repeatType,
-      final List<String>? repeatDay})
+      final List<String>? repeatDay,
+      required this.themeColor})
       : _repeatDay = repeatDay;
 
   factory _$CreateHabitModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -172,9 +187,13 @@ class _$CreateHabitModelImpl implements _CreateHabitModel {
     return EqualUnmodifiableListView(value);
   }
 
+// required TimeOfDay noticeTime,
+  @override
+  final int themeColor;
+
   @override
   String toString() {
-    return 'CreateHabitModel(name: $name, description: $description, repeatType: $repeatType, repeatDay: $repeatDay)';
+    return 'CreateHabitModel(name: $name, description: $description, repeatType: $repeatType, repeatDay: $repeatDay, themeColor: $themeColor)';
   }
 
   @override
@@ -188,13 +207,15 @@ class _$CreateHabitModelImpl implements _CreateHabitModel {
             (identical(other.repeatType, repeatType) ||
                 other.repeatType == repeatType) &&
             const DeepCollectionEquality()
-                .equals(other._repeatDay, _repeatDay));
+                .equals(other._repeatDay, _repeatDay) &&
+            (identical(other.themeColor, themeColor) ||
+                other.themeColor == themeColor));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, description, repeatType,
-      const DeepCollectionEquality().hash(_repeatDay));
+      const DeepCollectionEquality().hash(_repeatDay), themeColor);
 
   /// Create a copy of CreateHabitModel
   /// with the given fields replaced by the non-null parameter values.
@@ -218,7 +239,8 @@ abstract class _CreateHabitModel implements CreateHabitModel {
       {required final String name,
       required final String description,
       required final String repeatType,
-      final List<String>? repeatDay}) = _$CreateHabitModelImpl;
+      final List<String>? repeatDay,
+      required final int themeColor}) = _$CreateHabitModelImpl;
 
   factory _CreateHabitModel.fromJson(Map<String, dynamic> json) =
       _$CreateHabitModelImpl.fromJson;
@@ -230,7 +252,9 @@ abstract class _CreateHabitModel implements CreateHabitModel {
   @override
   String get repeatType;
   @override
-  List<String>? get repeatDay;
+  List<String>? get repeatDay; // required TimeOfDay noticeTime,
+  @override
+  int get themeColor;
 
   /// Create a copy of CreateHabitModel
   /// with the given fields replaced by the non-null parameter values.

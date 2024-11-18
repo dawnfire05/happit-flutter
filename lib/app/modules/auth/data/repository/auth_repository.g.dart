@@ -14,7 +14,7 @@ class _AuthRepository implements AuthRepository {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://43.203.208.152:3000/auth/';
+    baseUrl ??= 'auth/';
   }
 
   final Dio _dio;
@@ -24,12 +24,12 @@ class _AuthRepository implements AuthRepository {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<SignInResponseModel> login(SignInModel model) async {
+  Future<TokenModel> login(SignInModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = model;
-    final _options = _setStreamType<SignInResponseModel>(Options(
+    final _options = _setStreamType<TokenModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -46,9 +46,9 @@ class _AuthRepository implements AuthRepository {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SignInResponseModel _value;
+    late TokenModel _value;
     try {
-      _value = SignInResponseModel.fromJson(_result.data!);
+      _value = TokenModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -57,12 +57,12 @@ class _AuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> refresh() async {
+  Future<TokenModel> refresh(String refreshToken) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(Options(
+    final _data = refreshToken;
+    final _options = _setStreamType<TokenModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -78,7 +78,15 @@ class _AuthRepository implements AuthRepository {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TokenModel _value;
+    try {
+      _value = TokenModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override

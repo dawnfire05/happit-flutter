@@ -14,7 +14,7 @@ class _HabitRepository implements HabitRepository {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://43.203.208.152:3000/habit';
+    baseUrl ??= '/habit';
   }
 
   final Dio _dio;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/sign_in_bloc.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_text_widget.dart';
@@ -29,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInBloc(),
+      create: (context) => getIt<SignInBloc>(),
       child: BlocListener<SignInBloc, SignInState>(
         listener: (context, state) {
           if (state == const SignInState.success()) {

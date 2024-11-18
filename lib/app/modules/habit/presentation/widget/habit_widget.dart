@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HabitWidget extends StatelessWidget {
-  const HabitWidget({super.key});
+  final String name;
+  /*
+  final int streak;
+  final String themeColor;
+  */
+
+  const HabitWidget({
+    super.key,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +29,11 @@ class HabitWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Expanded(
+              Expanded(
                 child: SizedBox(
                   child: Text(
-                    '독서',
-                    style: TextStyle(
+                    name,
+                    style: const TextStyle(
                       color: Color(0xFF1F2329),
                       fontSize: 18,
                       fontFamily: 'Noto Sans KR',

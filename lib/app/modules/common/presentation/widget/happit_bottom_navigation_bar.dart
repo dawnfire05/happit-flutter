@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happit_flutter/routes/routes.dart';
 
-class MyBottomNavigationBar extends StatelessWidget {
-  const MyBottomNavigationBar({
+class HappitBottomNavigationBar extends StatelessWidget {
+  const HappitBottomNavigationBar({
     super.key,
   });
 

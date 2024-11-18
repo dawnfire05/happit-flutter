@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:happit_flutter/app/app.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:happit_flutter/app/di/get_it.dart';
 
 //백그라운드 알림 수신
 @pragma('vm:entry-point')
@@ -54,6 +55,6 @@ void main() async {
 //       InitializationSettings(android: initializationSettingsAndroid);
 
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
+  configureDependencies();
   runApp(const MainApp());
 }

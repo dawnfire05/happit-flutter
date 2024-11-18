@@ -6,10 +6,10 @@ part 'habit_model.g.dart';
 @freezed
 class HabitModel with _$HabitModel {
   const factory HabitModel({
-    required String name,
-    required String description,
-    required String repeatType,
-    List<String>? repeatDay,
+    @Default("") String name,
+    @Default("") String description,
+    @Default("") String repeatType,
+    @Default([]) List<String>? repeatDay,
   }) = _HabitModel;
 
   factory HabitModel.fromJson(Map<String, Object?> json) =>

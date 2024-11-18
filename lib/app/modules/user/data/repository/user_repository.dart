@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'user_repository.g.dart';
 
-@RestApi(baseUrl: 'http://43.203.208.152:3000/user/')
+@RestApi(baseUrl: '/user/')
 abstract class UserRepository {
   factory UserRepository(Dio dio) = _UserRepository;
 

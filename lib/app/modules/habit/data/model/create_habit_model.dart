@@ -10,6 +10,8 @@ class CreateHabitModel with _$CreateHabitModel {
     required String description,
     required String repeatType,
     List<String>? repeatDay,
+    // required TimeOfDay noticeTime,
+    required int themeColor,
   }) = _CreateHabitModel;
 
   factory CreateHabitModel.fromJson(Map<String, Object?> json) =>

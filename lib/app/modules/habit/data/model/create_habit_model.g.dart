@@ -15,6 +15,7 @@ _$CreateHabitModelImpl _$$CreateHabitModelImplFromJson(
       repeatDay: (json['repeatDay'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      themeColor: (json['themeColor'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$CreateHabitModelImplToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$CreateHabitModelImplToJson(
       'description': instance.description,
       'repeatType': instance.repeatType,
       'repeatDay': instance.repeatDay,
+      'themeColor': instance.themeColor,
     };

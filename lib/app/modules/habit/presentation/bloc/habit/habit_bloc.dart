@@ -1,49 +1,40 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/create_habit_model.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/habit_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart';
+import 'package:injectable/injectable.dart';
 
 part 'habit_bloc.freezed.dart';
 
+@injectable
 class HabitBloc extends Bloc<HabitEvent, HabitState> {
-  HabitRepository repository = HabitRepository(
-      Dio(BaseOptions(headers: {'Content-Type': 'application/json'})));
+  final HabitRepository _repository;
 
-  HabitBloc() : super(const HabitState.initial()) {
-    on<_Add>((event, emit) async {
-      try {
-        await repository.addHabit(
-          CreateHabitModel(
-              name: event.habitName,
-              description: event.habitDescription,
-              repeatType: event.repeatType,
-              repeatDay: event.repeatDays),
-        );
-        emit(const _Success());
-      } catch (e) {
-        emit(_Error(e.toString()));
-      }
-    });
+  HabitBloc(this._repository) : super(const _Initial()) {
+    on<_Get>(
+      (event, emit) async {
+        try {
+          emit(const _Loading());
+          final habits = await _repository.getHabits();
+          emit(_Success(habits));
+        } on Exception catch (e) {
+          emit(_Error(e.toString()));
+          print(e);
+        }
+      },
+    );
   }
 }
 
 @freezed
 sealed class HabitEvent with _$HabitEvent {
-  const factory HabitEvent.add(
-    String habitName,
-    String habitDescription,
-    String repeatType,
-    List<String> repeatDays,
-    TimeOfDay selectedTime,
-    int themeColor,
-  ) = _Add;
+  const factory HabitEvent.get() = _Get;
 }
 
 @freezed
-sealed class HabitState with _$HabitState {
+class HabitState with _$HabitState {
   const factory HabitState.initial() = _Initial;
+  const factory HabitState.loading() = _Loading;
   const factory HabitState.error(String error) = _Error;
-  const factory HabitState.success() = _Success;
+  const factory HabitState.success(List<HabitModel> habits) = _Success;
 }

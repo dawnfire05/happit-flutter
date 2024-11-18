@@ -16,70 +16,37 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HabitEvent {
-  String get habitName => throw _privateConstructorUsedError;
-  String get habitDescription => throw _privateConstructorUsedError;
-  String get repeatType => throw _privateConstructorUsedError;
-  List<String> get repeatDays => throw _privateConstructorUsedError;
-  TimeOfDay get selectedTime => throw _privateConstructorUsedError;
-  int get themeColor => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String habitName,
-            String habitDescription,
-            String repeatType,
-            List<String> repeatDays,
-            TimeOfDay selectedTime,
-            int themeColor)
-        add,
+    required TResult Function() get,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String habitName,
-            String habitDescription,
-            String repeatType,
-            List<String> repeatDays,
-            TimeOfDay selectedTime,
-            int themeColor)?
-        add,
+    TResult? Function()? get,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String habitName,
-            String habitDescription,
-            String repeatType,
-            List<String> repeatDays,
-            TimeOfDay selectedTime,
-            int themeColor)?
-        add,
+    TResult Function()? get,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Add value) add,
+    required TResult Function(_Get value) get,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Add value)? add,
+    TResult? Function(_Get value)? get,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Add value)? add,
+    TResult Function(_Get value)? get,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  /// Create a copy of HabitEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $HabitEventCopyWith<HabitEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -88,14 +55,6 @@ abstract class $HabitEventCopyWith<$Res> {
   factory $HabitEventCopyWith(
           HabitEvent value, $Res Function(HabitEvent) then) =
       _$HabitEventCopyWithImpl<$Res, HabitEvent>;
-  @useResult
-  $Res call(
-      {String habitName,
-      String habitDescription,
-      String repeatType,
-      List<String> repeatDays,
-      TimeOfDay selectedTime,
-      int themeColor});
 }
 
 /// @nodoc
@@ -110,224 +69,68 @@ class _$HabitEventCopyWithImpl<$Res, $Val extends HabitEvent>
 
   /// Create a copy of HabitEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? habitName = null,
-    Object? habitDescription = null,
-    Object? repeatType = null,
-    Object? repeatDays = null,
-    Object? selectedTime = null,
-    Object? themeColor = null,
-  }) {
-    return _then(_value.copyWith(
-      habitName: null == habitName
-          ? _value.habitName
-          : habitName // ignore: cast_nullable_to_non_nullable
-              as String,
-      habitDescription: null == habitDescription
-          ? _value.habitDescription
-          : habitDescription // ignore: cast_nullable_to_non_nullable
-              as String,
-      repeatType: null == repeatType
-          ? _value.repeatType
-          : repeatType // ignore: cast_nullable_to_non_nullable
-              as String,
-      repeatDays: null == repeatDays
-          ? _value.repeatDays
-          : repeatDays // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      selectedTime: null == selectedTime
-          ? _value.selectedTime
-          : selectedTime // ignore: cast_nullable_to_non_nullable
-              as TimeOfDay,
-      themeColor: null == themeColor
-          ? _value.themeColor
-          : themeColor // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$AddImplCopyWith<$Res> implements $HabitEventCopyWith<$Res> {
-  factory _$$AddImplCopyWith(_$AddImpl value, $Res Function(_$AddImpl) then) =
-      __$$AddImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String habitName,
-      String habitDescription,
-      String repeatType,
-      List<String> repeatDays,
-      TimeOfDay selectedTime,
-      int themeColor});
+abstract class _$$GetImplCopyWith<$Res> {
+  factory _$$GetImplCopyWith(_$GetImpl value, $Res Function(_$GetImpl) then) =
+      __$$GetImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$AddImplCopyWithImpl<$Res>
-    extends _$HabitEventCopyWithImpl<$Res, _$AddImpl>
-    implements _$$AddImplCopyWith<$Res> {
-  __$$AddImplCopyWithImpl(_$AddImpl _value, $Res Function(_$AddImpl) _then)
+class __$$GetImplCopyWithImpl<$Res>
+    extends _$HabitEventCopyWithImpl<$Res, _$GetImpl>
+    implements _$$GetImplCopyWith<$Res> {
+  __$$GetImplCopyWithImpl(_$GetImpl _value, $Res Function(_$GetImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of HabitEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? habitName = null,
-    Object? habitDescription = null,
-    Object? repeatType = null,
-    Object? repeatDays = null,
-    Object? selectedTime = null,
-    Object? themeColor = null,
-  }) {
-    return _then(_$AddImpl(
-      null == habitName
-          ? _value.habitName
-          : habitName // ignore: cast_nullable_to_non_nullable
-              as String,
-      null == habitDescription
-          ? _value.habitDescription
-          : habitDescription // ignore: cast_nullable_to_non_nullable
-              as String,
-      null == repeatType
-          ? _value.repeatType
-          : repeatType // ignore: cast_nullable_to_non_nullable
-              as String,
-      null == repeatDays
-          ? _value._repeatDays
-          : repeatDays // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      null == selectedTime
-          ? _value.selectedTime
-          : selectedTime // ignore: cast_nullable_to_non_nullable
-              as TimeOfDay,
-      null == themeColor
-          ? _value.themeColor
-          : themeColor // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$AddImpl implements _Add {
-  const _$AddImpl(this.habitName, this.habitDescription, this.repeatType,
-      final List<String> repeatDays, this.selectedTime, this.themeColor)
-      : _repeatDays = repeatDays;
-
-  @override
-  final String habitName;
-  @override
-  final String habitDescription;
-  @override
-  final String repeatType;
-  final List<String> _repeatDays;
-  @override
-  List<String> get repeatDays {
-    if (_repeatDays is EqualUnmodifiableListView) return _repeatDays;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_repeatDays);
-  }
-
-  @override
-  final TimeOfDay selectedTime;
-  @override
-  final int themeColor;
+class _$GetImpl implements _Get {
+  const _$GetImpl();
 
   @override
   String toString() {
-    return 'HabitEvent.add(habitName: $habitName, habitDescription: $habitDescription, repeatType: $repeatType, repeatDays: $repeatDays, selectedTime: $selectedTime, themeColor: $themeColor)';
+    return 'HabitEvent.get()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AddImpl &&
-            (identical(other.habitName, habitName) ||
-                other.habitName == habitName) &&
-            (identical(other.habitDescription, habitDescription) ||
-                other.habitDescription == habitDescription) &&
-            (identical(other.repeatType, repeatType) ||
-                other.repeatType == repeatType) &&
-            const DeepCollectionEquality()
-                .equals(other._repeatDays, _repeatDays) &&
-            (identical(other.selectedTime, selectedTime) ||
-                other.selectedTime == selectedTime) &&
-            (identical(other.themeColor, themeColor) ||
-                other.themeColor == themeColor));
+        (other.runtimeType == runtimeType && other is _$GetImpl);
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      habitName,
-      habitDescription,
-      repeatType,
-      const DeepCollectionEquality().hash(_repeatDays),
-      selectedTime,
-      themeColor);
-
-  /// Create a copy of HabitEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AddImplCopyWith<_$AddImpl> get copyWith =>
-      __$$AddImplCopyWithImpl<_$AddImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String habitName,
-            String habitDescription,
-            String repeatType,
-            List<String> repeatDays,
-            TimeOfDay selectedTime,
-            int themeColor)
-        add,
+    required TResult Function() get,
   }) {
-    return add(habitName, habitDescription, repeatType, repeatDays,
-        selectedTime, themeColor);
+    return get();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String habitName,
-            String habitDescription,
-            String repeatType,
-            List<String> repeatDays,
-            TimeOfDay selectedTime,
-            int themeColor)?
-        add,
+    TResult? Function()? get,
   }) {
-    return add?.call(habitName, habitDescription, repeatType, repeatDays,
-        selectedTime, themeColor);
+    return get?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String habitName,
-            String habitDescription,
-            String repeatType,
-            List<String> repeatDays,
-            TimeOfDay selectedTime,
-            int themeColor)?
-        add,
+    TResult Function()? get,
     required TResult orElse(),
   }) {
-    if (add != null) {
-      return add(habitName, habitDescription, repeatType, repeatDays,
-          selectedTime, themeColor);
+    if (get != null) {
+      return get();
     }
     return orElse();
   }
@@ -335,60 +138,34 @@ class _$AddImpl implements _Add {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Add value) add,
+    required TResult Function(_Get value) get,
   }) {
-    return add(this);
+    return get(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Add value)? add,
+    TResult? Function(_Get value)? get,
   }) {
-    return add?.call(this);
+    return get?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Add value)? add,
+    TResult Function(_Get value)? get,
     required TResult orElse(),
   }) {
-    if (add != null) {
-      return add(this);
+    if (get != null) {
+      return get(this);
     }
     return orElse();
   }
 }
 
-abstract class _Add implements HabitEvent {
-  const factory _Add(
-      final String habitName,
-      final String habitDescription,
-      final String repeatType,
-      final List<String> repeatDays,
-      final TimeOfDay selectedTime,
-      final int themeColor) = _$AddImpl;
-
-  @override
-  String get habitName;
-  @override
-  String get habitDescription;
-  @override
-  String get repeatType;
-  @override
-  List<String> get repeatDays;
-  @override
-  TimeOfDay get selectedTime;
-  @override
-  int get themeColor;
-
-  /// Create a copy of HabitEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AddImplCopyWith<_$AddImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+abstract class _Get implements HabitEvent {
+  const factory _Get() = _$GetImpl;
 }
 
 /// @nodoc
@@ -396,28 +173,32 @@ mixin _$HabitState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function() success,
+    required TResult Function(List<HabitModel> habits) success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
+    TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function()? success,
+    TResult? Function(List<HabitModel> habits)? success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function()? success,
+    TResult Function(List<HabitModel> habits)? success,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
     required TResult Function(_Success value) success,
   }) =>
@@ -425,6 +206,7 @@ mixin _$HabitState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
     TResult? Function(_Success value)? success,
   }) =>
@@ -432,6 +214,7 @@ mixin _$HabitState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     TResult Function(_Success value)? success,
     required TResult orElse(),
@@ -502,8 +285,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function() success,
+    required TResult Function(List<HabitModel> habits) success,
   }) {
     return initial();
   }
@@ -512,8 +296,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
+    TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function()? success,
+    TResult? Function(List<HabitModel> habits)? success,
   }) {
     return initial?.call();
   }
@@ -522,8 +307,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function()? success,
+    TResult Function(List<HabitModel> habits)? success,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -536,6 +322,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
     required TResult Function(_Success value) success,
   }) {
@@ -546,6 +333,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
     TResult? Function(_Success value)? success,
   }) {
@@ -556,6 +344,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     TResult Function(_Success value)? success,
     required TResult orElse(),
@@ -569,6 +358,123 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements HabitState {
   const factory _Initial() = _$InitialImpl;
+}
+
+/// @nodoc
+abstract class _$$LoadingImplCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$HabitStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HabitState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl();
+
+  @override
+  String toString() {
+    return 'HabitState.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String error) error,
+    required TResult Function(List<HabitModel> habits) success,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String error)? error,
+    TResult? Function(List<HabitModel> habits)? success,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String error)? error,
+    TResult Function(List<HabitModel> habits)? success,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Error value) error,
+    required TResult Function(_Success value) success,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_Success value)? success,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Error value)? error,
+    TResult Function(_Success value)? success,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Loading implements HabitState {
+  const factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
@@ -640,8 +546,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function() success,
+    required TResult Function(List<HabitModel> habits) success,
   }) {
     return error(this.error);
   }
@@ -650,8 +557,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
+    TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function()? success,
+    TResult? Function(List<HabitModel> habits)? success,
   }) {
     return error?.call(this.error);
   }
@@ -660,8 +568,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function()? success,
+    TResult Function(List<HabitModel> habits)? success,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -674,6 +583,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
     required TResult Function(_Success value) success,
   }) {
@@ -684,6 +594,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
     TResult? Function(_Success value)? success,
   }) {
@@ -694,6 +605,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     TResult Function(_Success value)? success,
     required TResult orElse(),
@@ -722,6 +634,8 @@ abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<HabitModel> habits});
 }
 
 /// @nodoc
@@ -734,57 +648,91 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
   /// Create a copy of HabitState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? habits = null,
+  }) {
+    return _then(_$SuccessImpl(
+      null == habits
+          ? _value._habits
+          : habits // ignore: cast_nullable_to_non_nullable
+              as List<HabitModel>,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl();
+  const _$SuccessImpl(final List<HabitModel> habits) : _habits = habits;
+
+  final List<HabitModel> _habits;
+  @override
+  List<HabitModel> get habits {
+    if (_habits is EqualUnmodifiableListView) return _habits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_habits);
+  }
 
   @override
   String toString() {
-    return 'HabitState.success()';
+    return 'HabitState.success(habits: $habits)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$SuccessImpl &&
+            const DeepCollectionEquality().equals(other._habits, _habits));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_habits));
+
+  /// Create a copy of HabitState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function() success,
+    required TResult Function(List<HabitModel> habits) success,
   }) {
-    return success();
+    return success(habits);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
+    TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function()? success,
+    TResult? Function(List<HabitModel> habits)? success,
   }) {
-    return success?.call();
+    return success?.call(habits);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function()? success,
+    TResult Function(List<HabitModel> habits)? success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success();
+      return success(habits);
     }
     return orElse();
   }
@@ -793,6 +741,7 @@ class _$SuccessImpl implements _Success {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
     required TResult Function(_Success value) success,
   }) {
@@ -803,6 +752,7 @@ class _$SuccessImpl implements _Success {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
     TResult? Function(_Success value)? success,
   }) {
@@ -813,6 +763,7 @@ class _$SuccessImpl implements _Success {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     TResult Function(_Success value)? success,
     required TResult orElse(),
@@ -825,5 +776,13 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements HabitState {
-  const factory _Success() = _$SuccessImpl;
+  const factory _Success(final List<HabitModel> habits) = _$SuccessImpl;
+
+  List<HabitModel> get habits;
+
+  /// Create a copy of HabitState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

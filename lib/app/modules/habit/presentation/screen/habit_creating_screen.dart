@@ -1,9 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
-import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_day_of_week_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_notice_time_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_text_widget.dart';
@@ -30,15 +29,6 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
   TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
   int themeColor = 0;
   int selectedColorIndex = 0;
-
-  // late HabitRepository _habitRepository;
-
-  @override
-  void initState() {
-    super.initState();
-    // final dio = Dio(BaseOptions(headers: {'Content-Type': 'application/json'}));
-    // _habitRepository = HabitRepository(dio);
-  }
 
   @override
   void dispose() {
@@ -67,9 +57,9 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HabitBloc>(
-      create: (context) => HabitBloc(),
-      child: BlocListener<HabitBloc, HabitState>(
+    return BlocProvider<HabitCreateBloc>(
+      create: (context) => getIt<HabitCreateBloc>(),
+      child: BlocListener<HabitCreateBloc, HabitCreateState>(
         listener: (context, state) {
           state.when(
             initial: () {},
@@ -135,13 +125,13 @@ class _AddHabitScreenState extends State<HabitCreatingScreen> {
                     builder: (context) {
                       return MainButton.cta(
                           text: '습관 추가하기',
-                          onPressed: () => context.read<HabitBloc>().add(
-                                HabitEvent.add(
+                          onPressed: () => context.read<HabitCreateBloc>().add(
+                                HabitCreateEvent.add(
                                   _habitNameController.text,
                                   _habitDescriptionController.text,
                                   selectedRepeatType,
                                   repeatDays,
-                                  selectedTime,
+                                  // selectedTime,
                                   themeColor,
                                 ),
                               ));
