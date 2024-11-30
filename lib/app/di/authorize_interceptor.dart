@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
+import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -27,7 +28,8 @@ class AuthorizeInterceptor extends Interceptor {
     final refreshToken = await _secureStorage.read(key: 'refreshToken');
     if (err.response?.statusCode == 401 && refreshToken != null) {
       try {
-        final token = await _authRepository.refresh(refreshToken);
+        final token = await _authRepository
+            .refresh(RefreshModel(refreshToken: refreshToken));
         final newAccessToken = token.access_token;
         final newRefreshToken = token.refresh_token;
 

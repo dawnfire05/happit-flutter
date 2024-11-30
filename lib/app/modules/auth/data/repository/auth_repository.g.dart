@@ -57,7 +57,7 @@ class _AuthRepository implements AuthRepository {
   }
 
   @override
-  Future<TokenModel> refresh(String refreshToken) async {
+  Future<TokenModel> refresh(RefreshModel refreshToken) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

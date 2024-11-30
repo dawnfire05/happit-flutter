@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_in_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/token_model.dart';
 import 'package:injectable/injectable.dart';
@@ -17,7 +18,7 @@ abstract class AuthRepository {
   Future<TokenModel> login(@Body() SignInModel model);
 
   @POST('refresh')
-  Future<TokenModel> refresh(@Body() String refreshToken);
+  Future<TokenModel> refresh(@Body() RefreshModel refreshToken);
 
   @GET('kakao')
   Future<void> kakao();
