@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:happit_flutter/app/app.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:happit_flutter/app/app_bloc_observer.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 
 //백그라운드 알림 수신
@@ -56,5 +59,12 @@ void main() async {
 
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   configureDependencies();
+  _initBloc();
   runApp(const MainApp());
+}
+
+void _initBloc() {
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver();
+  }
 }
