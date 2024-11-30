@@ -36,7 +36,12 @@ class MainApp extends StatelessWidget {
                 current.mapOrNull(success: (_) => true) ?? false,
             listener: (context, state) =>
                 context.read<HabitBloc>().add(const HabitEvent.get()),
-          )
+          ),
+          BlocListener<UserBloc, UserState>(
+            listener: (context, state) => state.whenOrNull(
+              unauthenticated: () => const SignInRoute(),
+            ),
+          ),
         ],
         child: MaterialApp.router(
           theme: ThemeData(
