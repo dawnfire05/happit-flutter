@@ -5,12 +5,12 @@ part 'update_habit_model.g.dart';
 
 @freezed
 class UpdateHabitModel with _$UpdateHabitModel {
-  factory UpdateHabitModel(
-    String name,
-    String description,
-    String repeatType,
+  const factory UpdateHabitModel({
+    String? name,
+    String? description,
+    String? repeatType,
     List<String>? repeatDay,
-  ) = _UpdateHabitModel;
+  }) = _UpdateHabitModel;
 
   factory UpdateHabitModel.fromJson(Map<String, dynamic> json) =>
       _$UpdateHabitModelFromJson(json);

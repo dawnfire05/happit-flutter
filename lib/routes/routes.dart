@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/screen/sign_in_screen.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/screen/sign_up_screen.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/habit_model.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_created_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_creating_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_edit_screen.dart';

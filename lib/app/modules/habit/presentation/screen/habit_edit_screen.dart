@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/update_habit_model.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_edit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_day_of_week_widget.dart';
@@ -18,7 +19,7 @@ class HabitEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HabitEditBloc>(),
+      create: (context) => getIt<HabitEditBloc>()..add(HabitEditEvent.load(id)),
       child: _Layout(id: id),
     );
   }
@@ -75,6 +76,19 @@ class _LayoutState extends State<_Layout> {
     return BlocListener<HabitEditBloc, HabitEditState>(
       listener: (context, state) {
         state.whenOrNull(
+          loaded: (habit) {
+            setState(() {
+              _habitNameController.text = habit.name;
+              _habitDescriptionController.text = habit.description;
+              selectedRepeatType = habit.repeatType;
+              print(selectedRepeatType);
+              repeatDays = habit.repeatDay ?? [];
+              // selectedTime =
+              //     habit.noticeTime ?? const TimeOfDay(hour: 00, minute: 00);
+              // themeColor = habit.themeColor ?? 0;
+              selectedColorIndex = themeColor;
+            });
+          },
           success: () {
             getIt<HabitBloc>().add(const HabitEvent.get());
             const HabitListRoute().go(context);
@@ -152,13 +166,14 @@ class _LayoutState extends State<_Layout> {
                         text: '습관 수정하기',
                         onPressed: () => context.read<HabitEditBloc>().add(
                               HabitEditEvent.edit(
-                                _habitNameController.text,
-                                _habitDescriptionController.text,
-                                selectedRepeatType,
-                                repeatDays,
-                                // selectedTime,
-                                themeColor,
-                              ),
+                                  widget.id,
+                                  UpdateHabitModel(
+                                    name: _habitNameController.text,
+                                    description:
+                                        _habitDescriptionController.text,
+                                    repeatDay: repeatDays,
+                                    repeatType: selectedRepeatType,
+                                  )),
                             ),
                       ),
                     )
