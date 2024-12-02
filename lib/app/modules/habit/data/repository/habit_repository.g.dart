@@ -14,7 +14,7 @@ class _HabitRepository implements HabitRepository {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= '/habit';
+    baseUrl ??= 'habit/';
   }
 
   final Dio _dio;

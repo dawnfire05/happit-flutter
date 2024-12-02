@@ -12,10 +12,10 @@ part 'habit_create_bloc.freezed.dart';
 class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
   final HabitRepository _repository;
 
-  HabitCreateBloc(this._repository) : super(const HabitCreateState.initial()) {
+  HabitCreateBloc(this._repository) : super(const _Initial()) {
     on<_Add>((event, emit) async {
       try {
-        String result = await _repository.addHabit(
+        await _repository.addHabit(
           CreateHabitModel(
             name: event.habitName,
             description: event.habitDescription,
@@ -25,7 +25,6 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
             themeColor: event.themeColor,
           ),
         );
-        log(result);
         emit(const _Success());
       } catch (e) {
         log(e.toString());

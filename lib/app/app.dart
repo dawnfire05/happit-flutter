@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart';
 import 'package:happit_flutter/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
@@ -24,19 +23,9 @@ class MainApp extends StatelessWidget {
               const HabitEvent.get(),
             ),
         ),
-        BlocProvider(
-          lazy: true,
-          create: (context) => getIt<HabitCreateBloc>(),
-        )
       ],
       child: MultiBlocListener(
         listeners: [
-          BlocListener<HabitCreateBloc, HabitCreateState>(
-            listenWhen: (previous, current) =>
-                current.mapOrNull(success: (_) => true) ?? false,
-            listener: (context, state) =>
-                context.read<HabitBloc>().add(const HabitEvent.get()),
-          ),
           BlocListener<UserBloc, UserState>(
             listener: (context, state) => state.whenOrNull(
               unauthenticated: () => const SignInRoute(),

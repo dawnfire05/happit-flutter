@@ -8,7 +8,7 @@ import 'package:retrofit/retrofit.dart';
 part 'habit_repository.g.dart';
 
 @singleton
-@RestApi(baseUrl: '/habit')
+@RestApi(baseUrl: 'habit/')
 abstract class HabitRepository {
   @factoryMethod
   factory HabitRepository(Dio dio) = _HabitRepository;

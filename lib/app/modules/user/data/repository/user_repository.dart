@@ -7,7 +7,7 @@ import 'package:retrofit/retrofit.dart';
 part 'user_repository.g.dart';
 
 @injectable
-@RestApi(baseUrl: '/user/')
+@RestApi(baseUrl: 'user/')
 abstract class UserRepository {
   @factoryMethod
   factory UserRepository(Dio dio) = _UserRepository;

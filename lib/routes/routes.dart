@@ -5,6 +5,7 @@ import 'package:happit_flutter/app/modules/auth/presentation/screen/sign_in_scre
 import 'package:happit_flutter/app/modules/auth/presentation/screen/sign_up_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_created_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_creating_screen.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_edit_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_list_screen.dart';
 import 'package:happit_flutter/app/modules/splash/presentation/screen/splash_screen.dart';
 

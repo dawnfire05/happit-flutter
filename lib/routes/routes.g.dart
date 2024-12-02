@@ -24,6 +24,10 @@ RouteBase get $habitListRoute => GoRouteData.$route(
           path: 'habit/created',
           factory: $HabitAddedRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'habit/edit/:id',
+          factory: $HabitEditRouteExtension._fromState,
+        ),
       ],
     );
 
@@ -68,6 +72,25 @@ extension $HabitAddedRouteExtension on HabitAddedRoute {
 
   String get location => GoRouteData.$location(
         '/habit/created',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $HabitEditRouteExtension on HabitEditRoute {
+  static HabitEditRoute _fromState(GoRouterState state) => HabitEditRoute(
+        int.parse(state.pathParameters['id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/habit/edit/${Uri.encodeComponent(id.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

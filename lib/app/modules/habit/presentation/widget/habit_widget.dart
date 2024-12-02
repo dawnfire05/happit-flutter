@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:happit_flutter/routes/routes.dart';
 
 class HabitWidget extends StatelessWidget {
   final String name;
-  /*
-  final int streak;
-  final String themeColor;
-  */
+  final int id;
 
   const HabitWidget({
     super.key,
+    required this.id,
     required this.name,
   });
 
@@ -93,7 +92,7 @@ class HabitWidget extends StatelessWidget {
                           color: const Color(0xff8D939D),
                         ),
                         child: IconButton(
-                          onPressed: () => {},
+                          onPressed: () => HabitEditRoute(id).go(context),
                           icon: SvgPicture.asset('assets/icons/Pen.svg'),
                         ),
                       ),

@@ -6,6 +6,7 @@ part 'habit_model.g.dart';
 @freezed
 class HabitModel with _$HabitModel {
   const factory HabitModel({
+    @Default(0) int id,
     @Default("") String name,
     @Default("") String description,
     @Default("") String repeatType,

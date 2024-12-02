@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 part 'habit_bloc.freezed.dart';
 
-@injectable
+@Singleton()
 class HabitBloc extends Bloc<HabitEvent, HabitState> {
   final HabitRepository _repository;
 
@@ -16,10 +16,11 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
         try {
           emit(const _Loading());
           final habits = await _repository.getHabits();
+          print('가져온 습관 목록: $habits');
           emit(_Success(habits));
         } on Exception catch (e) {
+          print('에러 발생: $e');
           emit(_Error(e.toString()));
-          print(e);
         }
       },
     );

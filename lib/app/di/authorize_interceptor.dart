@@ -30,6 +30,7 @@ class AuthorizeInterceptor extends Interceptor {
       try {
         final token = await _authRepository
             .refresh(RefreshModel(refreshToken: refreshToken));
+        print("refreshed token : $token");
         final newAccessToken = token.access_token;
         final newRefreshToken = token.refresh_token;
 

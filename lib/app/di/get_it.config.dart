@@ -25,6 +25,8 @@ import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_b
     as _i288;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart'
     as _i281;
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_edit_bloc.dart'
+    as _i122;
 import 'package:happit_flutter/app/modules/user/data/repository/user_repository.dart'
     as _i614;
 import 'package:happit_flutter/app/modules/user/presentation/bloc/user_bloc.dart'
@@ -53,10 +55,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i14.HabitRepository(gh<_i361.Dio>()));
     gh.factory<_i614.UserRepository>(
         () => _i614.UserRepository(gh<_i361.Dio>()));
+    gh.singleton<_i288.HabitBloc>(
+        () => _i288.HabitBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i281.HabitCreateBloc>(
         () => _i281.HabitCreateBloc(gh<_i14.HabitRepository>()));
-    gh.factory<_i288.HabitBloc>(
-        () => _i288.HabitBloc(gh<_i14.HabitRepository>()));
+    gh.factory<_i122.HabitEditBloc>(
+        () => _i122.HabitEditBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i141.SignInBloc>(
         () => _i141.SignInBloc(gh<_i825.AuthRepository>()));
     gh.singleton<_i846.AuthorizeInterceptor>(
