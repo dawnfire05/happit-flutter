@@ -14,18 +14,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       try {
         final profile = await _repository.getProfile();
+        emit(_Authenticated());
       } on Exception catch (e) {
         emit(const _Unauthenticated());
       }
     });
-    on<_getProfile>((event, emit) {});
+    on<_GetProfile>((event, emit) {});
   }
 }
 
 @freezed
 abstract class UserEvent with _$UserEvent {
   const factory UserEvent.load() = _Load;
-  const factory UserEvent.getProfile() = _getProfile;
+  const factory UserEvent.getProfile() = _GetProfile;
 }
 
 @freezed
