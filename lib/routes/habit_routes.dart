@@ -1,24 +1,8 @@
 part of 'routes.dart';
 
-@TypedGoRoute<HabitListRoute>(
-  path: '/',
-  routes: <TypedGoRoute<GoRouteData>>[
-    TypedGoRoute<HabitAddRoute>(path: 'habit/creating'),
-    TypedGoRoute<HabitAddedRoute>(path: 'habit/created'),
-    TypedGoRoute<HabitEditRoute>(path: 'habit/edit/:id')
-  ],
-)
-class HabitListRoute extends GoRouteData {
-  const HabitListRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const HabitListScreen();
-  }
-}
-
-class HabitAddRoute extends GoRouteData {
-  const HabitAddRoute();
+@TypedGoRoute<HabitCreatingRoute>(path: '/habit/creating')
+class HabitCreatingRoute extends GoRouteData {
+  const HabitCreatingRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -26,8 +10,9 @@ class HabitAddRoute extends GoRouteData {
   }
 }
 
-class HabitAddedRoute extends GoRouteData {
-  const HabitAddedRoute();
+@TypedGoRoute<HabitCreatedRoute>(path: '/habit/created')
+class HabitCreatedRoute extends GoRouteData {
+  const HabitCreatedRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -35,6 +20,7 @@ class HabitAddedRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<HabitEditRoute>(path: '/habit/edit/:id')
 class HabitEditRoute extends GoRouteData {
   final int id;
   const HabitEditRoute(this.id);

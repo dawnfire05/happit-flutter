@@ -6,6 +6,6 @@ class SplashRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const SplashPage();
+    return const SplashScreen();
   }
 }

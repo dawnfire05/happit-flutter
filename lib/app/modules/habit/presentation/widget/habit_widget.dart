@@ -92,7 +92,7 @@ class HabitWidget extends StatelessWidget {
                           color: const Color(0xff8D939D),
                         ),
                         child: IconButton(
-                          onPressed: () => HabitEditRoute(id).go(context),
+                          onPressed: () => HabitEditRoute(id).push(context),
                           icon: SvgPicture.asset('assets/icons/Pen.svg'),
                         ),
                       ),

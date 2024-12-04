@@ -52,7 +52,6 @@ class HabitListScreen extends StatelessWidget {
         context.read<HabitBloc>().add(const HabitEvent.get());
       },
       child: Scaffold(
-        appBar: const HappitAppBar(),
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -87,7 +86,6 @@ class HabitListScreen extends StatelessWidget {
             },
           ),
         ),
-        bottomNavigationBar: const HappitBottomNavigationBar(),
       ),
     );
   }

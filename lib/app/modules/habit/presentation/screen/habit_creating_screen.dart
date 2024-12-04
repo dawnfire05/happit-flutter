@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
@@ -84,7 +85,9 @@ class _LayoutState extends State<_Layout> {
         );
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('습관 추가')),
+        appBar: AppBar(
+          title: const Text('습관 추가'),
+        ),
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.all(20),
