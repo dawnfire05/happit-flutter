@@ -143,11 +143,11 @@ RouteBase get $authRoute => GoRouteData.$route(
       factory: $AuthRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'signIn',
+          path: 'sign-in',
           factory: $SignInRouteExtension._fromState,
         ),
         GoRouteData.$route(
-          path: 'signUp',
+          path: 'sign-up',
           factory: $SignUpRouteExtension._fromState,
         ),
       ],
@@ -174,7 +174,7 @@ extension $SignInRouteExtension on SignInRoute {
   static SignInRoute _fromState(GoRouterState state) => const SignInRoute();
 
   String get location => GoRouteData.$location(
-        '/auth/signIn',
+        '/auth/sign-in',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -191,7 +191,7 @@ extension $SignUpRouteExtension on SignUpRoute {
   static SignUpRoute _fromState(GoRouterState state) => const SignUpRoute();
 
   String get location => GoRouteData.$location(
-        '/auth/signUp',
+        '/auth/sign-up',
       );
 
   void go(BuildContext context) => context.go(location);

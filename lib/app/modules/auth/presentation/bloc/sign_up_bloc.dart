@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
@@ -11,10 +10,9 @@ part 'sign_up_bloc.freezed.dart';
 
 @injectable
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final UserRepository _repository = UserRepository(
-      Dio(BaseOptions(headers: {'Content-Type': 'application/json'})));
+  final UserRepository _repository;
 
-  SignUpBloc() : super(const _Initial()) {
+  SignUpBloc(this._repository) : super(const _Initial()) {
     on<SignUpEvent>((event, emit) async {
       try {
         SignUpModel response = await _repository.signUp(SignUpModel(

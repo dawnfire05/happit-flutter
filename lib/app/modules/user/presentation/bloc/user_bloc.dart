@@ -11,12 +11,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc(this._repository) : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
-
       try {
-        final profile = await _repository.getProfile();
-        emit(_Authenticated());
+        await _repository.getProfile();
+        emit(const _Authenticated());
       } on Exception catch (e) {
-        emit(const _Unauthenticated());
+        emit(_Unauthenticated(e.toString()));
       }
     });
     on<_GetProfile>((event, emit) {});
@@ -34,7 +33,7 @@ abstract class UserState with _$UserState {
   const UserState._();
   const factory UserState.initial() = _Initial;
   const factory UserState.loading() = _Loading;
-  const factory UserState.unauthenticated() = _Unauthenticated;
+  const factory UserState.unauthenticated(String error) = _Unauthenticated;
   const factory UserState.authenticated() = _Authenticated;
 
   bool get isAuthenticated => this is _Authenticated;

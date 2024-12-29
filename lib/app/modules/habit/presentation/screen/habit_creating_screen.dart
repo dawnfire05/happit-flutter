@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_created_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_day_of_week_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_notice_time_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_text_widget.dart';

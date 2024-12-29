@@ -60,7 +60,7 @@ void main() async {
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   configureDependencies();
   _initBloc();
-  runApp(const MainApp());
+  runApp(const App());
 }
 
 void _initBloc() {

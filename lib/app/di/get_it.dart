@@ -21,7 +21,7 @@ abstract class RegisterModule {
 
   @singleton
   Dio get dio => Dio(BaseOptions(
-        baseUrl: "http://43.203.208.152:3000",
+        baseUrl: "http://43.203.126.209:3000",
         contentType: 'application/json',
       ));
 

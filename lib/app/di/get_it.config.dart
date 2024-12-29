@@ -45,7 +45,6 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final registerModule = _$RegisterModule();
-    gh.factory<_i760.SignUpBloc>(() => _i760.SignUpBloc());
     gh.singleton<_i558.FlutterSecureStorage>(
         () => registerModule.secureStorage);
     gh.singleton<_i361.Dio>(() => registerModule.dio);
@@ -55,19 +54,23 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i14.HabitRepository(gh<_i361.Dio>()));
     gh.factory<_i614.UserRepository>(
         () => _i614.UserRepository(gh<_i361.Dio>()));
+    gh.singleton<_i141.SignInBloc>(() => _i141.SignInBloc(
+          gh<_i825.AuthRepository>(),
+          gh<_i558.FlutterSecureStorage>(),
+        ));
     gh.singleton<_i288.HabitBloc>(
         () => _i288.HabitBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i281.HabitCreateBloc>(
         () => _i281.HabitCreateBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i122.HabitEditBloc>(
         () => _i122.HabitEditBloc(gh<_i14.HabitRepository>()));
-    gh.factory<_i141.SignInBloc>(
-        () => _i141.SignInBloc(gh<_i825.AuthRepository>()));
     gh.singleton<_i846.AuthorizeInterceptor>(
         () => registerModule.authorizeInterceptor(
               gh<_i558.FlutterSecureStorage>(),
               gh<_i825.AuthRepository>(),
             ));
+    gh.factory<_i760.SignUpBloc>(
+        () => _i760.SignUpBloc(gh<_i614.UserRepository>()));
     gh.factory<_i539.UserBloc>(
         () => _i539.UserBloc(gh<_i614.UserRepository>()));
     return this;

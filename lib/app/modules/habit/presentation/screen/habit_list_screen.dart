@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:happit_flutter/app/modules/common/presentation/widget/happit_app_bar.dart';
-import 'package:happit_flutter/app/modules/common/presentation/widget/happit_bottom_navigation_bar.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/habit_widget.dart';
 
@@ -73,15 +71,10 @@ class HabitListScreen extends StatelessWidget {
                   },
                 ),
                 error: (error) => ElevatedButton(
-                    onPressed: () =>
-                        context.read<HabitBloc>().add(const HabitEvent.get()),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('새로고침'),
-                      ],
-                    )),
+                  onPressed: () =>
+                      context.read<HabitBloc>().add(const HabitEvent.get()),
+                  child: const Text('새로고침'),
+                ),
               );
             },
           ),

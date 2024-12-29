@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_in_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/token_model.dart';
@@ -25,4 +24,7 @@ abstract class AuthRepository {
 
   @GET('kakao/callback')
   Future<void> kakaoCallback();
+
+  @POST('logout')
+  Future<void> logout(@Body() RefreshModel refreshToken);
 }

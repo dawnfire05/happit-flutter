@@ -3,8 +3,8 @@ part of 'routes.dart';
 @TypedGoRoute<AuthRoute>(
   path: '/auth',
   routes: <TypedGoRoute<GoRouteData>>[
-    TypedGoRoute<SignInRoute>(path: 'signIn'),
-    TypedGoRoute<SignUpRoute>(path: 'signUp'),
+    TypedGoRoute<SignInRoute>(path: 'sign-in'),
+    TypedGoRoute<SignUpRoute>(path: 'sign-up'),
   ],
 )
 class AuthRoute extends GoRouteData {

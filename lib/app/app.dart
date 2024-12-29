@@ -6,42 +6,36 @@ import 'package:happit_flutter/app/modules/user/presentation/bloc/user_bloc.dart
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            lazy: false,
-            create: (context) =>
-                getIt<UserBloc>()..add(const UserEvent.load())),
-        BlocProvider(
-          create: (context) => getIt<HabitBloc>()
-            ..add(
-              const HabitEvent.get(),
-            ),
-        ),
-      ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<UserBloc, UserState>(
-            listener: (context, state) => state.whenOrNull(
-              unauthenticated: () => const SignInRoute(),
-            ),
+    return MaterialApp.router(
+      theme: ThemeData(
+          fontFamily: 'NotoSansKR',
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Palette.white,
           ),
-        ],
-        child: MaterialApp.router(
-          theme: ThemeData(
-              fontFamily: 'NotoSansKR',
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Palette.white,
-              ),
-              scaffoldBackgroundColor: Palette.white),
-          routerConfig: router,
-        ),
-      ),
+          scaffoldBackgroundColor: Palette.white),
+      routerConfig: router,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                lazy: false,
+                create: (context) =>
+                    getIt<UserBloc>()..add(const UserEvent.load())),
+            BlocProvider(
+              create: (context) => getIt<HabitBloc>()
+                ..add(
+                  const HabitEvent.get(),
+                ),
+            ),
+          ],
+          child: child!,
+        );
+      },
     );
   }
 }
