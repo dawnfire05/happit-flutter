@@ -35,7 +35,7 @@ class _SignUpState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<SignUpBloc>(),
+      create: (context) => sl<SignUpBloc>(),
       child: BlocListener<SignUpBloc, SignUpState>(
         listener: (context, state) {
           if (state == const SignUpState.success()) {

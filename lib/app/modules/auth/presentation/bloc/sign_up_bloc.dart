@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
-import 'package:happit_flutter/app/modules/user/data/repository/user_repository.dart';
+import 'package:happit_flutter/app/modules/auth/data/repository/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 part 'sign_up_bloc.freezed.dart';

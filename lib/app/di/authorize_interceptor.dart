@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
-import 'package:happit_flutter/app/modules/auth/presentation/bloc/sign_in_bloc.dart';
+import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthorizeInterceptor extends Interceptor {
   final FlutterSecureStorage _secureStorage;
@@ -11,10 +11,7 @@ class AuthorizeInterceptor extends Interceptor {
 
   bool _isRefreshing = false;
 
-  AuthorizeInterceptor(
-    this._secureStorage,
-    this._authRepository,
-  );
+  AuthorizeInterceptor(this._secureStorage, this._authRepository);
 
   @override
   Future<void> onRequest(
@@ -36,10 +33,8 @@ class AuthorizeInterceptor extends Interceptor {
 
       _isRefreshing = true;
       try {
-        print('Attempting token refresh...');
         final token = await _authRepository
             .refresh(RefreshModel(refreshToken: refreshToken));
-        print("Refreshed token: $token");
 
         final newAccessToken = token.access_token;
         final newRefreshToken = token.refresh_token;
@@ -48,7 +43,7 @@ class AuthorizeInterceptor extends Interceptor {
         await _secureStorage.write(key: 'refreshToken', value: newRefreshToken);
 
         err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-        final clonedRequest = await getIt<Dio>().request(
+        final clonedRequest = await sl<Dio>().request(
           err.requestOptions.path,
           options: Options(
             method: err.requestOptions.method,
@@ -61,17 +56,13 @@ class AuthorizeInterceptor extends Interceptor {
         _isRefreshing = false;
         return handler.resolve(clonedRequest);
       } catch (e) {
-        print("Token refresh failed: ${e.toString()}");
-
         await _secureStorage.delete(key: 'accessToken');
         await _secureStorage.delete(key: 'refreshToken');
         _isRefreshing = false;
-        getIt<SignInBloc>().add(const SignInEvent.logout());
+        sl<AuthBloc>().add(const AuthEvent.logout());
         return handler.next(err);
       }
     }
-
-    // 다른 에러는 그대로 전달
     return handler.next(err);
   }
 }

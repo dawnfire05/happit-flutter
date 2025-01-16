@@ -6,12 +6,12 @@ import 'package:happit_flutter/app/di/get_it.config.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 
-final getIt = GetIt.instance;
+final sl = GetIt.instance;
 
 @InjectableInit()
-void configureDependencies() {
-  getIt.init();
-  getIt<Dio>().interceptors.add(getIt<AuthorizeInterceptor>());
+Future<void> configureDependencies() async {
+  await sl.init();
+  sl<Dio>().interceptors.add(sl<AuthorizeInterceptor>());
 }
 
 @module
@@ -21,7 +21,7 @@ abstract class RegisterModule {
 
   @singleton
   Dio get dio => Dio(BaseOptions(
-        baseUrl: "http://43.203.126.209:3000",
+        baseUrl: "http://43.203.126.209:3000/",
         contentType: 'application/json',
       ));
 

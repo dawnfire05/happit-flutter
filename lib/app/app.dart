@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
-import 'package:happit_flutter/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
 
@@ -25,12 +25,11 @@ class App extends StatelessWidget {
             BlocProvider(
                 lazy: false,
                 create: (context) =>
-                    getIt<UserBloc>()..add(const UserEvent.load())),
+                    sl<AuthBloc>()..add(const AuthEvent.load())),
             BlocProvider(
-              create: (context) => getIt<HabitBloc>()
-                ..add(
-                  const HabitEvent.get(),
-                ),
+              lazy: false,
+              create: (context) =>
+                  sl<HabitListBloc>()..add(const HabitListEvent.get()),
             ),
           ],
           child: child!,

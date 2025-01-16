@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/habit_widget.dart';
 
 class HabitListScreen extends StatelessWidget {
@@ -47,17 +47,23 @@ class HabitListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<HabitBloc>().add(const HabitEvent.get());
+        context.read<HabitListBloc>().add(const HabitListEvent.get());
       },
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: BlocBuilder<HabitBloc, HabitState>(
+          child: BlocBuilder<HabitListBloc, HabitListState>(
             builder: (context, state) {
               return state.when(
                 initial: () => const Center(child: Text("초기 상태")),
                 loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error) => ElevatedButton(
+                  onPressed: () => context
+                      .read<HabitListBloc>()
+                      .add(const HabitListEvent.get()),
+                  child: const Text('새로고침'),
+                ),
                 success: (habits) => ListView.separated(
                   separatorBuilder: (context, index) =>
                       const SizedBox(height: 32),
@@ -69,11 +75,6 @@ class HabitListScreen extends StatelessWidget {
                       name: habit.name,
                     );
                   },
-                ),
-                error: (error) => ElevatedButton(
-                  onPressed: () =>
-                      context.read<HabitBloc>().add(const HabitEvent.get()),
-                  child: const Text('새로고침'),
                 ),
               );
             },

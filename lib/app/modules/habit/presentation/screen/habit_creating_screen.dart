@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_day_of_week_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_notice_time_widget.dart';
@@ -17,7 +17,7 @@ class HabitCreatingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HabitCreateBloc>(),
+      create: (context) => sl<HabitCreateBloc>(),
       child: _Layout(),
     );
   }
@@ -72,7 +72,7 @@ class _LayoutState extends State<_Layout> {
       listener: (context, state) {
         state.whenOrNull(
           success: () {
-            context.read<HabitBloc>().add(const HabitEvent.get());
+            context.read<HabitListBloc>().add(const HabitListEvent.get());
             const HabitListRoute().go(context);
           },
           error: (error) {

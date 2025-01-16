@@ -15,30 +15,30 @@ import 'package:happit_flutter/app/di/authorize_interceptor.dart' as _i846;
 import 'package:happit_flutter/app/di/get_it.dart' as _i189;
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart'
     as _i825;
-import 'package:happit_flutter/app/modules/auth/presentation/bloc/sign_in_bloc.dart'
-    as _i141;
+import 'package:happit_flutter/app/modules/auth/data/repository/token_repository.dart'
+    as _i413;
+import 'package:happit_flutter/app/modules/auth/data/repository/user_repository.dart'
+    as _i643;
+import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart'
+    as _i1003;
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/sign_up_bloc.dart'
     as _i760;
 import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart'
     as _i14;
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_bloc.dart'
-    as _i288;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart'
     as _i281;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_edit_bloc.dart'
     as _i122;
-import 'package:happit_flutter/app/modules/user/data/repository/user_repository.dart'
-    as _i614;
-import 'package:happit_flutter/app/modules/user/presentation/bloc/user_bloc.dart'
-    as _i539;
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart'
+    as _i837;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(
       this,
       environment,
@@ -52,27 +52,37 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i825.AuthRepository(gh<_i361.Dio>()));
     gh.singleton<_i14.HabitRepository>(
         () => _i14.HabitRepository(gh<_i361.Dio>()));
-    gh.factory<_i614.UserRepository>(
-        () => _i614.UserRepository(gh<_i361.Dio>()));
-    gh.singleton<_i141.SignInBloc>(() => _i141.SignInBloc(
-          gh<_i825.AuthRepository>(),
-          gh<_i558.FlutterSecureStorage>(),
-        ));
-    gh.singleton<_i288.HabitBloc>(
-        () => _i288.HabitBloc(gh<_i14.HabitRepository>()));
+    await gh.singletonAsync<_i413.TokenRepository>(
+      () {
+        final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());
+        return i.init().then((_) => i);
+      },
+      preResolve: true,
+    );
     gh.factory<_i281.HabitCreateBloc>(
         () => _i281.HabitCreateBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i122.HabitEditBloc>(
         () => _i122.HabitEditBloc(gh<_i14.HabitRepository>()));
+    gh.factory<_i643.UserRepository>(() => _i643.UserRepository(
+          gh<_i361.Dio>(),
+          gh<_i413.TokenRepository>(),
+        ));
     gh.singleton<_i846.AuthorizeInterceptor>(
         () => registerModule.authorizeInterceptor(
               gh<_i558.FlutterSecureStorage>(),
               gh<_i825.AuthRepository>(),
             ));
+    gh.factory<_i1003.AuthBloc>(() => _i1003.AuthBloc(
+          gh<_i825.AuthRepository>(),
+          gh<_i643.UserRepository>(),
+          gh<_i413.TokenRepository>(),
+        ));
+    gh.factory<_i837.HabitListBloc>(() => _i837.HabitListBloc(
+          gh<_i14.HabitRepository>(),
+          gh<_i643.UserRepository>(),
+        ));
     gh.factory<_i760.SignUpBloc>(
-        () => _i760.SignUpBloc(gh<_i614.UserRepository>()));
-    gh.factory<_i539.UserBloc>(
-        () => _i539.UserBloc(gh<_i614.UserRepository>()));
+        () => _i760.SignUpBloc(gh<_i643.UserRepository>()));
     return this;
   }
 }

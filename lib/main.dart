@@ -58,7 +58,8 @@ void main() async {
 //       InitializationSettings(android: initializationSettingsAndroid);
 
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  configureDependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   _initBloc();
   runApp(const App());
 }
