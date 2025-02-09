@@ -90,7 +90,7 @@ class _LayoutState extends State<_Layout> {
             });
           },
           success: () {
-            sl<HabitListBloc>().add(const HabitListEvent.get());
+            context.read<HabitListBloc>().add(const HabitListEvent.get());
             const HabitListRoute().go(context);
           },
           error: (error) {

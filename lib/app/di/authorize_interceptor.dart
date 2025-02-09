@@ -16,7 +16,6 @@ class AuthorizeInterceptor extends Interceptor {
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
-    print(accessToken);
     options.headers['Authorization'] = 'Bearer $accessToken';
     return handler.next(options);
   }

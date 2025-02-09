@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_in_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
-import 'package:happit_flutter/app/modules/auth/data/model/token_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/token_repository.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/user_repository.dart';

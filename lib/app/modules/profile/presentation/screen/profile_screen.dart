@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
                 return ElevatedButton(
                     onPressed: () {
                       context.read<AuthBloc>().add(const AuthEvent.logout());
-                      const SignInRoute().replace(context);
+                      const SignInRoute().go(context);
                     },
                     child: const Text('로그아웃'));
               },

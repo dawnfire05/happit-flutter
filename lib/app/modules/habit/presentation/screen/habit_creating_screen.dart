@@ -73,7 +73,7 @@ class _LayoutState extends State<_Layout> {
         state.whenOrNull(
           success: () {
             context.read<HabitListBloc>().add(const HabitListEvent.get());
-            const HabitListRoute().go(context);
+            const HabitCreatedRoute().go(context);
           },
           error: (error) {
             ScaffoldMessenger.of(context).showSnackBar(
