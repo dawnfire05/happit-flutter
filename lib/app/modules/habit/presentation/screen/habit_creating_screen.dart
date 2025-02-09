@@ -88,7 +88,7 @@ class _LayoutState extends State<_Layout> {
         ),
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

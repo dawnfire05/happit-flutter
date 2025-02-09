@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happit_flutter/values/palette.dart';
 
-enum ButtonType { cta, basic, custom }
+enum ButtonType { cta, basic, destructive, custom }
 
 class MainButton extends StatelessWidget {
   MainButton.cta({
@@ -17,7 +17,8 @@ class MainButton extends StatelessWidget {
             offset: Offset(0, 0),
             spreadRadius: 0,
           )
-        ];
+        ],
+        textColor = Palette.white;
 
   MainButton.basic({
     super.key,
@@ -38,20 +39,45 @@ class MainButton extends StatelessWidget {
             offset: Offset(0, 0),
             spreadRadius: 1,
           )
-        ];
+        ],
+        textColor = Palette.black100;
 
-  const MainButton.custom({
+  MainButton.destructive({
     super.key,
     this.onPressed,
     required this.text,
-    required this.shadow,
-    required this.color,
-  }) : type = ButtonType.custom;
+  })  : type = ButtonType.basic,
+        color = Palette.white,
+        shadow = [
+          const BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+            spreadRadius: 0,
+          ),
+          const BoxShadow(
+            color: Color(0x99DBE5EC),
+            blurRadius: 1,
+            offset: Offset(0, 0),
+            spreadRadius: 1,
+          )
+        ],
+        textColor = Colors.red;
+
+  const MainButton.custom(
+      {super.key,
+      this.onPressed,
+      required this.text,
+      required this.shadow,
+      required this.color,
+      required this.textColor})
+      : type = ButtonType.custom;
 
   final VoidCallback? onPressed;
   final String text;
   final List<BoxShadow> shadow;
   final Color color;
+  final Color textColor;
   final ButtonType type;
 
   @override
@@ -75,9 +101,7 @@ class MainButton extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                    color: type == ButtonType.basic
-                        ? Palette.black100
-                        : Palette.white,
+                    color: textColor,
                     fontSize: 16,
                     fontFamily: 'Noto Sans KR',
                     fontWeight: FontWeight.w700,

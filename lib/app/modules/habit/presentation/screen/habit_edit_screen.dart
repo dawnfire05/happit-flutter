@@ -104,7 +104,7 @@ class _LayoutState extends State<_Layout> {
         appBar: AppBar(title: const Text('습관 수정')),
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,8 +153,8 @@ class _LayoutState extends State<_Layout> {
                 Row(
                   children: [
                     Expanded(
-                        child: MainButton.cta(
-                            text: '습관 삭제하기',
+                        child: MainButton.destructive(
+                            text: '삭제',
                             onPressed: () {
                               context
                                   .read<HabitEditBloc>()
@@ -163,7 +163,7 @@ class _LayoutState extends State<_Layout> {
                     const SizedBox(width: 24),
                     Expanded(
                       child: MainButton.cta(
-                        text: '습관 수정하기',
+                        text: '수정 완료',
                         onPressed: () => context.read<HabitEditBloc>().add(
                               HabitEditEvent.edit(
                                   widget.id,
