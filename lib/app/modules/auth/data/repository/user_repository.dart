@@ -62,12 +62,12 @@ class UserRepository {
     }
   }
 
-  Stream<bool> get isUserLoggedIn => _tokenRepository.token.asyncMap((_) async {
-        try {
-          await getProfile();
-          return true;
-        } catch (e) {
-          return false;
-        }
-      });
+  Future<bool> get isUserLoggedIn async {
+    try {
+      await getProfile();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

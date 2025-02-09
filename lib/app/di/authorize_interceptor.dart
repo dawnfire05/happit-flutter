@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
-import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthorizeInterceptor extends Interceptor {
   final FlutterSecureStorage _secureStorage;
@@ -17,6 +16,7 @@ class AuthorizeInterceptor extends Interceptor {
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
+    print(accessToken);
     options.headers['Authorization'] = 'Bearer $accessToken';
     return handler.next(options);
   }
@@ -44,7 +44,7 @@ class AuthorizeInterceptor extends Interceptor {
 
         err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
         final clonedRequest = await sl<Dio>().request(
-          err.requestOptions.path,
+          "${err.requestOptions.path}/auth/refresh",
           options: Options(
             method: err.requestOptions.method,
             headers: err.requestOptions.headers,
@@ -59,7 +59,7 @@ class AuthorizeInterceptor extends Interceptor {
         await _secureStorage.delete(key: 'accessToken');
         await _secureStorage.delete(key: 'refreshToken');
         _isRefreshing = false;
-        sl<AuthBloc>().add(const AuthEvent.logout());
+        // sl<AuthBloc>().add(const AuthEvent.logout());
         return handler.next(err);
       }
     }

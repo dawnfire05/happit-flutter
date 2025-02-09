@@ -11,16 +11,10 @@ class MainLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        state.mapOrNull(
-            unauthenticated: (value) => const SignInRoute().replace(context));
-      },
-      child: Scaffold(
-        appBar: const HappitAppBar(),
-        body: child,
-        bottomNavigationBar: const HappitBottomNavigationBar(),
-      ),
+    return Scaffold(
+      appBar: const HappitAppBar(),
+      body: child,
+      bottomNavigationBar: const HappitBottomNavigationBar(),
     );
   }
 }

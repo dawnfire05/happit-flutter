@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart';
@@ -80,7 +79,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
                     state.whenOrNull(
-                      authenticated: () => const HabitListRoute().go(context),
+                      authenticated: () {
+                        context
+                            .read<HabitListBloc>()
+                            .add(const HabitListEvent.get());
+                        const HabitListRoute().go(context);
+                      },
+                      error: (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(error),
+                          ),
+                        );
+                      },
                     );
                   },
                   builder: (context, state) {
@@ -93,9 +104,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                 _passwordController.text,
                               ),
                             );
-                        context
-                            .read<HabitListBloc>()
-                            .add(const HabitListEvent.get());
                       },
                     );
                   },

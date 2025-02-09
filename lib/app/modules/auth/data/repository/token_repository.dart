@@ -19,11 +19,14 @@ class TokenRepository {
         : _subject.add(null);
   }
 
-  Future<void> saveToken(TokenModel token) async {
+  Future<String?> saveToken(TokenModel token) async {
     _subject.add(token);
-    _storage
-      ..write(key: 'accessToken', value: token.access_token.toString())
-      ..write(key: 'refreshToken', value: token.refresh_token.toString());
+    await _storage.write(
+        key: 'accessToken', value: token.access_token.toString());
+    await _storage.write(
+        key: 'refreshToken', value: token.refresh_token.toString());
+
+    return _storage.read(key: 'accessToken');
   }
 
   Stream<TokenModel?> get token => _subject.stream;

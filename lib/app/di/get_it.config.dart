@@ -25,6 +25,8 @@ import 'package:happit_flutter/app/modules/auth/presentation/bloc/sign_up_bloc.d
     as _i760;
 import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart'
     as _i14;
+import 'package:happit_flutter/app/modules/habit/data/repository/record_repository.dart'
+    as _i418;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart'
     as _i281;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_edit_bloc.dart'
@@ -52,6 +54,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i825.AuthRepository(gh<_i361.Dio>()));
     gh.singleton<_i14.HabitRepository>(
         () => _i14.HabitRepository(gh<_i361.Dio>()));
+    gh.singleton<_i418.RecordRepository>(
+        () => _i418.RecordRepository(gh<_i361.Dio>()));
     await gh.singletonAsync<_i413.TokenRepository>(
       () {
         final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());

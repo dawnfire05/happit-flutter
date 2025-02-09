@@ -26,12 +26,14 @@ class _HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
       currentIndex: _currentIndex,
       backgroundColor: Colors.white,
       onTap: (index) {
-        setState(() => _currentIndex = index);
         if (index == 2) {
           context.push(_routes[index]);
-        } else {
-          context.go(_routes[index]);
+          return;
         }
+
+        setState(() => _currentIndex = index);
+
+        context.push(_routes[index]);
       },
       items: [
         BottomNavigationBarItem(

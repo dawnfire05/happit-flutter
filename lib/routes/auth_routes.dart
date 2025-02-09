@@ -1,21 +1,6 @@
 part of 'routes.dart';
 
-@TypedGoRoute<AuthRoute>(
-  path: '/auth',
-  routes: <TypedGoRoute<GoRouteData>>[
-    TypedGoRoute<SignInRoute>(path: 'sign-in'),
-    TypedGoRoute<SignUpRoute>(path: 'sign-up'),
-  ],
-)
-class AuthRoute extends GoRouteData {
-  const AuthRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const HabitListScreen();
-  }
-}
-
+@TypedGoRoute<SignInRoute>(path: '/sign-in')
 class SignInRoute extends GoRouteData {
   const SignInRoute();
 
@@ -25,6 +10,7 @@ class SignInRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<SignUpRoute>(path: '/sign-up')
 class SignUpRoute extends GoRouteData {
   const SignUpRoute();
 

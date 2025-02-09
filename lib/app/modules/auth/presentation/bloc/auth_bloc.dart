@@ -19,18 +19,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(this._authRepository, this._userRepository, this._tokenRepository)
       : super(const AuthState.initial()) {
-    on<_Load>((event, emit) {
+    on<_Load>((event, emit) async {
       emit(const _Loading());
-      return emit.forEach(_userRepository.isUserLoggedIn,
-          onData: (v) => v ? const _Authenticated() : const _Unauthenticated());
+      if (await _userRepository.isUserLoggedIn) {
+        emit(const AuthState.authenticated());
+      } else {
+        emit(const AuthState.unauthenticated());
+      }
     });
     on<_SignIn>((event, emit) async {
       emit(const _Loading());
       try {
-        TokenModel response = await _authRepository
-            .login(SignInModel(event.username, event.password));
-        _tokenRepository.saveToken(response);
-        emit(const AuthState.authenticated());
+        final response = await _authRepository.login(
+          SignInModel(event.username, event.password),
+        );
+
+        final token = await _tokenRepository.saveToken(response);
+
+        if (token != null) {
+          emit(const AuthState.authenticated());
+        } else {
+          emit(const AuthState.unauthenticated());
+        }
       } catch (e) {
         emit(AuthState.error(e.toString()));
       }
@@ -53,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final token = await _tokenRepository.token.first;
         if (token == null) {
-          emit(const AuthState.unauthenticated());
+          emit(const AuthState.error('Token is null'));
           return;
         }
         final refreshToken = token.refresh_token;

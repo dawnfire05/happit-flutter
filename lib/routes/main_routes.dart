@@ -2,12 +2,20 @@ part of 'routes.dart';
 
 @TypedShellRoute<MainShellRoute>(routes: [
   TypedGoRoute<HabitListRoute>(path: '/habit'),
-  TypedGoRoute<ProfileRoute>(path: '/profile'),
+  TypedGoRoute<ProfileRoute>(path: '/profile')
 ])
 class MainShellRoute extends ShellRouteData {
   @override
   Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return MainLayout(child: navigator);
+    final Widget? transitionPage = state.extra as Widget?;
+
+    if (transitionPage != null) {
+      return MainLayout(child: transitionPage);
+    }
+
+    return MainLayout(
+      child: navigator,
+    );
   }
 }
 
