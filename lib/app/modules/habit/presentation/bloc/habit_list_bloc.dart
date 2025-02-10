@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:happit_flutter/app/modules/auth/data/repository/token_repository.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/user_repository.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/habit_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart';

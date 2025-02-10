@@ -27,11 +27,11 @@ import 'package:happit_flutter/app/modules/habit/data/repository/habit_repositor
     as _i14;
 import 'package:happit_flutter/app/modules/habit/data/repository/record_repository.dart'
     as _i418;
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_create_bloc.dart'
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_create_bloc.dart'
     as _i281;
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_edit_bloc.dart'
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_edit_bloc.dart'
     as _i122;
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart'
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart'
     as _i837;
 import 'package:injectable/injectable.dart' as _i526;
 

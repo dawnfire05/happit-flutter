@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit/habit_list_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_text_widget.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
