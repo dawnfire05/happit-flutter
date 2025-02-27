@@ -12,7 +12,7 @@ abstract class RecordRepository {
   factory RecordRepository(Dio dio) = _RecordRepository;
 
   @GET('')
-  Future<void> getRecords();
+  Future<void> getRecords(@Query('habitId') int habitId);
 
   @GET('{id}')
   Future<void> getRecord(@Path() int id);

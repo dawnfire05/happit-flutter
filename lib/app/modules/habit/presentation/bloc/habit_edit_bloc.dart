@@ -17,7 +17,6 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
         final habit = await _repository.getHabit(event.id);
         emit(_Loaded(habit));
       } on Exception catch (e) {
-        print(e.toString());
         emit(_Error(e.toString()));
       }
     });
@@ -25,7 +24,6 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
       emit(const _Loading());
       try {
         await _repository.deleteHabit(event.id);
-        print('file deleted');
         emit(const _Success());
       } on Exception catch (e) {
         emit(_Error(e.toString()));

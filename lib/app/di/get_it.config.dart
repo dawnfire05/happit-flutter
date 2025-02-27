@@ -28,11 +28,11 @@ import 'package:happit_flutter/app/modules/habit/data/repository/habit_repositor
 import 'package:happit_flutter/app/modules/habit/data/repository/record_repository.dart'
     as _i418;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_create_bloc.dart'
-    as _i281;
+    as _i735;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_edit_bloc.dart'
-    as _i122;
+    as _i248;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart'
-    as _i837;
+    as _i637;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -56,6 +56,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i14.HabitRepository(gh<_i361.Dio>()));
     gh.singleton<_i418.RecordRepository>(
         () => _i418.RecordRepository(gh<_i361.Dio>()));
+    gh.factory<_i637.HabitListBloc>(() => _i637.HabitListBloc(
+          gh<_i14.HabitRepository>(),
+          gh<_i418.RecordRepository>(),
+        ));
     await gh.singletonAsync<_i413.TokenRepository>(
       () {
         final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());
@@ -63,10 +67,10 @@ extension GetItInjectableX on _i174.GetIt {
       },
       preResolve: true,
     );
-    gh.factory<_i281.HabitCreateBloc>(
-        () => _i281.HabitCreateBloc(gh<_i14.HabitRepository>()));
-    gh.factory<_i122.HabitEditBloc>(
-        () => _i122.HabitEditBloc(gh<_i14.HabitRepository>()));
+    gh.factory<_i735.HabitCreateBloc>(
+        () => _i735.HabitCreateBloc(gh<_i14.HabitRepository>()));
+    gh.factory<_i248.HabitEditBloc>(
+        () => _i248.HabitEditBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i643.UserRepository>(() => _i643.UserRepository(
           gh<_i361.Dio>(),
           gh<_i413.TokenRepository>(),
@@ -80,10 +84,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i825.AuthRepository>(),
           gh<_i643.UserRepository>(),
           gh<_i413.TokenRepository>(),
-        ));
-    gh.factory<_i837.HabitListBloc>(() => _i837.HabitListBloc(
-          gh<_i14.HabitRepository>(),
-          gh<_i643.UserRepository>(),
         ));
     gh.factory<_i760.SignUpBloc>(
         () => _i760.SignUpBloc(gh<_i643.UserRepository>()));
