@@ -12,7 +12,7 @@ class UserRepository {
   @factoryMethod
   UserRepository(this._dio, this._tokenRepository);
 
-  static const String _baseUrl = 'user';
+  static const String _baseUrl = '/user';
 
   Future<SignUpModel> signUp(SignUpModel model) async {
     try {

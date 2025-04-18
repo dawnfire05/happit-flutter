@@ -29,6 +29,8 @@ dependencies:
   json_annotation: ^4.9.0
   flutter_secure_storage: ^9.2.2
   rxdart: ^0.28.0
+  intl: ^0.20.2
+  flutter_dotenv: ^5.1.0
 
 
 dev_dependencies:
@@ -49,6 +51,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/logo/
+    - .env
 
   fonts:
     - family: MontserratAlternates

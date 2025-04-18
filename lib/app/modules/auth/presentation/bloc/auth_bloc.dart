@@ -17,13 +17,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final TokenRepository _tokenRepository;
 
   AuthBloc(this._authRepository, this._userRepository, this._tokenRepository)
-      : super(const AuthState.initial()) {
+      : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
       if (await _userRepository.isUserLoggedIn) {
-        emit(const AuthState.authenticated());
+        emit(const _Authenticated());
       } else {
-        emit(const AuthState.unauthenticated());
+        emit(const _Unauthenticated());
       }
     });
     on<_SignIn>((event, emit) async {
@@ -36,12 +36,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final token = await _tokenRepository.saveToken(response);
 
         if (token != null) {
-          emit(const AuthState.authenticated());
+          emit(const _Authenticated());
         } else {
-          emit(const AuthState.unauthenticated());
+          emit(const _Unauthenticated());
         }
       } catch (e) {
-        emit(AuthState.error(e.toString()));
+        emit(_Error(e.toString()));
       }
     });
     on<_SignUp>((event, emit) async {
@@ -52,9 +52,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.username,
           event.password,
         ));
-        emit(const AuthState.unauthenticated());
+        emit(const _Unauthenticated());
       } catch (e) {
-        emit(AuthState.error(e.toString()));
+        emit(_Error(e.toString()));
       }
     });
     on<_Logout>((event, emit) async {
@@ -62,15 +62,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final token = await _tokenRepository.token.first;
         if (token == null) {
-          emit(const AuthState.error('Token is null'));
+          emit(const _Error('Token is null'));
           return;
         }
         final refreshToken = token.refresh_token;
         _authRepository.logout(RefreshModel(refreshToken: refreshToken));
         _tokenRepository.deleteToken();
-        emit(const AuthState.unauthenticated());
+        emit(const _Unauthenticated());
       } on Exception catch (e) {
-        emit(AuthState.error(e.toString()));
+        emit(_Error(e.toString()));
       }
     });
   }

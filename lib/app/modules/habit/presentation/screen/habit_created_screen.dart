@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/create_habit_model.dart';
 
 class HabitCreatedScreen extends StatelessWidget {
-  const HabitCreatedScreen({super.key});
+  const HabitCreatedScreen({super.key, required this.habit});
+
+  final CreateHabitModel habit;
 
   @override
   Widget build(BuildContext context) {

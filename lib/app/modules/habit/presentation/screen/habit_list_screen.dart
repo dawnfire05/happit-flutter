@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/record_list_model.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/habit_widget.dart';
 
@@ -50,32 +51,36 @@ class HabitListScreen extends StatelessWidget {
         context.read<HabitListBloc>().add(const HabitListEvent.get());
       },
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(color: Colors.white),
+        body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: BlocBuilder<HabitListBloc, HabitListState>(
             builder: (context, state) {
-              return state.when(
-                initial: () => const Center(child: Text("초기 상태")),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error) => ElevatedButton(
-                  onPressed: () => context
-                      .read<HabitListBloc>()
-                      .add(const HabitListEvent.get()),
-                  child: const Text('새로고침'),
-                ),
-                success: (habits) => ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 32),
-                  itemCount: habits.length,
-                  itemBuilder: (context, index) {
-                    final habit = habits[index];
-                    return HabitWidget(
-                      id: habit.id,
-                      name: habit.name,
-                    );
-                  },
-                ),
+              return Column(
+                children: [
+                  const SizedBox(height: 16),
+                  state.when(
+                    initial: () => const Center(child: Text("초기 상태")),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error) => ElevatedButton(
+                      onPressed: () => context
+                          .read<HabitListBloc>()
+                          .add(const HabitListEvent.get()),
+                      child: const Text('새로고침'),
+                    ),
+                    success: (habits) => Expanded(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 32),
+                        itemCount: habits.length,
+                        itemBuilder: (context, index) {
+                          final habit = habits[index];
+                          return HabitWidget(id: habit.id, name: habit.name);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
           ),

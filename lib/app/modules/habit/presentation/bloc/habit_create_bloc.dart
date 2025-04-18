@@ -15,7 +15,7 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
   HabitCreateBloc(this._repository) : super(const _Initial()) {
     on<_Add>((event, emit) async {
       try {
-        await _repository.addHabit(
+        final habit = 
           CreateHabitModel(
             name: event.habitName,
             description: event.habitDescription,
@@ -23,9 +23,9 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
             repeatDay: event.repeatDays,
             // noticeTime: event.selectedTime,
             themeColor: event.themeColor,
-          ),
-        );
-        emit(const _Success());
+          );
+        await _repository.addHabit(habit);
+        emit(_Success(habit));
       } catch (e) {
         log(e.toString());
         emit(_Error(e.toString()));
@@ -50,5 +50,5 @@ sealed class HabitCreateEvent with _$HabitCreateEvent {
 sealed class HabitCreateState with _$HabitCreateState {
   const factory HabitCreateState.initial() = _Initial;
   const factory HabitCreateState.error(String error) = _Error;
-  const factory HabitCreateState.success() = _Success;
+  const factory HabitCreateState.success(CreateHabitModel habit) = _Success;
 }
