@@ -5,7 +5,7 @@ import 'package:happit_flutter/values/palette.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/create_habit_model.dart';
 
 class HabitCreatedScreen extends StatelessWidget {
-  const HabitCreatedScreen({super.key, required this.habit});
+  const HabitCreatedScreen(this.habit, {super.key});
 
   final CreateHabitModel habit;
 
@@ -62,9 +62,9 @@ class HabitCreatedScreen extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              '독서',
-                              style: TextStyle(
+                            Text(
+                              habit.name,
+                              style: const TextStyle(
                                 color: Color(0xFF725496),
                                 fontSize: 18,
                                 fontFamily: 'Noto Sans KR',
@@ -87,9 +87,9 @@ class HabitCreatedScreen extends StatelessWidget {
                                 horizontal: 8,
                                 vertical: 4,
                               ),
-                              child: const Text(
-                                '매일',
-                                style: TextStyle(
+                              child: Text(
+                                habit.repeatType,
+                                style: const TextStyle(
                                   color: Palette.black100,
                                   fontSize: 16,
                                   fontFamily: 'Noto Sans KR',

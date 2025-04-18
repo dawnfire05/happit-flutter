@@ -24,3 +24,4 @@ final GoRouter router = GoRouter(
   initialLocation: const SplashRoute().location,
   debugLogDiagnostics: kDebugMode,
 );
+

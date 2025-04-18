@@ -1,15 +1,5 @@
 part of 'routes.dart';
 
-@TypedShellRoute<HabitCreatingShellRoute>(routes: [
-  TypedGoRoute<HabitCreatingRoute>(path: '/habit/creating'),
-  TypedGoRoute<HabitCreatedRoute>(path: '/habit/created')
-])
-class HabitCreatingShellRoute extends ShellRouteData {
-  @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return HabitCreatingShell(child: navigator);
-  }
-}
 
 @TypedGoRoute<HabitCreatingRoute>(path: '/habit/creating')
 class HabitCreatingRoute extends GoRouteData {
@@ -23,12 +13,12 @@ class HabitCreatingRoute extends GoRouteData {
 
 @TypedGoRoute<HabitCreatedRoute>(path: '/habit/created')
 class HabitCreatedRoute extends GoRouteData {
-  final CreateHabitModel habit;
-  const HabitCreatedRoute(this.habit);
+  HabitCreatedRoute(this.$extra);
+  final CreateHabitModel $extra;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return HabitCreatedScreen(habit: habit);
+    return HabitCreatedScreen($extra);
   }
 }
 
