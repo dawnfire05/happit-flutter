@@ -8,13 +8,20 @@ part 'habit_model.g.dart';
 abstract class HabitModel with _$HabitModel {
   const factory HabitModel({
     @Default(0) int id,
-    @Default("") String name,
-    @Default("") String description,
-    @Default("") String repeatType,
-    @Default([]) List<String>? repeatDay,
+    @Default(0) int userId,
+    @Default('') String name,
+    @Default('none') String type,
+    @Default('') String description,
+    @Default(false) bool archiveStatus,
+    @Default('') String repeatType,
+    @Default([]) List<String> repeatDay,
+    @Default([]) List<dynamic> noticeTime,
+    @Default(0) int themeColor,
+    @Default('') String createdAt,
+    @Default('') String updatedAt,
   }) = _HabitModel;
 
-  factory HabitModel.fromJson(Map<String, Object?> json) =>
+  factory HabitModel.fromJson(Map<String, dynamic> json) =>
       _$HabitModelFromJson(json);
 }
 
@@ -24,6 +31,6 @@ extension HabitModelX on HabitModel {
         name: name,
         description: description,
         repeatType: repeatType,
-        repeatDay: repeatDay,
+        repeatDay: repeatDay.isEmpty ? null : repeatDay,
       );
 }
