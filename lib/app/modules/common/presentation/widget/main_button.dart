@@ -82,36 +82,32 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 64,
-      decoration: ShapeDecoration(
-        color: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 64,
+        decoration: ShapeDecoration(
+          color: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          shadows: shadow,
         ),
-        shadows: shadow,
-      ),
-      child: Builder(
-        builder: (context) {
-          return GestureDetector(
-            onTap: onPressed,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 16,
-                    fontFamily: 'Noto Sans KR',
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -1.28,
-                  ),
-                ),
-              ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontSize: 16,
+                fontFamily: 'Noto Sans KR',
+                fontWeight: FontWeight.w700,
+                letterSpacing: -1.28,
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
