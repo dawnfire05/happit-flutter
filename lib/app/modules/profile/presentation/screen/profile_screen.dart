@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/routes/routes.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -9,20 +10,56 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        title: const Text(
+          '프로필',
+          style: TextStyle(
+            color: Color(0xFF1F2329),
+            fontSize: 18,
+            fontFamily: 'Noto Sans KR',
+            fontWeight: FontWeight.w700,
+            height: 0,
+            letterSpacing: -1.44,
+          ),
+        ),
+        automaticallyImplyLeading: false,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('프로필'),
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
-                return ElevatedButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(const AuthEvent.logout());
-                      const SignInRoute().go(context);
-                    },
-                    child: const Text('로그아웃'));
+                return state.maybeWhen(
+                  authenticated: (user) => Row(
+                    children: [
+                      Text(
+                        '${user.username}님, 환영합니다.',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Noto Sans KR',
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -1.28,
+                        ),
+                      ),
+                    ],
+                  ),
+                  orElse: () => const Text(''),
+                );
               },
-            )
+            ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return MainButton.destructive(
+                  text: '로그아웃',
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthEvent.logout());
+                    const SignInRoute().go(context);
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
