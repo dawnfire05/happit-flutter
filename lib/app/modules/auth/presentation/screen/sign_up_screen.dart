@@ -56,64 +56,56 @@ class _SignUpState extends State<SignUpScreen> {
                 ),
               ),
             ),
-            body: Padding(
+            body: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 24, 16, 40),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      InputTextWidget.full(
-                        controller: _emailController,
-                        focusNode: _emailFocusNode,
-                        label: '이메일',
-                        informationText: '이메일을 입력해주세요.',
-                        hintText: '',
-                        necessary: true,
-                      ),
-                      const SizedBox(height: 18),
-                      InputTextWidget.full(
-                        controller: _userNameController,
-                        focusNode: _userNameFocusNode,
-                        label: '유저이름',
-                        informationText: '유저이름을 입력해주세요',
-                        hintText: '',
-                        necessary: true,
-                      ),
-                      const SizedBox(height: 18),
-                      InputTextWidget.full(
-                        controller: _passwordController,
-                        focusNode: _passwordFocusNode,
-                        label: '비밀번호',
-                        informationText: '비밀번호를 입력해주세요.',
-                        hintText: '',
-                        necessary: true,
-                      ),
-                    ],
+                  InputTextWidget.full(
+                    controller: _emailController,
+                    focusNode: _emailFocusNode,
+                    label: '이메일',
+                    informationText: '이메일을 입력해주세요.',
+                    hintText: '',
+                    necessary: true,
                   ),
-                  Column(
-                    children: [
-                      MainButton.basic(
-                        text: '로그인으로 이동',
-                        onPressed: () => const SignInRoute().go(context),
-                      ),
-                      const SizedBox(height: 16),
-                      Builder(builder: (context) {
-                        return MainButton.cta(
-                          text: '회원가입',
-                          onPressed: () {
-                            context.read<SignUpBloc>().add(
-                                  SignUpEvent.signUp(
-                                    _emailController.text,
-                                    _userNameController.text,
-                                    _passwordController.text,
-                                  ),
-                                );
-                          },
-                        );
-                      }),
-                    ],
-                  )
+                  const SizedBox(height: 18),
+                  InputTextWidget.full(
+                    controller: _userNameController,
+                    focusNode: _userNameFocusNode,
+                    label: '유저이름',
+                    informationText: '유저이름을 입력해주세요',
+                    hintText: '',
+                    necessary: true,
+                  ),
+                  const SizedBox(height: 18),
+                  InputTextWidget.full(
+                    controller: _passwordController,
+                    focusNode: _passwordFocusNode,
+                    label: '비밀번호',
+                    informationText: '비밀번호를 입력해주세요.',
+                    hintText: '',
+                    necessary: true,
+                  ),
+                  const SizedBox(height: 24),
+                  MainButton.basic(
+                    text: '로그인으로 이동',
+                    onPressed: () => const SignInRoute().go(context),
+                  ),
+                  const SizedBox(height: 16),
+                  Builder(builder: (context) {
+                    return MainButton.cta(
+                      text: '회원가입',
+                      onPressed: () {
+                        context.read<SignUpBloc>().add(
+                              SignUpEvent.signUp(
+                                _emailController.text,
+                                _userNameController.text,
+                                _passwordController.text,
+                              ),
+                            );
+                      },
+                    );
+                  }),
                 ],
               ),
             )),

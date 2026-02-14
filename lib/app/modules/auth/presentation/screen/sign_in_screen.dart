@@ -43,73 +43,65 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 40),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                InputTextWidget.full(
-                  controller: _userNameController,
-                  focusNode: _userNameFocusNode,
-                  label: '유저이름',
-                  informationText: '유저이름을 입력해주세요',
-                  hintText: '',
-                  necessary: true,
-                ),
-                const SizedBox(height: 18),
-                InputTextWidget.full(
-                  controller: _passwordController,
-                  focusNode: _passwordFocusNode,
-                  label: '비밀번호',
-                  informationText: '비밀번호를 입력해주세요.',
-                  hintText: '',
-                  necessary: true,
-                ),
-              ],
+            InputTextWidget.full(
+              controller: _userNameController,
+              focusNode: _userNameFocusNode,
+              label: '유저이름',
+              informationText: '유저이름을 입력해주세요',
+              hintText: '',
+              necessary: true,
             ),
-            Column(
-              children: [
-                MainButton.basic(
-                  text: '회원가입으로 이동',
-                  onPressed: () => const SignUpRoute().go(context),
-                ),
-                const SizedBox(height: 24),
-                BlocConsumer<AuthBloc, AuthState>(
-                  listener: (context, state) {
-                    state.whenOrNull(
-                      authenticated: () {
-                        context
-                            .read<HabitListBloc>()
-                            .add(const HabitListEvent.get());
-                        const HabitListRoute().go(context);
-                      },
-                      error: (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(error),
+            const SizedBox(height: 18),
+            InputTextWidget.full(
+              controller: _passwordController,
+              focusNode: _passwordFocusNode,
+              label: '비밀번호',
+              informationText: '비밀번호를 입력해주세요.',
+              hintText: '',
+              necessary: true,
+            ),
+            const SizedBox(height: 24),
+            MainButton.basic(
+              text: '회원가입으로 이동',
+              onPressed: () => const SignUpRoute().go(context),
+            ),
+            const SizedBox(height: 24),
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                state.whenOrNull(
+                  authenticated: (user) {
+                    context
+                        .read<HabitListBloc>()
+                        .add(const HabitListEvent.get());
+                    const HabitListRoute().go(context);
+                  },
+                  error: (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(error),
+                      ),
+                    );
+                  },
+                );
+              },
+              builder: (context, state) {
+                return MainButton.cta(
+                  text: '로그인',
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          AuthEvent.signIn(
+                            _userNameController.text,
+                            _passwordController.text,
                           ),
                         );
-                      },
-                    );
                   },
-                  builder: (context, state) {
-                    return MainButton.cta(
-                      text: '로그인',
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                              AuthEvent.signIn(
-                                _userNameController.text,
-                                _passwordController.text,
-                              ),
-                            );
-                      },
-                    );
-                  },
-                ),
-              ],
-            )
+                );
+              },
+            ),
           ],
         ),
       ),

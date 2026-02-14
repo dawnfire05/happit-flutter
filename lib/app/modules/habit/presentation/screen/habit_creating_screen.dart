@@ -84,56 +84,61 @@ class _LayoutState extends State<_Layout> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('습관 추가'),
+          title: const Text(
+            '습관 추가',
+            style: TextStyle(
+              color: Color(0xFF1F2329),
+              fontSize: 18,
+              fontFamily: 'Noto Sans KR',
+              fontWeight: FontWeight.w700,
+              height: 0,
+              letterSpacing: -1.44,
+            ),
+          ),
         ),
         body: Container(
-          decoration: const BoxDecoration(color: Colors.white),
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
-          child: Center(
+          color: Colors.white,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    InputTextWidget.basic(
-                      controller: _habitNameController,
-                      focusNode: _habitNameFocusNode,
-                      hintText: '추가할 습관을 입력해주세요',
-                    ),
-                    const SizedBox(height: 20),
-                    InputTextWidget.basic(
-                      controller: _habitDescriptionController,
-                      focusNode: _habitDescriptionFocusNode,
-                      hintText: '설명을 입력해주세요',
-                    ),
-                    const SizedBox(height: 20),
-                    InputRepeatTypeWidget(
-                        selectedRepeatType: selectedRepeatType,
-                        onSelected: (value) =>
-                            setState(() => selectedRepeatType = value)),
-                    const SizedBox(height: 20),
-                    if (selectedRepeatType == 'weekly')
-                      Column(
-                        children: [
-                          InputDayOfWeekWidget(
-                            selectedDays: repeatDays,
-                            onDaySelected: addDayOfWeek,
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    InputNoticeTimeWidget(
-                        selectedTime: selectedTime,
-                        onTimeSelected: (newTime) =>
-                            setState(() => selectedTime = newTime)),
-                    const SizedBox(height: 20),
-                    InputThemeWidget(
-                      selectedColorIndex: selectedColorIndex,
-                      onThemeChanged: selectColor,
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                InputTextWidget.basic(
+                  controller: _habitNameController,
+                  focusNode: _habitNameFocusNode,
+                  hintText: '추가할 습관을 입력해주세요',
                 ),
+                const SizedBox(height: 20),
+                InputTextWidget.basic(
+                  controller: _habitDescriptionController,
+                  focusNode: _habitDescriptionFocusNode,
+                  hintText: '설명을 입력해주세요',
+                ),
+                const SizedBox(height: 20),
+                InputRepeatTypeWidget(
+                    selectedRepeatType: selectedRepeatType,
+                    onSelected: (value) =>
+                        setState(() => selectedRepeatType = value)),
+                const SizedBox(height: 20),
+                if (selectedRepeatType == 'weekly')
+                  Column(
+                    children: [
+                      InputDayOfWeekWidget(
+                        selectedDays: repeatDays,
+                        onDaySelected: addDayOfWeek,
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                InputNoticeTimeWidget(
+                    selectedTime: selectedTime,
+                    onTimeSelected: (newTime) =>
+                        setState(() => selectedTime = newTime)),
+                const SizedBox(height: 20),
+                InputThemeWidget(
+                  selectedColorIndex: selectedColorIndex,
+                  onThemeChanged: selectColor,
+                ),
+                const SizedBox(height: 20),
                 MainButton.cta(
                     text: '습관 추가하기',
                     onPressed: () => context.read<HabitCreateBloc>().add(
@@ -144,7 +149,7 @@ class _LayoutState extends State<_Layout> {
                             repeatDays,
                             themeColor,
                           ),
-                        ))
+                        )),
               ],
             ),
           ),
