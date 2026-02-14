@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/record_list_model.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/happit_app_bar.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/habit_widget.dart';
 
@@ -51,6 +51,7 @@ class HabitListScreen extends StatelessWidget {
         context.read<HabitListBloc>().add(const HabitListEvent.get());
       },
       child: Scaffold(
+        appBar: const HappitAppBar(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: BlocBuilder<HabitListBloc, HabitListState>(
