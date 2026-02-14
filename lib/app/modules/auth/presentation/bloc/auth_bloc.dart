@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/auth/domain/entity/user.dart';
 import 'package:happit_flutter/app/modules/auth/domain/usecase/get_current_user_use_case.dart';
 import 'package:happit_flutter/app/modules/auth/domain/usecase/logout_use_case.dart';
@@ -58,11 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result = await _signInUseCase(username, password);
       result.fold(
         (failure) => emit(_Error(
-          failure.when(
-            server: (m) => m,
-            network: (m) => m,
-            unknown: (m) => m,
-          ),
+          failureToMessage(failure),
           username: username,
           password: password,
         )),
@@ -74,11 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final result =
           await _signUpUseCase(event.email, event.username, event.password);
       result.fold(
-        (failure) => emit(_Error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(_Error(failureToMessage(failure))),
         (_) => emit(const _Unauthenticated()),
       );
     });
@@ -86,11 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const _Loading());
       final result = await _logoutUseCase();
       result.fold(
-        (failure) => emit(_Error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(_Error(failureToMessage(failure))),
         (_) => emit(const _Unauthenticated()),
       );
     });

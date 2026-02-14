@@ -5,7 +5,7 @@ part 'record_list_model.freezed.dart';
 part 'record_list_model.g.dart';
 
 @freezed
-class RecordListModel with _$RecordListModel {
+abstract class RecordListModel with _$RecordListModel {
   const factory RecordListModel({
     @Default(0) int habitId,
     List<RecordModel>? records,

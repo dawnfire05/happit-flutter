@@ -4,7 +4,7 @@ part 'add_or_update_record_model.freezed.dart';
 part 'add_or_update_record_model.g.dart';
 
 @freezed
-class AddOrUpdateRecordModel with _$AddOrUpdateRecordModel {
+abstract class AddOrUpdateRecordModel with _$AddOrUpdateRecordModel {
   const factory AddOrUpdateRecordModel({
     required int habitId,
     required String date,

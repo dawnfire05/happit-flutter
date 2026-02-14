@@ -42,8 +42,9 @@ class SignUpContent extends StatelessWidget {
               children: [
                 InputTextWidget.full(
                   value: email,
-                  onChanged: (v) =>
-                      context.read<SignUpBloc>().add(SignUpEvent.emailChanged(v)),
+                  onChanged: (v) => context
+                      .read<SignUpBloc>()
+                      .add(SignUpEvent.emailChanged(v)),
                   label: '이메일',
                   informationText: '이메일을 입력해주세요.',
                   hintText: '',
@@ -79,8 +80,9 @@ class SignUpContent extends StatelessWidget {
                 const SizedBox(height: 16),
                 MainButton.cta(
                   text: '회원가입',
-                  onPressed: () =>
-                      context.read<SignUpBloc>().add(const SignUpEvent.signUp()),
+                  onPressed: () => context
+                      .read<SignUpBloc>()
+                      .add(const SignUpEvent.signUp()),
                 ),
               ],
             ),

@@ -5,7 +5,7 @@ part 'habit_model.freezed.dart';
 part 'habit_model.g.dart';
 
 @freezed
-class HabitModel with _$HabitModel {
+abstract class HabitModel with _$HabitModel {
   const factory HabitModel({
     @Default(0) int id,
     @Default("") String name,

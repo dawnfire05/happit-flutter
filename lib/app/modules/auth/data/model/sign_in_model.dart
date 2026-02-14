@@ -4,7 +4,7 @@ part 'sign_in_model.freezed.dart';
 part 'sign_in_model.g.dart';
 
 @freezed
-class SignInModel with _$SignInModel {
+abstract class SignInModel with _$SignInModel {
   factory SignInModel(
     String username,
     String password,

@@ -2,7 +2,7 @@ part of 'routes.dart';
 
 
 @TypedGoRoute<HabitCreatingRoute>(path: '/habit/creating')
-class HabitCreatingRoute extends GoRouteData {
+class HabitCreatingRoute extends GoRouteData with $HabitCreatingRoute {
   const HabitCreatingRoute();
 
   @override
@@ -12,7 +12,7 @@ class HabitCreatingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HabitCreatedRoute>(path: '/habit/created')
-class HabitCreatedRoute extends GoRouteData {
+class HabitCreatedRoute extends GoRouteData with $HabitCreatedRoute {
   HabitCreatedRoute(this.$extra);
   final Habit $extra;
 
@@ -23,7 +23,7 @@ class HabitCreatedRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HabitEditRoute>(path: '/habit/edit/:id')
-class HabitEditRoute extends GoRouteData {
+class HabitEditRoute extends GoRouteData with $HabitEditRoute {
   final int id;
   const HabitEditRoute(this.id);
 

@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           authenticated: (_) => const HabitListRoute().go(context),
-          unauthenticated: (_, __) => const SignInRoute().go(context),
+          unauthenticated: (_, second) => const SignInRoute().go(context),
         );
       },
       child: Scaffold(

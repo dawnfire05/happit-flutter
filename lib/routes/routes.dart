@@ -18,8 +18,11 @@ part 'habit_routes.dart';
 part 'auth_routes.dart';
 part 'spash_routes.dart';
 
+/// initialLocation은 경로 문자열 사용 (go_router type-safe best practice).
+const String _splashPath = '/splash';
+
 final GoRouter router = GoRouter(
   routes: $appRoutes,
-  initialLocation: const SplashRoute().location,
+  initialLocation: _splashPath,
   debugLogDiagnostics: kDebugMode,
 );

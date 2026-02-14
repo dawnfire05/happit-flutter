@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           state.whenOrNull(
-            unauthenticated: (_, __) => const SignInRoute().go(context),
+            unauthenticated: (_, second) => const SignInRoute().go(context),
           );
         },
         child: Padding(

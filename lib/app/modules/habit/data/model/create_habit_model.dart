@@ -4,7 +4,7 @@ part 'create_habit_model.freezed.dart';
 part 'create_habit_model.g.dart';
 
 @freezed
-class CreateHabitModel with _$CreateHabitModel {
+abstract class CreateHabitModel with _$CreateHabitModel {
   const factory CreateHabitModel({
     required String name,
     required String description,

@@ -19,7 +19,7 @@ class MainShellRoute extends ShellRouteData {
   }
 }
 
-class HabitListRoute extends GoRouteData {
+class HabitListRoute extends GoRouteData with $HabitListRoute {
   const HabitListRoute();
 
   @override
@@ -28,7 +28,7 @@ class HabitListRoute extends GoRouteData {
   }
 }
 
-class ProfileRoute extends GoRouteData {
+class ProfileRoute extends GoRouteData with $ProfileRoute {
   const ProfileRoute();
 
   @override

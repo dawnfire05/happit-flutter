@@ -1,7 +1,7 @@
 part of 'routes.dart';
 
 @TypedGoRoute<SplashRoute>(path: '/splash')
-class SplashRoute extends GoRouteData {
+class SplashRoute extends GoRouteData with $SplashRoute {
   const SplashRoute();
 
   @override

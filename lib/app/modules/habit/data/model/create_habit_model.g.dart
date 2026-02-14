@@ -6,9 +6,8 @@ part of 'create_habit_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CreateHabitModelImpl _$$CreateHabitModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CreateHabitModelImpl(
+_CreateHabitModel _$CreateHabitModelFromJson(Map<String, dynamic> json) =>
+    _CreateHabitModel(
       name: json['name'] as String,
       description: json['description'] as String,
       repeatType: json['repeatType'] as String,
@@ -18,8 +17,7 @@ _$CreateHabitModelImpl _$$CreateHabitModelImplFromJson(
       themeColor: (json['themeColor'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$CreateHabitModelImplToJson(
-        _$CreateHabitModelImpl instance) =>
+Map<String, dynamic> _$CreateHabitModelToJson(_CreateHabitModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,

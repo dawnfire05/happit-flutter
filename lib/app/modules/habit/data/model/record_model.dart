@@ -5,7 +5,7 @@ part 'record_model.freezed.dart';
 part 'record_model.g.dart';
 
 @freezed
-class RecordModel with _$RecordModel {
+abstract class RecordModel with _$RecordModel {
   const factory RecordModel({
     @Default(0) int id,
     @Default("") String date,

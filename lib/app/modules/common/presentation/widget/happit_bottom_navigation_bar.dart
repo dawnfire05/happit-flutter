@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:happit_flutter/routes/routes.dart';
 
 class HappitBottomNavigationBar extends StatefulWidget {
@@ -14,11 +13,23 @@ class HappitBottomNavigationBar extends StatefulWidget {
 class HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
   int _currentIndex = 0;
 
-  final List<String> _routes = [
-    const HabitListRoute().location,
-    const ProfileRoute().location,
-    const HabitCreatingRoute().location,
-  ];
+  void _onTap(BuildContext context, int index) {
+    if (index == 2) {
+      const HabitCreatingRoute().push(context);
+      return;
+    }
+    if (_currentIndex != index) {
+      setState(() => _currentIndex = index);
+      switch (index) {
+        case 0:
+          const HabitListRoute().push(context);
+        case 1:
+          const ProfileRoute().push(context);
+        default:
+          break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +39,7 @@ class HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       enableFeedback: false,
-      onTap: (index) {
-        if (index == 2) {
-          context.push(_routes[index]);
-          return;
-        }
-        if (_currentIndex != index) {
-          setState(() => _currentIndex = index);
-          context.push(_routes[index]);
-        }
-      },
+      onTap: (index) => _onTap(context, index),
       items: [
         BottomNavigationBarItem(
           icon: _currentIndex == 0

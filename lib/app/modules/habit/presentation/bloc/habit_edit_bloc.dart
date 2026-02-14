@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart';
@@ -21,11 +22,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
       emit(const _Loading());
       final result = await _getHabitUseCase(event.id);
       result.fold(
-        (failure) => emit(_Error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(_Error(failureToMessage(failure))),
         (habit) => emit(_Loaded(
           habit: habit,
           name: habit.name,
@@ -66,11 +63,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
       emit(const _Loading());
       final result = await _deleteHabitUseCase(event.id);
       result.fold(
-        (failure) => emit(_Error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(_Error(failureToMessage(failure))),
         (_) => emit(const _Success()),
       );
     });
@@ -86,11 +79,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
         repeatDay: loaded.repeatDays,
       );
       result.fold(
-        (failure) => emit(_Error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(_Error(failureToMessage(failure))),
         (_) => emit(const _Success()),
       );
     });

@@ -1,7 +1,7 @@
 part of 'routes.dart';
 
 @TypedGoRoute<SignInRoute>(path: '/sign-in')
-class SignInRoute extends GoRouteData {
+class SignInRoute extends GoRouteData with $SignInRoute {
   const SignInRoute();
 
   @override
@@ -11,7 +11,7 @@ class SignInRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SignUpRoute>(path: '/sign-up')
-class SignUpRoute extends GoRouteData {
+class SignUpRoute extends GoRouteData with $SignUpRoute {
   const SignUpRoute();
 
   @override

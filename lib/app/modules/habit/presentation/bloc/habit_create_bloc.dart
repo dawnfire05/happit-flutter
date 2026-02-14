@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/create_habit_use_case.dart';
 import 'package:injectable/injectable.dart';
@@ -58,11 +59,7 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
         themeColor: form.colorIndex,
       );
       result.fold(
-        (failure) => emit(_Error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(_Error(failureToMessage(failure))),
         (_) => emit(_Success(Habit(
           id: 0,
           name: form.habitName,

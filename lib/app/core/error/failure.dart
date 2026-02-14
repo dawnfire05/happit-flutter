@@ -10,6 +10,14 @@ sealed class Failure with _$Failure {
   const factory Failure.unknown({required String message}) = UnknownFailure;
 }
 
+String failureToMessage(Failure failure) {
+  return switch (failure) {
+    ServerFailure(:final message) => message,
+    NetworkFailure(:final message) => message,
+    UnknownFailure(:final message) => message,
+  };
+}
+
 Failure mapExceptionToFailure(Object e) {
   if (e is DioException) {
     switch (e.type) {

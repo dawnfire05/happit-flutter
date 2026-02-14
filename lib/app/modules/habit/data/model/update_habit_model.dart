@@ -4,7 +4,7 @@ part 'update_habit_model.freezed.dart';
 part 'update_habit_model.g.dart';
 
 @freezed
-class UpdateHabitModel with _$UpdateHabitModel {
+abstract class UpdateHabitModel with _$UpdateHabitModel {
   const factory UpdateHabitModel({
     String? name,
     String? description,

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/auth/domain/usecase/sign_up_use_case.dart';
 import 'package:injectable/injectable.dart';
 
@@ -32,11 +33,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       final result =
           await _signUpUseCase(form.email, form.username, form.password);
       result.fold(
-        (failure) => emit(SignUpState.error(failure.when(
-          server: (m) => m,
-          network: (m) => m,
-          unknown: (m) => m,
-        ))),
+        (failure) => emit(SignUpState.error(failureToMessage(failure))),
         (_) => emit(const SignUpState.success()),
       );
     });

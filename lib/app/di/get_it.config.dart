@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -73,92 +73,115 @@ import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc.d
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) async {
-    final gh = _i526.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.singleton<_i558.FlutterSecureStorage>(
-        () => registerModule.secureStorage);
+      () => registerModule.secureStorage,
+    );
     gh.singleton<_i361.Dio>(() => registerModule.dio);
+    await gh.singletonAsync<_i413.TokenRepository>(() {
+      final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());
+      return i.init().then((_) => i);
+    }, preResolve: true);
     gh.singleton<_i639.AuthDataSource>(
-        () => _i639.AuthDataSource(gh<_i361.Dio>()));
+      () => _i639.AuthDataSource(gh<_i361.Dio>()),
+    );
     gh.singleton<_i113.UserDataSource>(
-        () => _i113.UserDataSource(gh<_i361.Dio>()));
+      () => _i113.UserDataSource(gh<_i361.Dio>()),
+    );
     gh.singleton<_i1024.HabitDataSource>(
-        () => _i1024.HabitDataSource(gh<_i361.Dio>()));
+      () => _i1024.HabitDataSource(gh<_i361.Dio>()),
+    );
     gh.singleton<_i296.RecordDataSource>(
-        () => _i296.RecordDataSource(gh<_i361.Dio>()));
-    gh.singleton<_i961.RecordRepository>(
-        () => _i430.RecordRepositoryImpl(gh<_i296.RecordDataSource>()));
+      () => _i296.RecordDataSource(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i403.AuthRepository>(
+      () => _i570.AuthRepositoryImpl(
+        gh<_i639.AuthDataSource>(),
+        gh<_i113.UserDataSource>(),
+        gh<_i413.TokenRepository>(),
+      ),
+    );
+    gh.singleton<_i846.AuthorizeInterceptor>(
+      () => registerModule.authorizeInterceptor(
+        gh<_i558.FlutterSecureStorage>(),
+        gh<_i639.AuthDataSource>(),
+      ),
+    );
     gh.singleton<_i734.HabitRepository>(
-        () => _i332.HabitRepositoryImpl(gh<_i1024.HabitDataSource>()));
-    gh.lazySingleton<_i508.GetHabitsUseCase>(
-        () => _i508.GetHabitsUseCase(gh<_i734.HabitRepository>()));
+      () => _i332.HabitRepositoryImpl(gh<_i1024.HabitDataSource>()),
+    );
+    gh.singleton<_i961.RecordRepository>(
+      () => _i430.RecordRepositoryImpl(gh<_i296.RecordDataSource>()),
+    );
+    gh.lazySingleton<_i942.GetCurrentUserUseCase>(
+      () => _i942.GetCurrentUserUseCase(gh<_i403.AuthRepository>()),
+    );
+    gh.lazySingleton<_i190.LogoutUseCase>(
+      () => _i190.LogoutUseCase(gh<_i403.AuthRepository>()),
+    );
+    gh.lazySingleton<_i135.SignInUseCase>(
+      () => _i135.SignInUseCase(gh<_i403.AuthRepository>()),
+    );
+    gh.lazySingleton<_i1017.SignUpUseCase>(
+      () => _i1017.SignUpUseCase(gh<_i403.AuthRepository>()),
+    );
+    gh.factory<_i760.SignUpBloc>(
+      () => _i760.SignUpBloc(gh<_i1017.SignUpUseCase>()),
+    );
+    gh.factory<_i1003.AuthBloc>(
+      () => _i1003.AuthBloc(
+        gh<_i135.SignInUseCase>(),
+        gh<_i1017.SignUpUseCase>(),
+        gh<_i942.GetCurrentUserUseCase>(),
+        gh<_i190.LogoutUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i55.CreateHabitUseCase>(
-        () => _i55.CreateHabitUseCase(gh<_i734.HabitRepository>()));
+      () => _i55.CreateHabitUseCase(gh<_i734.HabitRepository>()),
+    );
     gh.lazySingleton<_i389.DeleteHabitUseCase>(
-        () => _i389.DeleteHabitUseCase(gh<_i734.HabitRepository>()));
-    gh.lazySingleton<_i320.UpdateHabitUseCase>(
-        () => _i320.UpdateHabitUseCase(gh<_i734.HabitRepository>()));
+      () => _i389.DeleteHabitUseCase(gh<_i734.HabitRepository>()),
+    );
     gh.lazySingleton<_i460.GetHabitUseCase>(
-        () => _i460.GetHabitUseCase(gh<_i734.HabitRepository>()));
-    await gh.singletonAsync<_i413.TokenRepository>(
-      () {
-        final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());
-        return i.init().then((_) => i);
-      },
-      preResolve: true,
+      () => _i460.GetHabitUseCase(gh<_i734.HabitRepository>()),
+    );
+    gh.lazySingleton<_i508.GetHabitsUseCase>(
+      () => _i508.GetHabitsUseCase(gh<_i734.HabitRepository>()),
+    );
+    gh.lazySingleton<_i320.UpdateHabitUseCase>(
+      () => _i320.UpdateHabitUseCase(gh<_i734.HabitRepository>()),
+    );
+    gh.lazySingleton<_i7.CheckRecordUseCase>(
+      () => _i7.CheckRecordUseCase(gh<_i961.RecordRepository>()),
+    );
+    gh.lazySingleton<_i284.GetRecordsUseCase>(
+      () => _i284.GetRecordsUseCase(gh<_i961.RecordRepository>()),
     );
     gh.factory<_i637.HabitListBloc>(
-        () => _i637.HabitListBloc(gh<_i508.GetHabitsUseCase>()));
-    gh.lazySingleton<_i7.CheckRecordUseCase>(
-        () => _i7.CheckRecordUseCase(gh<_i961.RecordRepository>()));
-    gh.lazySingleton<_i284.GetRecordsUseCase>(
-        () => _i284.GetRecordsUseCase(gh<_i961.RecordRepository>()));
-    gh.singleton<_i846.AuthorizeInterceptor>(
-        () => registerModule.authorizeInterceptor(
-              gh<_i558.FlutterSecureStorage>(),
-              gh<_i639.AuthDataSource>(),
-            ));
-    gh.factory<_i248.HabitEditBloc>(() => _i248.HabitEditBloc(
-          gh<_i460.GetHabitUseCase>(),
-          gh<_i320.UpdateHabitUseCase>(),
-          gh<_i389.DeleteHabitUseCase>(),
-        ));
+      () => _i637.HabitListBloc(gh<_i508.GetHabitsUseCase>()),
+    );
+    gh.factory<_i248.HabitEditBloc>(
+      () => _i248.HabitEditBloc(
+        gh<_i460.GetHabitUseCase>(),
+        gh<_i320.UpdateHabitUseCase>(),
+        gh<_i389.DeleteHabitUseCase>(),
+      ),
+    );
     gh.factory<_i735.HabitCreateBloc>(
-        () => _i735.HabitCreateBloc(gh<_i55.CreateHabitUseCase>()));
-    gh.singleton<_i403.AuthRepository>(() => _i570.AuthRepositoryImpl(
-          gh<_i639.AuthDataSource>(),
-          gh<_i113.UserDataSource>(),
-          gh<_i413.TokenRepository>(),
-        ));
-    gh.factory<_i778.RecordBloc>(() => _i778.RecordBloc(
-          gh<_i284.GetRecordsUseCase>(),
-          gh<_i7.CheckRecordUseCase>(),
-        ));
-    gh.lazySingleton<_i190.LogoutUseCase>(
-        () => _i190.LogoutUseCase(gh<_i403.AuthRepository>()));
-    gh.lazySingleton<_i135.SignInUseCase>(
-        () => _i135.SignInUseCase(gh<_i403.AuthRepository>()));
-    gh.lazySingleton<_i942.GetCurrentUserUseCase>(
-        () => _i942.GetCurrentUserUseCase(gh<_i403.AuthRepository>()));
-    gh.lazySingleton<_i1017.SignUpUseCase>(
-        () => _i1017.SignUpUseCase(gh<_i403.AuthRepository>()));
-    gh.factory<_i1003.AuthBloc>(() => _i1003.AuthBloc(
-          gh<_i135.SignInUseCase>(),
-          gh<_i1017.SignUpUseCase>(),
-          gh<_i942.GetCurrentUserUseCase>(),
-          gh<_i190.LogoutUseCase>(),
-        ));
-    gh.factory<_i760.SignUpBloc>(
-        () => _i760.SignUpBloc(gh<_i1017.SignUpUseCase>()));
+      () => _i735.HabitCreateBloc(gh<_i55.CreateHabitUseCase>()),
+    );
+    gh.factory<_i778.RecordBloc>(
+      () => _i778.RecordBloc(
+        gh<_i284.GetRecordsUseCase>(),
+        gh<_i7.CheckRecordUseCase>(),
+      ),
+    );
     return this;
   }
 }
