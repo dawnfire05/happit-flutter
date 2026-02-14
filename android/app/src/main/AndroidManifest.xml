@@ -6,7 +6,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     
     <application
-        android:label="happit_flutter"
+        android:label="happit"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
