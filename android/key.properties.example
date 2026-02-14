@@ -1,0 +1,10 @@
+# Keystore 설정 - 이 파일을 key.properties로 복사한 뒤 값을 채우세요.
+# key.properties는 .gitignore에 포함되어 있으며, Git에 커밋하지 마세요.
+#
+# storeFile: keystore 파일 경로 (android/ 기준 상대경로)
+# 예: upload-keystore.jks (android/upload-keystore.jks)
+#     ../upload-keystore.jks (프로젝트 루트의 upload-keystore.jks)
+storePassword=비밀번호
+keyPassword=비밀번호
+keyAlias=upload
+storeFile=upload-keystore.jks

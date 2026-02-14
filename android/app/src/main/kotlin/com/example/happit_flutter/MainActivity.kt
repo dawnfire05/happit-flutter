@@ -1,4 +1,4 @@
-package com.example.happit_flutter
+package com.happit.app
 
 import io.flutter.embedding.android.FlutterActivity
 
