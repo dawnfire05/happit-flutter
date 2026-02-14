@@ -7,11 +7,11 @@ class HappitBottomNavigationBar extends StatefulWidget {
   const HappitBottomNavigationBar({super.key});
 
   @override
-  _HappitBottomNavigationBarState createState() =>
-      _HappitBottomNavigationBarState();
+  HappitBottomNavigationBarState createState() =>
+      HappitBottomNavigationBarState();
 }
 
-class _HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
+class HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
   int _currentIndex = 0;
 
   final List<String> _routes = [
@@ -25,15 +25,18 @@ class _HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       backgroundColor: Colors.white,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      enableFeedback: false,
       onTap: (index) {
         if (index == 2) {
           context.push(_routes[index]);
           return;
         }
-
-        setState(() => _currentIndex = index);
-
-        context.push(_routes[index]);
+        if (_currentIndex != index) {
+          setState(() => _currentIndex = index);
+          context.push(_routes[index]);
+        }
       },
       items: [
         BottomNavigationBarItem(

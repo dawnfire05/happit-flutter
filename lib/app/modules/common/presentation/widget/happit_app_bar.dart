@@ -11,7 +11,11 @@ class HappitAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       foregroundColor: Colors.white,
       shadowColor: Colors.white,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      automaticallyImplyLeading: false,
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             'happit.',

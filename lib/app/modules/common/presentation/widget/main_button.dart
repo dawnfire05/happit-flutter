@@ -93,8 +93,8 @@ class MainButton extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
-          return TextButton(
-            onPressed: onPressed,
+          return GestureDetector(
+            onTap: onPressed,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
