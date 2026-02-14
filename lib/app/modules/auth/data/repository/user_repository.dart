@@ -2,70 +2,28 @@ import 'package:dio/dio.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
 import 'package:happit_flutter/app/modules/profile/data/model/user_model.dart';
 import 'package:injectable/injectable.dart';
+import 'package:retrofit/retrofit.dart';
 
-@injectable
-class UserRepository {
-  final Dio _dio;
+part 'user_repository.g.dart';
 
+@singleton
+@RestApi(baseUrl: 'user/')
+abstract class UserRepository {
   @factoryMethod
-  UserRepository(this._dio);
+  factory UserRepository(Dio dio) = _UserRepository;
 
-  static const String _baseUrl = '/user';
+  @POST('')
+  Future<SignUpModel> signUp(@Body() SignUpModel model);
 
-  Future<SignUpModel> signUp(SignUpModel model) async {
-    try {
-      final response = await _dio.post(
-        _baseUrl,
-        data: model.toJson(),
-      );
-      return SignUpModel.fromJson(response.data);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  @GET('profile')
+  Future<UserModel> getProfile();
 
-  Future<UserModel> getProfile() async {
-    try {
-      final response = await _dio.get('$_baseUrl/profile');
-      return UserModel.fromJson(response.data);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  @GET('{id}')
+  Future<void> getUser(@Path() String id);
 
-  Future<void> getUser(String id) async {
-    try {
-      await _dio.get('$_baseUrl/$id');
-    } catch (e) {
-      rethrow;
-    }
-  }
+  @PUT('{id}')
+  Future<void> updateUser(@Path() String id, @Body() Map<String, dynamic> data);
 
-  Future<void> updateUser(String id, Map<String, dynamic> data) async {
-    try {
-      await _dio.put(
-        '$_baseUrl/$id',
-        data: data,
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> deleteUser(String id) async {
-    try {
-      await _dio.delete('$_baseUrl/$id');
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<bool> get isUserLoggedIn async {
-    try {
-      await getProfile();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
+  @DELETE('{id}')
+  Future<void> deleteUser(@Path() String id);
 }

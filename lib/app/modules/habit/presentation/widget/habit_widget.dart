@@ -138,7 +138,7 @@ class HabitWidget extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () => context
                                     .read<RecordBloc>()
-                                    .add(const RecordEvent.check()),
+                                    .add(RecordEvent.check(id)),
                                 icon: SvgPicture.asset(
                                   'assets/icons/Check.svg',
                                 ),

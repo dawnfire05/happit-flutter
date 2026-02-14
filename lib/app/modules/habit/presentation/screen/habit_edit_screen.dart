@@ -40,11 +40,8 @@ class _LayoutState extends State<_Layout> {
   final FocusNode _habitNameFocusNode = FocusNode();
   final FocusNode _habitDescriptionFocusNode = FocusNode();
 
-  String selectedRepeatType = 'daily';
-  List<String> repeatDays = [];
   TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
-  int themeColor = 0;
-  int selectedColorIndex = 0;
+  bool _controllersInitialized = false;
 
   @override
   void dispose() {
@@ -55,40 +52,17 @@ class _LayoutState extends State<_Layout> {
     super.dispose();
   }
 
-  void addDayOfWeek(String day) {
-    setState(
-      () {
-        if (repeatDays.contains(day)) {
-          repeatDays.remove(day);
-        } else {
-          repeatDays.add(day);
-        }
-      },
-    );
-  }
-
-  void selectColor(int index) {
-    setState(() => selectedColorIndex = index);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<HabitEditBloc, HabitEditState>(
       listener: (context, state) {
         state.whenOrNull(
-          loaded: (habit) {
-            setState(() {
+          loaded: (habit, repeatType, repeatDays, colorIndex) {
+            if (!_controllersInitialized) {
               _habitNameController.text = habit.name;
               _habitDescriptionController.text = habit.description;
-              selectedRepeatType = habit.repeatType;
-              // ignore: avoid_print
-              print(selectedRepeatType);
-              repeatDays = habit.repeatDay ?? [];
-              // selectedTime =
-              //     habit.noticeTime ?? const TimeOfDay(hour: 00, minute: 00);
-              // themeColor = habit.themeColor ?? 0;
-              selectedColorIndex = themeColor;
-            });
+              _controllersInitialized = true;
+            }
           },
           success: () {
             context.read<HabitListBloc>().add(const HabitListEvent.get());
@@ -107,75 +81,91 @@ class _LayoutState extends State<_Layout> {
           color: Colors.white,
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
-            child: Column(
-              children: [
-                InputTextWidget.basic(
-                  controller: _habitNameController,
-                  focusNode: _habitNameFocusNode,
-                  hintText: '추가할 습관을 입력해주세요',
-                ),
-                const SizedBox(height: 20),
-                InputTextWidget.basic(
-                  controller: _habitDescriptionController,
-                  focusNode: _habitDescriptionFocusNode,
-                  hintText: '설명을 입력해주세요',
-                ),
-                const SizedBox(height: 20),
-                InputRepeatTypeWidget(
-                    selectedRepeatType: selectedRepeatType,
-                    onSelected: (value) =>
-                        setState(() => selectedRepeatType = value)),
-                const SizedBox(height: 20),
-                if (selectedRepeatType == 'weekly')
-                  Column(
-                    children: [
-                      InputDayOfWeekWidget(
-                        selectedDays: repeatDays,
-                        onDaySelected: addDayOfWeek,
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                InputNoticeTimeWidget(
-                    selectedTime: selectedTime,
-                    onTimeSelected: (newTime) =>
-                        setState(() => selectedTime = newTime)),
-                const SizedBox(height: 20),
-                InputThemeWidget(
-                  selectedColorIndex: selectedColorIndex,
-                  onThemeChanged: selectColor,
-                ),
-                const SizedBox(height: 20),
-                Row(
+            child: BlocBuilder<HabitEditBloc, HabitEditState>(
+              builder: (context, state) {
+                final loaded = state.mapOrNull(loaded: (s) => s);
+                final repeatType = loaded?.repeatType ?? 'daily';
+                final repeatDays = loaded?.repeatDays ?? [];
+                final colorIndex = loaded?.colorIndex ?? 0;
+
+                return Column(
                   children: [
-                    Expanded(
-                        child: MainButton.destructive(
-                            text: '삭제',
-                            onPressed: () {
-                              context
-                                  .read<HabitEditBloc>()
-                                  .add(HabitEditEvent.delete(widget.id));
-                            })),
-                    const SizedBox(width: 24),
-                    Expanded(
-                      child: MainButton.cta(
-                        text: '수정 완료',
-                        onPressed: () => context.read<HabitEditBloc>().add(
-                              HabitEditEvent.edit(
-                                  widget.id,
-                                  UpdateHabitModel(
-                                    name: _habitNameController.text,
-                                    description:
-                                        _habitDescriptionController.text,
-                                    repeatDay: repeatDays,
-                                    repeatType: selectedRepeatType,
-                                  )),
-                            ),
+                    InputTextWidget.basic(
+                      controller: _habitNameController,
+                      focusNode: _habitNameFocusNode,
+                      hintText: '추가할 습관을 입력해주세요',
+                    ),
+                    const SizedBox(height: 20),
+                    InputTextWidget.basic(
+                      controller: _habitDescriptionController,
+                      focusNode: _habitDescriptionFocusNode,
+                      hintText: '설명을 입력해주세요',
+                    ),
+                    const SizedBox(height: 20),
+                    InputRepeatTypeWidget(
+                        selectedRepeatType: repeatType,
+                        onSelected: (value) => context
+                            .read<HabitEditBloc>()
+                            .add(HabitEditEvent.selectRepeatType(value))),
+                    const SizedBox(height: 20),
+                    if (repeatType == 'weekly')
+                      Column(
+                        children: [
+                          InputDayOfWeekWidget(
+                            selectedDays: repeatDays,
+                            onDaySelected: (day) => context
+                                .read<HabitEditBloc>()
+                                .add(HabitEditEvent.toggleDay(day)),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
                       ),
-                    )
+                    InputNoticeTimeWidget(
+                        selectedTime: selectedTime,
+                        onTimeSelected: (newTime) =>
+                            setState(() => selectedTime = newTime)),
+                    const SizedBox(height: 20),
+                    InputThemeWidget(
+                      selectedColorIndex: colorIndex,
+                      onThemeChanged: (index) => context
+                          .read<HabitEditBloc>()
+                          .add(HabitEditEvent.selectColor(index)),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: MainButton.destructive(
+                                text: '삭제',
+                                onPressed: () {
+                                  context
+                                      .read<HabitEditBloc>()
+                                      .add(HabitEditEvent.delete(widget.id));
+                                })),
+                        const SizedBox(width: 24),
+                        Expanded(
+                          child: MainButton.cta(
+                            text: '수정 완료',
+                            onPressed: () =>
+                                context.read<HabitEditBloc>().add(
+                                      HabitEditEvent.edit(
+                                          widget.id,
+                                          UpdateHabitModel(
+                                            name: _habitNameController.text,
+                                            description:
+                                                _habitDescriptionController
+                                                    .text,
+                                            repeatDay: repeatDays,
+                                            repeatType: repeatType,
+                                          )),
+                                    ),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),

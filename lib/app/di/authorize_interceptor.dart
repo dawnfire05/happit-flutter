@@ -41,12 +41,9 @@ class AuthorizeInterceptor extends Interceptor {
         await _secureStorage.write(key: 'accessToken', value: newAccessToken);
         await _secureStorage.write(key: 'refreshToken', value: newRefreshToken);
 
-        // ignore: avoid_print
-        print(newAccessToken);
-
         err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
         final clonedRequest = await sl<Dio>().request(
-          "${err.requestOptions.path}/auth/refresh",
+          err.requestOptions.path,
           options: Options(
             method: err.requestOptions.method,
             headers: err.requestOptions.headers,

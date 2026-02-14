@@ -33,8 +33,9 @@ class TokenRepository {
 
   Future<void> deleteToken() async {
     _subject.add(null);
-    _storage
-      ..delete(key: 'accessToken')
-      ..delete(key: 'refreshToken');
+    await Future.wait([
+      _storage.delete(key: 'accessToken'),
+      _storage.delete(key: 'refreshToken'),
+    ]);
   }
 }

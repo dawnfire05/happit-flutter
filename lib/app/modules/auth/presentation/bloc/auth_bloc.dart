@@ -21,10 +21,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
-      if (await _userRepository.isUserLoggedIn) {
+      try {
         final user = await _userRepository.getProfile();
         emit(_Authenticated(user));
-      } else {
+      } catch (e) {
         emit(const _Unauthenticated());
       }
     });

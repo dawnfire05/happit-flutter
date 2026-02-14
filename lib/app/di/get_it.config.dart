@@ -55,12 +55,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i361.Dio>(() => registerModule.dio);
     gh.singleton<_i825.AuthRepository>(
         () => _i825.AuthRepository(gh<_i361.Dio>()));
+    gh.singleton<_i643.UserRepository>(
+        () => _i643.UserRepository(gh<_i361.Dio>()));
     gh.singleton<_i14.HabitRepository>(
         () => _i14.HabitRepository(gh<_i361.Dio>()));
     gh.singleton<_i418.RecordRepository>(
         () => _i418.RecordRepository(gh<_i361.Dio>()));
-    gh.factory<_i643.UserRepository>(
-        () => _i643.UserRepository(gh<_i361.Dio>()));
     await gh.singletonAsync<_i413.TokenRepository>(
       () {
         final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());

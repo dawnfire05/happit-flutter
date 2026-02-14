@@ -35,11 +35,7 @@ class _LayoutState extends State<_Layout> {
   final FocusNode _habitNameFocusNode = FocusNode();
   final FocusNode _habitDescriptionFocusNode = FocusNode();
 
-  String selectedRepeatType = 'daily';
-  List<String> repeatDays = [];
   TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
-  int themeColor = 0;
-  int selectedColorIndex = 0;
 
   @override
   void dispose() {
@@ -48,22 +44,6 @@ class _LayoutState extends State<_Layout> {
     _habitNameFocusNode.dispose();
     _habitDescriptionFocusNode.dispose();
     super.dispose();
-  }
-
-  void addDayOfWeek(String day) {
-    setState(
-      () {
-        if (repeatDays.contains(day)) {
-          repeatDays.remove(day);
-        } else {
-          repeatDays.add(day);
-        }
-      },
-    );
-  }
-
-  void selectColor(int index) {
-    setState(() => selectedColorIndex = index);
   }
 
   @override
@@ -100,57 +80,71 @@ class _LayoutState extends State<_Layout> {
           color: Colors.white,
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
-            child: Column(
-              children: [
-                InputTextWidget.basic(
-                  controller: _habitNameController,
-                  focusNode: _habitNameFocusNode,
-                  hintText: '추가할 습관을 입력해주세요',
-                ),
-                const SizedBox(height: 20),
-                InputTextWidget.basic(
-                  controller: _habitDescriptionController,
-                  focusNode: _habitDescriptionFocusNode,
-                  hintText: '설명을 입력해주세요',
-                ),
-                const SizedBox(height: 20),
-                InputRepeatTypeWidget(
-                    selectedRepeatType: selectedRepeatType,
-                    onSelected: (value) =>
-                        setState(() => selectedRepeatType = value)),
-                const SizedBox(height: 20),
-                if (selectedRepeatType == 'weekly')
-                  Column(
-                    children: [
-                      InputDayOfWeekWidget(
-                        selectedDays: repeatDays,
-                        onDaySelected: addDayOfWeek,
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                InputNoticeTimeWidget(
-                    selectedTime: selectedTime,
-                    onTimeSelected: (newTime) =>
-                        setState(() => selectedTime = newTime)),
-                const SizedBox(height: 20),
-                InputThemeWidget(
-                  selectedColorIndex: selectedColorIndex,
-                  onThemeChanged: selectColor,
-                ),
-                const SizedBox(height: 20),
-                MainButton.cta(
-                    text: '습관 추가하기',
-                    onPressed: () => context.read<HabitCreateBloc>().add(
-                          HabitCreateEvent.add(
-                            _habitNameController.text,
-                            _habitDescriptionController.text,
-                            selectedRepeatType,
-                            repeatDays,
-                            themeColor,
+            child: BlocBuilder<HabitCreateBloc, HabitCreateState>(
+              builder: (context, state) {
+                final form = state.mapOrNull(form: (s) => s);
+                final repeatType = form?.repeatType ?? 'daily';
+                final repeatDays = form?.repeatDays ?? [];
+                final colorIndex = form?.colorIndex ?? 0;
+
+                return Column(
+                  children: [
+                    InputTextWidget.basic(
+                      controller: _habitNameController,
+                      focusNode: _habitNameFocusNode,
+                      hintText: '추가할 습관을 입력해주세요',
+                    ),
+                    const SizedBox(height: 20),
+                    InputTextWidget.basic(
+                      controller: _habitDescriptionController,
+                      focusNode: _habitDescriptionFocusNode,
+                      hintText: '설명을 입력해주세요',
+                    ),
+                    const SizedBox(height: 20),
+                    InputRepeatTypeWidget(
+                        selectedRepeatType: repeatType,
+                        onSelected: (value) => context
+                            .read<HabitCreateBloc>()
+                            .add(HabitCreateEvent.selectRepeatType(value))),
+                    const SizedBox(height: 20),
+                    if (repeatType == 'weekly')
+                      Column(
+                        children: [
+                          InputDayOfWeekWidget(
+                            selectedDays: repeatDays,
+                            onDaySelected: (day) => context
+                                .read<HabitCreateBloc>()
+                                .add(HabitCreateEvent.toggleDay(day)),
                           ),
-                        )),
-              ],
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    InputNoticeTimeWidget(
+                        selectedTime: selectedTime,
+                        onTimeSelected: (newTime) =>
+                            setState(() => selectedTime = newTime)),
+                    const SizedBox(height: 20),
+                    InputThemeWidget(
+                      selectedColorIndex: colorIndex,
+                      onThemeChanged: (index) => context
+                          .read<HabitCreateBloc>()
+                          .add(HabitCreateEvent.selectColor(index)),
+                    ),
+                    const SizedBox(height: 20),
+                    MainButton.cta(
+                        text: '습관 추가하기',
+                        onPressed: () => context.read<HabitCreateBloc>().add(
+                              HabitCreateEvent.add(
+                                _habitNameController.text,
+                                _habitDescriptionController.text,
+                                repeatType,
+                                repeatDays,
+                                colorIndex,
+                              ),
+                            )),
+                  ],
+                );
+              },
             ),
           ),
         ),

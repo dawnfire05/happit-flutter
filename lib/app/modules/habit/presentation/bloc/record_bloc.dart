@@ -12,13 +12,10 @@ part 'record_bloc.freezed.dart';
 class RecordBloc extends Bloc<RecordEvent, RecordState> {
   final RecordRepository _repository;
 
-  late int habitId;
-
   RecordBloc(this._repository) : super(const _Initial()) {
     on<_Get>((event, emit) async {
       emit(const _Loading());
-      habitId = event.habitId;
-      final records = await _repository.getRecordOfOneHabit(habitId);
+      final records = await _repository.getRecordOfOneHabit(event.habitId);
       Map<String, String> dateStateMap = {};
       for (var record in records) {
         dateStateMap[record.date] = record.state;
@@ -28,20 +25,31 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
               "notDone";
       emit(RecordState.success(records, todayStatus));
     });
-    on<_Check>((event, emit) {
-      _repository.addOrUpdateRecord(AddOrUpdateRecordModel(
-          habitId: habitId,
-          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-          state: "done"));
+    on<_Check>((event, emit) async {
+      try {
+        await _repository.addOrUpdateRecord(AddOrUpdateRecordModel(
+            habitId: event.habitId,
+            date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+            state: "done"));
+        final records = await _repository.getRecordOfOneHabit(event.habitId);
+        Map<String, String> dateStateMap = {};
+        for (var record in records) {
+          dateStateMap[record.date] = record.state;
+        }
+        String todayStatus =
+            dateStateMap[DateFormat('yyyy-MM-dd').format(DateTime.now())] ??
+                "notDone";
+        emit(RecordState.success(records, todayStatus));
+      } catch (e) {
+        emit(RecordState.error(e.toString()));
+      }
     });
   }
-
-  
 }
 
 @freezed
 sealed class RecordEvent with _$RecordEvent {
-  const factory RecordEvent.check() = _Check;
+  const factory RecordEvent.check(int habitId) = _Check;
   const factory RecordEvent.get(int habitId) = _Get;
 }
 

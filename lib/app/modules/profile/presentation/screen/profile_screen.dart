@@ -24,43 +24,44 @@ class ProfileScreen extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  authenticated: (user) => Row(
-                    children: [
-                      Text(
-                        '${user.username}님, 환영합니다.',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Noto Sans KR',
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -1.28,
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            unauthenticated: () => const SignInRoute().go(context),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    authenticated: (user) => Row(
+                      children: [
+                        Text(
+                          '${user.username}님, 환영합니다.',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Noto Sans KR',
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -1.28,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  orElse: () => const Text(''),
-                );
-              },
-            ),
-            BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return MainButton.destructive(
-                  text: '로그아웃',
-                  onPressed: () {
-                    context.read<AuthBloc>().add(const AuthEvent.logout());
-                    const SignInRoute().go(context);
-                  },
-                );
-              },
-            ),
-          ],
+                      ],
+                    ),
+                    orElse: () => const Text(''),
+                  );
+                },
+              ),
+              MainButton.destructive(
+                text: '로그아웃',
+                onPressed: () =>
+                    context.read<AuthBloc>().add(const AuthEvent.logout()),
+              ),
+            ],
+          ),
         ),
       ),
     );
