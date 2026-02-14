@@ -7,9 +7,13 @@ part 'update_habit_model.g.dart';
 abstract class UpdateHabitModel with _$UpdateHabitModel {
   const factory UpdateHabitModel({
     String? name,
+    String? type,
     String? description,
+    bool? archiveStatus,
     String? repeatType,
     List<String>? repeatDay,
+    List<dynamic>? noticeTime,
+    int? themeColor,
   }) = _UpdateHabitModel;
 
   factory UpdateHabitModel.fromJson(Map<String, dynamic> json) =>

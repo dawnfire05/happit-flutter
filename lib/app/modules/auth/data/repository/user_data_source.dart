@@ -15,15 +15,18 @@ abstract class UserDataSource {
   @POST('')
   Future<SignUpModel> signUp(@Body() SignUpModel model);
 
+  @GET('')
+  Future<List<UserModel>> getUsers();
+
   @GET('profile')
   Future<UserModel> getProfile();
 
   @GET('{id}')
-  Future<void> getUser(@Path() String id);
+  Future<UserModel> getUserById(@Path() int id);
 
   @PUT('{id}')
-  Future<void> updateUser(@Path() String id, @Body() Map<String, dynamic> data);
+  Future<void> updateUser(@Path() int id, @Body() Map<String, dynamic> data);
 
   @DELETE('{id}')
-  Future<void> deleteUser(@Path() String id);
+  Future<void> deleteUser(@Path() int id);
 }

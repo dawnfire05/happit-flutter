@@ -7,10 +7,12 @@ part 'create_habit_model.g.dart';
 abstract class CreateHabitModel with _$CreateHabitModel {
   const factory CreateHabitModel({
     required String name,
-    required String description,
+    @Default('none') String type,
+    String? description,
+    @Default(false) bool archiveStatus,
     required String repeatType,
     List<String>? repeatDay,
-    // required TimeOfDay noticeTime,
+    List<dynamic>? noticeTime,
     required int themeColor,
   }) = _CreateHabitModel;
 

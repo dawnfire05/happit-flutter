@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/add_or_update_record_model.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/grass_item_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/record_list_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/record_model.dart';
 import 'package:injectable/injectable.dart';
@@ -16,10 +17,16 @@ abstract class RecordDataSource {
   @GET('')
   Future<List<RecordListModel>> getRecordOfAllHabit();
 
+  @GET('grass')
+  Future<List<GrassItemModel>> getGrass(@Query('months') int months);
+
   @GET('{id}')
-  Future<List<RecordModel>> getRecordOfOneHabit(@Path() int id);
+  Future<List<RecordModel>> getRecordOfOneHabit(@Path() String id);
 
   @POST('')
   Future<void> addOrUpdateRecord(
       @Body() AddOrUpdateRecordModel addOrUpdateRecordModel);
+
+  @DELETE('{id}')
+  Future<void> removeRecord(@Path() String id);
 }

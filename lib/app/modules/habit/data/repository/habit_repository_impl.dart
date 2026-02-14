@@ -43,7 +43,7 @@ class HabitRepositoryImpl implements HabitRepository {
     required int themeColor,
   }) async {
     try {
-      await _dataSource.addHabit(CreateHabitModel(
+      await _dataSource.createHabit(CreateHabitModel(
         name: name,
         description: description,
         repeatType: repeatType,

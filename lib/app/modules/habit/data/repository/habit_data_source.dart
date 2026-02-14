@@ -14,7 +14,7 @@ abstract class HabitDataSource {
   factory HabitDataSource(Dio dio) = _HabitDataSource;
 
   @POST('')
-  Future<String> addHabit(@Body() CreateHabitModel createHabitModel);
+  Future<void> createHabit(@Body() CreateHabitModel createHabitModel);
 
   @GET('')
   Future<List<HabitModel>> getHabits();

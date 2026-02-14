@@ -1,0 +1,644 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/kakao": {
+      "get": {
+        "operationId": "AuthController_kakaoLogin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/kakao/callback": {
+      "get": {
+        "operationId": "AuthController_kakaoLoginCallback",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/user": {
+      "post": {
+        "operationId": "UserController_createUser",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      },
+      "get": {
+        "operationId": "UserController_getUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "operationId": "UserController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "operationId": "UserController_getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      },
+      "put": {
+        "operationId": "UserController_updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      },
+      "delete": {
+        "operationId": "UserController_deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/habit": {
+      "post": {
+        "operationId": "HabitController_createHabit",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHabitDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful"
+          }
+        },
+        "tags": [
+          "habit"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "HabitController_getHabits",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful"
+          }
+        },
+        "tags": [
+          "habit"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/habit/{id}": {
+      "get": {
+        "operationId": "HabitController_getHabitById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "habit"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "HabitController_updateHabit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHabitDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "habit"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "HabitController_deleteHabit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "habit"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/record": {
+      "post": {
+        "operationId": "RecordController_createRecord",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrUpdateRecordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "record"
+        ]
+      },
+      "get": {
+        "operationId": "RecordController_getRecordOfAllHabit",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "record"
+        ]
+      }
+    },
+    "/record/grass": {
+      "get": {
+        "operationId": "RecordController_getGrass",
+        "parameters": [
+          {
+            "name": "months",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "습관별 최근 N개월 기록 (잔디)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GrassItemDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "record"
+        ]
+      }
+    },
+    "/record/{id}": {
+      "get": {
+        "operationId": "RecordController_getRecordOfOneHabit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "record"
+        ]
+      },
+      "delete": {
+        "operationId": "RecordController_removeRecord",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "record"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Happit API",
+    "description": "Happit API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateHabitDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the habit"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the habit",
+            "default": "none"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the habit"
+          },
+          "archiveStatus": {
+            "type": "boolean",
+            "description": "The archive status of the habit",
+            "default": false
+          },
+          "repeatType": {
+            "type": "string",
+            "description": "The repeat type of the habit",
+            "enum": [
+              "daily",
+              "weekly"
+            ]
+          },
+          "repeatDay": {
+            "type": "array",
+            "description": "The repeat days of the habit",
+            "items": {
+              "type": "string",
+              "enum": [
+                "mon",
+                "tue",
+                "wed",
+                "thu",
+                "fri",
+                "sat",
+                "sun"
+              ]
+            }
+          },
+          "noticeTime": {
+            "description": "Notification times",
+            "items": {
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "themeColor": {
+            "type": "number",
+            "description": "Theme color index (0, 1, 2, 3, 4)",
+            "minimum": 0,
+            "maximum": 4
+          }
+        },
+        "required": [
+          "name",
+          "repeatType",
+          "themeColor"
+        ]
+      },
+      "UpdateHabitDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the habit"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the habit",
+            "default": "none"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the habit"
+          },
+          "archiveStatus": {
+            "type": "boolean",
+            "description": "The archive status of the habit",
+            "default": false
+          },
+          "repeatType": {
+            "type": "string",
+            "description": "The repeat type of the habit",
+            "enum": [
+              "daily",
+              "weekly"
+            ]
+          },
+          "repeatDay": {
+            "type": "array",
+            "description": "The repeat days of the habit",
+            "items": {
+              "type": "string",
+              "enum": [
+                "mon",
+                "tue",
+                "wed",
+                "thu",
+                "fri",
+                "sat",
+                "sun"
+              ]
+            }
+          },
+          "noticeTime": {
+            "description": "Notification times",
+            "items": {
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "themeColor": {
+            "type": "number",
+            "description": "Theme color index (0, 1, 2, 3, 4)",
+            "minimum": 0,
+            "maximum": 4
+          }
+        }
+      },
+      "CreateOrUpdateRecordDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Record date (YYYY-MM-DD)",
+            "example": "2025-02-15"
+          },
+          "habitId": {
+            "type": "number",
+            "description": "Habit id"
+          },
+          "state": {
+            "type": "string",
+            "description": "Completion state",
+            "enum": [
+              "done",
+              "notDone",
+              "skipped"
+            ]
+          }
+        },
+        "required": [
+          "date",
+          "habitId",
+          "state"
+        ]
+      },
+      "GrassRecordItemDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Record date (YYYY-MM-DD)",
+            "example": "2025-02-15"
+          },
+          "state": {
+            "type": "string",
+            "description": "Completion state",
+            "enum": [
+              "done",
+              "notDone",
+              "skipped"
+            ]
+          }
+        },
+        "required": [
+          "date",
+          "state"
+        ]
+      },
+      "GrassItemDto": {
+        "type": "object",
+        "properties": {
+          "habitId": {
+            "type": "number",
+            "description": "Habit id"
+          },
+          "records": {
+            "description": "Records in the date range (for grass view)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrassRecordItemDto"
+            }
+          }
+        },
+        "required": [
+          "habitId",
+          "records"
+        ]
+      }
+    }
+  }
+}

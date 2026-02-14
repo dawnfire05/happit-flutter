@@ -17,7 +17,7 @@ class RecordRepositoryImpl implements RecordRepository {
   @override
   Future<Either<Failure, List<Record>>> getRecords(int habitId) async {
     try {
-      final models = await _dataSource.getRecordOfOneHabit(habitId);
+      final models = await _dataSource.getRecordOfOneHabit(habitId.toString());
       return right(models.map((m) => m.toEntity()).toList());
     } catch (e) {
       return left(mapExceptionToFailure(e));
@@ -32,7 +32,7 @@ class RecordRepositoryImpl implements RecordRepository {
         date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
         state: 'done',
       ));
-      final models = await _dataSource.getRecordOfOneHabit(habitId);
+      final models = await _dataSource.getRecordOfOneHabit(habitId.toString());
       return right(models.map((m) => m.toEntity()).toList());
     } catch (e) {
       return left(mapExceptionToFailure(e));
