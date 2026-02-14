@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -58,6 +59,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i14.HabitRepository(gh<_i361.Dio>()));
     gh.singleton<_i418.RecordRepository>(
         () => _i418.RecordRepository(gh<_i361.Dio>()));
+    gh.factory<_i643.UserRepository>(
+        () => _i643.UserRepository(gh<_i361.Dio>()));
     await gh.singletonAsync<_i413.TokenRepository>(
       () {
         final i = _i413.TokenRepository(gh<_i558.FlutterSecureStorage>());
@@ -71,10 +74,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i248.HabitEditBloc(gh<_i14.HabitRepository>()));
     gh.factory<_i637.HabitListBloc>(
         () => _i637.HabitListBloc(gh<_i14.HabitRepository>()));
-    gh.factory<_i643.UserRepository>(() => _i643.UserRepository(
-          gh<_i361.Dio>(),
-          gh<_i413.TokenRepository>(),
-        ));
+    gh.factory<_i760.SignUpBloc>(
+        () => _i760.SignUpBloc(gh<_i643.UserRepository>()));
     gh.singleton<_i846.AuthorizeInterceptor>(
         () => registerModule.authorizeInterceptor(
               gh<_i558.FlutterSecureStorage>(),
@@ -87,8 +88,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i643.UserRepository>(),
           gh<_i413.TokenRepository>(),
         ));
-    gh.factory<_i760.SignUpBloc>(
-        () => _i760.SignUpBloc(gh<_i643.UserRepository>()));
     return this;
   }
 }

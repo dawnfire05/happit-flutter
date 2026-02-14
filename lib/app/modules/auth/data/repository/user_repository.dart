@@ -1,16 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
-import 'package:happit_flutter/app/modules/auth/data/repository/token_repository.dart';
 import 'package:happit_flutter/app/modules/profile/data/model/user_model.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class UserRepository {
   final Dio _dio;
-  final TokenRepository _tokenRepository;
 
   @factoryMethod
-  UserRepository(this._dio, this._tokenRepository);
+  UserRepository(this._dio);
 
   static const String _baseUrl = '/user';
 

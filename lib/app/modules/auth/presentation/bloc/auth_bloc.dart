@@ -6,6 +6,7 @@ import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/token_repository.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/user_repository.dart';
+import 'package:happit_flutter/app/modules/profile/data/model/user_model.dart';
 import 'package:injectable/injectable.dart';
 
 part 'auth_bloc.freezed.dart';
@@ -21,7 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_Load>((event, emit) async {
       emit(const _Loading());
       if (await _userRepository.isUserLoggedIn) {
-        emit(const _Authenticated());
+        final user = await _userRepository.getProfile();
+        emit(_Authenticated(user));
       } else {
         emit(const _Unauthenticated());
       }
@@ -36,7 +38,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final token = await _tokenRepository.saveToken(response);
 
         if (token != null) {
-          emit(const _Authenticated());
+          final user = await _userRepository.getProfile();
+          emit(_Authenticated(user));
         } else {
           emit(const _Unauthenticated());
         }
@@ -96,6 +99,6 @@ sealed class AuthState with _$AuthState {
   const factory AuthState.initial() = _Initial;
   const factory AuthState.loading() = _Loading;
   const factory AuthState.error(String error) = _Error;
-  const factory AuthState.authenticated() = _Authenticated;
+  const factory AuthState.authenticated(UserModel user) = _Authenticated;
   const factory AuthState.unauthenticated() = _Unauthenticated;
 }
