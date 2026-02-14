@@ -27,10 +27,10 @@ abstract class HabitModel with _$HabitModel {
 
 extension HabitModelX on HabitModel {
   Habit toEntity() => Habit(
-        id: id,
-        name: name,
-        description: description,
-        repeatType: repeatType,
-        repeatDay: repeatDay.isEmpty ? null : repeatDay,
-      );
+    id: id,
+    name: name,
+    description: description,
+    repeatType: repeatType,
+    repeatDay: repeatDay.isEmpty ? null : repeatDay,
+  );
 }
