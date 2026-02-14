@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/record_model.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
@@ -162,7 +162,7 @@ class HabitWidget extends StatelessWidget {
 class GitHubGrassWidget extends StatelessWidget {
   final int rows = 7;
   final int columns = 9;
-  final List<RecordModel>? records;
+  final List<Record>? records;
 
   const GitHubGrassWidget({super.key, this.records});
 
@@ -225,7 +225,7 @@ class GitHubGrassWidget extends StatelessWidget {
 //   final int rows = 7;
 //   final int columns = 9;
 
-//   final List<RecordModel>? records;
+//   final List<Record>? records;
 
 //   const GitHubGrassWidget({super.key, this.records});
 

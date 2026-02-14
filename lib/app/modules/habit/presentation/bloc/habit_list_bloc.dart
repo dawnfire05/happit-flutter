@@ -1,25 +1,28 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/habit_model.dart';
-import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habits_use_case.dart';
 import 'package:injectable/injectable.dart';
 
 part 'habit_list_bloc.freezed.dart';
 
 @injectable
 class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
-  final HabitRepository _repository;
+  final GetHabitsUseCase _getHabitsUseCase;
 
-  HabitListBloc(this._repository) : super(const _Initial()) {
+  HabitListBloc(this._getHabitsUseCase) : super(const _Initial()) {
     on<_Get>(
       (event, emit) async {
-        try {
-          emit(const _Loading());
-          final habits = await _repository.getHabits();
-          emit(_Success(habits));
-        } on Exception catch (e) {
-          emit(_Error(e.toString()));
-        }
+        emit(const _Loading());
+        final result = await _getHabitsUseCase();
+        result.fold(
+          (failure) => emit(_Error(failure.when(
+            server: (m) => m,
+            network: (m) => m,
+            unknown: (m) => m,
+          ))),
+          (habits) => emit(_Success(habits)),
+        );
       },
     );
   }
@@ -35,5 +38,5 @@ class HabitListState with _$HabitListState {
   const factory HabitListState.initial() = _Initial;
   const factory HabitListState.loading() = _Loading;
   const factory HabitListState.error(String error) = _Error;
-  const factory HabitListState.success(List<HabitModel> habits) = _Success;
+  const factory HabitListState.success(List<Habit> habits) = _Success;
 }

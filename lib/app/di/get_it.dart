@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:happit_flutter/app/di/authorize_interceptor.dart';
 import 'package:happit_flutter/app/di/get_it.config.dart';
-import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
+import 'package:happit_flutter/app/modules/auth/data/repository/auth_data_source.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:io';
 import 'package:dio/io.dart';
@@ -42,7 +42,7 @@ abstract class RegisterModule {
 
   @singleton
   AuthorizeInterceptor authorizeInterceptor(
-      FlutterSecureStorage secureStorage, AuthRepository repository) {
-    return AuthorizeInterceptor(secureStorage, repository);
+      FlutterSecureStorage secureStorage, AuthDataSource dataSource) {
+    return AuthorizeInterceptor(secureStorage, dataSource);
   }
 }

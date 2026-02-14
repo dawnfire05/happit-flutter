@@ -5,13 +5,13 @@ import 'package:happit_flutter/app/modules/habit/data/model/update_habit_model.d
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'habit_repository.g.dart';
+part 'habit_data_source.g.dart';
 
 @singleton
 @RestApi(baseUrl: 'habit/')
-abstract class HabitRepository {
+abstract class HabitDataSource {
   @factoryMethod
-  factory HabitRepository(Dio dio) = _HabitRepository;
+  factory HabitDataSource(Dio dio) = _HabitDataSource;
 
   @POST('')
   Future<String> addHabit(@Body() CreateHabitModel createHabitModel);

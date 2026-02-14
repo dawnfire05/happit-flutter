@@ -4,13 +4,13 @@ import 'package:happit_flutter/app/modules/profile/data/model/user_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'user_repository.g.dart';
+part 'user_data_source.g.dart';
 
 @singleton
 @RestApi(baseUrl: 'user/')
-abstract class UserRepository {
+abstract class UserDataSource {
   @factoryMethod
-  factory UserRepository(Dio dio) = _UserRepository;
+  factory UserDataSource(Dio dio) = _UserDataSource;
 
   @POST('')
   Future<SignUpModel> signUp(@Body() SignUpModel model);

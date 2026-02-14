@@ -1,31 +1,26 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:happit_flutter/app/modules/auth/data/model/sign_up_model.dart';
-import 'package:happit_flutter/app/modules/auth/data/repository/user_repository.dart';
+import 'package:happit_flutter/app/modules/auth/domain/usecase/sign_up_use_case.dart';
 import 'package:injectable/injectable.dart';
 
 part 'sign_up_bloc.freezed.dart';
 
 @injectable
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final UserRepository _repository;
+  final SignUpUseCase _signUpUseCase;
 
-  SignUpBloc(this._repository) : super(const _Initial()) {
+  SignUpBloc(this._signUpUseCase) : super(const _Initial()) {
     on<SignUpEvent>((event, emit) async {
-      try {
-        SignUpModel response = await _repository.signUp(SignUpModel(
-          event.email,
-          event.username,
-          event.password,
-        ));
-        emit(const SignUpState.success());
-        log(response.toString());
-      } catch (e) {
-        emit(SignUpState.error(e.toString()));
-        log(e.toString());
-      }
+      final result =
+          await _signUpUseCase(event.email, event.username, event.password);
+      result.fold(
+        (failure) => emit(SignUpState.error(failure.when(
+          server: (m) => m,
+          network: (m) => m,
+          unknown: (m) => m,
+        ))),
+        (_) => emit(const SignUpState.success()),
+      );
     });
   }
 }

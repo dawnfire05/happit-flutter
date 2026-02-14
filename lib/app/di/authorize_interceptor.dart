@@ -2,15 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/data/model/refresh_model.dart';
-import 'package:happit_flutter/app/modules/auth/data/repository/auth_repository.dart';
+import 'package:happit_flutter/app/modules/auth/data/repository/auth_data_source.dart';
 
 class AuthorizeInterceptor extends Interceptor {
   final FlutterSecureStorage _secureStorage;
-  final AuthRepository _authRepository;
+  final AuthDataSource _authDataSource;
 
   bool _isRefreshing = false;
 
-  AuthorizeInterceptor(this._secureStorage, this._authRepository);
+  AuthorizeInterceptor(this._secureStorage, this._authDataSource);
 
   @override
   Future<void> onRequest(
@@ -32,7 +32,7 @@ class AuthorizeInterceptor extends Interceptor {
 
       _isRefreshing = true;
       try {
-        final token = await _authRepository
+        final token = await _authDataSource
             .refresh(RefreshModel(refreshToken: refreshToken));
 
         final newAccessToken = token.access_token;
@@ -58,7 +58,6 @@ class AuthorizeInterceptor extends Interceptor {
         await _secureStorage.delete(key: 'accessToken');
         await _secureStorage.delete(key: 'refreshToken');
         _isRefreshing = false;
-        // sl<AuthBloc>().add(const AuthEvent.logout());
         return handler.next(err);
       }
     }

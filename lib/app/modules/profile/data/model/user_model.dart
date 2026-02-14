@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/modules/auth/domain/entity/user.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
@@ -11,4 +12,8 @@ class UserModel with _$UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
+}
+
+extension UserModelX on UserModel {
+  User toEntity() => User(id: id, username: username);
 }

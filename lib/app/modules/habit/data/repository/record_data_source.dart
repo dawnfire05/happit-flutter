@@ -5,13 +5,13 @@ import 'package:happit_flutter/app/modules/habit/data/model/record_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'record_repository.g.dart';
+part 'record_data_source.g.dart';
 
 @singleton
 @RestApi(baseUrl: 'record/')
-abstract class RecordRepository {
+abstract class RecordDataSource {
   @factoryMethod
-  factory RecordRepository(Dio dio) = _RecordRepository;
+  factory RecordDataSource(Dio dio) = _RecordDataSource;
 
   @GET('')
   Future<List<RecordListModel>> getRecordOfAllHabit();

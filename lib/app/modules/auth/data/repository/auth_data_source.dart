@@ -5,13 +5,13 @@ import 'package:happit_flutter/app/modules/auth/data/model/token_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'auth_repository.g.dart';
+part 'auth_data_source.g.dart';
 
 @singleton
 @RestApi(baseUrl: 'auth/')
-abstract class AuthRepository {
+abstract class AuthDataSource {
   @factoryMethod
-  factory AuthRepository(Dio dio) = _AuthRepository;
+  factory AuthDataSource(Dio dio) = _AuthDataSource;
 
   @POST('login')
   Future<TokenModel> login(@Body() SignInModel model);

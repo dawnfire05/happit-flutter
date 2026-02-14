@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/add_or_update_record_model.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/record_model.dart';
-import 'package:happit_flutter/app/modules/habit/data/repository/record_repository.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/check_record_use_case.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/get_records_use_case.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 
@@ -10,40 +10,40 @@ part 'record_bloc.freezed.dart';
 
 @injectable
 class RecordBloc extends Bloc<RecordEvent, RecordState> {
-  final RecordRepository _repository;
+  final GetRecordsUseCase _getRecordsUseCase;
+  final CheckRecordUseCase _checkRecordUseCase;
 
-  RecordBloc(this._repository) : super(const _Initial()) {
+  RecordBloc(this._getRecordsUseCase, this._checkRecordUseCase)
+      : super(const _Initial()) {
     on<_Get>((event, emit) async {
       emit(const _Loading());
-      final records = await _repository.getRecordOfOneHabit(event.habitId);
-      Map<String, String> dateStateMap = {};
-      for (var record in records) {
-        dateStateMap[record.date] = record.state;
-      }
-      String todayStatus =
-          dateStateMap[DateFormat('yyyy-MM-dd').format(DateTime.now())] ??
-              "notDone";
-      emit(RecordState.success(records, todayStatus));
+      final result = await _getRecordsUseCase(event.habitId);
+      result.fold(
+        (failure) => emit(_Error(failure.when(
+          server: (m) => m,
+          network: (m) => m,
+          unknown: (m) => m,
+        ))),
+        (records) => emit(_buildSuccess(records)),
+      );
     });
     on<_Check>((event, emit) async {
-      try {
-        await _repository.addOrUpdateRecord(AddOrUpdateRecordModel(
-            habitId: event.habitId,
-            date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-            state: "done"));
-        final records = await _repository.getRecordOfOneHabit(event.habitId);
-        Map<String, String> dateStateMap = {};
-        for (var record in records) {
-          dateStateMap[record.date] = record.state;
-        }
-        String todayStatus =
-            dateStateMap[DateFormat('yyyy-MM-dd').format(DateTime.now())] ??
-                "notDone";
-        emit(RecordState.success(records, todayStatus));
-      } catch (e) {
-        emit(RecordState.error(e.toString()));
-      }
+      final result = await _checkRecordUseCase(event.habitId);
+      result.fold(
+        (failure) => emit(_Error(failure.when(
+          server: (m) => m,
+          network: (m) => m,
+          unknown: (m) => m,
+        ))),
+        (records) => emit(_buildSuccess(records)),
+      );
     });
+  }
+
+  RecordState _buildSuccess(List<Record> records) {
+    final map = {for (var r in records) r.date: r.state};
+    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    return RecordState.success(records, map[today] ?? 'notDone');
   }
 }
 
@@ -59,5 +59,5 @@ class RecordState with _$RecordState {
   const factory RecordState.loading() = _Loading;
   const factory RecordState.error(String error) = _Error;
   const factory RecordState.success(
-      List<RecordModel> records, String todayStatus) = _Success;
+      List<Record> records, String todayStatus) = _Success;
 }

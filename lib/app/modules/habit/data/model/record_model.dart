@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
 
 part 'record_model.freezed.dart';
 part 'record_model.g.dart';
@@ -15,4 +16,14 @@ class RecordModel with _$RecordModel {
 
   factory RecordModel.fromJson(Map<String, Object?> json) =>
       _$RecordModelFromJson(json);
+}
+
+extension RecordModelX on RecordModel {
+  Record toEntity() => Record(
+        id: id,
+        date: date,
+        state: state,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+      );
 }

@@ -10,7 +10,7 @@ import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_edit_
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_list_screen.dart';
 import 'package:happit_flutter/app/modules/splash/presentation/screen/splash_screen.dart';
 import 'package:happit_flutter/app/modules/profile/presentation/screen/profile_screen.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/create_habit_model.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 
 part 'routes.g.dart';
 part 'main_routes.dart';

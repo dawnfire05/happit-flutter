@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 
 part 'habit_model.freezed.dart';
 part 'habit_model.g.dart';
@@ -15,4 +16,14 @@ class HabitModel with _$HabitModel {
 
   factory HabitModel.fromJson(Map<String, Object?> json) =>
       _$HabitModelFromJson(json);
+}
+
+extension HabitModelX on HabitModel {
+  Habit toEntity() => Habit(
+        id: id,
+        name: name,
+        description: description,
+        repeatType: repeatType,
+        repeatDay: repeatDay,
+      );
 }

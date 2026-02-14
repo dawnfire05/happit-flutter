@@ -1,28 +1,37 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/habit_model.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/update_habit_model.dart';
-import 'package:happit_flutter/app/modules/habit/data/repository/habit_repository.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/update_habit_use_case.dart';
 import 'package:injectable/injectable.dart';
 
 part 'habit_edit_bloc.freezed.dart';
 
 @injectable
 class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
-  final HabitRepository _repository;
-  HabitEditBloc(this._repository) : super(const _Initial()) {
+  final GetHabitUseCase _getHabitUseCase;
+  final UpdateHabitUseCase _updateHabitUseCase;
+  final DeleteHabitUseCase _deleteHabitUseCase;
+
+  HabitEditBloc(
+      this._getHabitUseCase, this._updateHabitUseCase, this._deleteHabitUseCase)
+      : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
-      try {
-        final habit = await _repository.getHabit(event.id);
-        emit(_Loaded(
+      final result = await _getHabitUseCase(event.id);
+      result.fold(
+        (failure) => emit(_Error(failure.when(
+          server: (m) => m,
+          network: (m) => m,
+          unknown: (m) => m,
+        ))),
+        (habit) => emit(_Loaded(
           habit: habit,
           repeatType: habit.repeatType,
           repeatDays: habit.repeatDay ?? [],
-        ));
-      } on Exception catch (e) {
-        emit(_Error(e.toString()));
-      }
+        )),
+      );
     });
     on<_SelectRepeatType>((event, emit) {
       final current = state.mapOrNull(loaded: (s) => s);
@@ -43,21 +52,33 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
     });
     on<_Delete>((event, emit) async {
       emit(const _Loading());
-      try {
-        await _repository.deleteHabit(event.id);
-        emit(const _Success());
-      } on Exception catch (e) {
-        emit(_Error(e.toString()));
-      }
+      final result = await _deleteHabitUseCase(event.id);
+      result.fold(
+        (failure) => emit(_Error(failure.when(
+          server: (m) => m,
+          network: (m) => m,
+          unknown: (m) => m,
+        ))),
+        (_) => emit(const _Success()),
+      );
     });
     on<_Edit>((event, emit) async {
       emit(const _Loading());
-      try {
-        await _repository.updateHabit(event.id, event.habit);
-        emit(const _Success());
-      } on Exception catch (e) {
-        emit(_Error(e.toString()));
-      }
+      final result = await _updateHabitUseCase(
+        event.id,
+        name: event.name,
+        description: event.description,
+        repeatType: event.repeatType,
+        repeatDay: event.repeatDay,
+      );
+      result.fold(
+        (failure) => emit(_Error(failure.when(
+          server: (m) => m,
+          network: (m) => m,
+          unknown: (m) => m,
+        ))),
+        (_) => emit(const _Success()),
+      );
     });
   }
 }
@@ -69,7 +90,13 @@ sealed class HabitEditEvent with _$HabitEditEvent {
   const factory HabitEditEvent.toggleDay(String day) = _ToggleDay;
   const factory HabitEditEvent.selectColor(int index) = _SelectColor;
   const factory HabitEditEvent.delete(int id) = _Delete;
-  const factory HabitEditEvent.edit(int id, UpdateHabitModel habit) = _Edit;
+  const factory HabitEditEvent.edit(
+    int id, {
+    String? name,
+    String? description,
+    String? repeatType,
+    List<String>? repeatDay,
+  }) = _Edit;
 }
 
 @freezed
@@ -77,7 +104,7 @@ sealed class HabitEditState with _$HabitEditState {
   const factory HabitEditState.initial() = _Initial;
   const factory HabitEditState.loading() = _Loading;
   const factory HabitEditState.loaded({
-    required HabitModel habit,
+    required Habit habit,
     @Default('daily') String repeatType,
     @Default([]) List<String> repeatDays,
     @Default(0) int colorIndex,

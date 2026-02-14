@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
-import 'package:happit_flutter/app/modules/habit/data/model/update_habit_model.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_edit_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_day_of_week_widget.dart';
@@ -149,15 +148,13 @@ class _LayoutState extends State<_Layout> {
                             onPressed: () =>
                                 context.read<HabitEditBloc>().add(
                                       HabitEditEvent.edit(
-                                          widget.id,
-                                          UpdateHabitModel(
-                                            name: _habitNameController.text,
-                                            description:
-                                                _habitDescriptionController
-                                                    .text,
-                                            repeatDay: repeatDays,
-                                            repeatType: repeatType,
-                                          )),
+                                        widget.id,
+                                        name: _habitNameController.text,
+                                        description:
+                                            _habitDescriptionController.text,
+                                        repeatDay: repeatDays,
+                                        repeatType: repeatType,
+                                      ),
                                     ),
                           ),
                         )

@@ -14,7 +14,7 @@ class HabitCreatingRoute extends GoRouteData {
 @TypedGoRoute<HabitCreatedRoute>(path: '/habit/created')
 class HabitCreatedRoute extends GoRouteData {
   HabitCreatedRoute(this.$extra);
-  final CreateHabitModel $extra;
+  final Habit $extra;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
