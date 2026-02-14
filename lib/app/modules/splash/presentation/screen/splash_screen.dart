@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         state.whenOrNull(
-          authenticated: () => const HabitListRoute().go(context),
+          authenticated: (_) => const HabitListRoute().go(context),
           unauthenticated: () => const SignInRoute().go(context),
         );
       },
