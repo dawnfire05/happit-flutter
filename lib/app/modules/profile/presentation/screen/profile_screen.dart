@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
           style: TextStyle(
             color: Color(0xFF1F2329),
             fontSize: 18,
-            fontFamily: 'Noto Sans KR',
+
             fontWeight: FontWeight.w700,
             height: 0,
             letterSpacing: -1.44,
@@ -44,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                           '${user.username}님, 환영합니다.',
                           style: const TextStyle(
                             fontSize: 16,
-                            fontFamily: 'Noto Sans KR',
+
                             fontWeight: FontWeight.w700,
                             letterSpacing: -1.28,
                           ),

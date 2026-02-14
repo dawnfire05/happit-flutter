@@ -17,7 +17,7 @@ class SignUpContent extends StatelessWidget {
           style: TextStyle(
             color: Color(0xFF1F2329),
             fontSize: 18,
-            fontFamily: 'Noto Sans KR',
+
             fontWeight: FontWeight.w700,
             height: 0,
             letterSpacing: -1.44,
@@ -42,9 +42,9 @@ class SignUpContent extends StatelessWidget {
               children: [
                 InputTextWidget.full(
                   value: email,
-                  onChanged: (v) => context
-                      .read<SignUpBloc>()
-                      .add(SignUpEvent.emailChanged(v)),
+                  onChanged: (v) => context.read<SignUpBloc>().add(
+                    SignUpEvent.emailChanged(v),
+                  ),
                   label: '이메일',
                   informationText: '이메일을 입력해주세요.',
                   hintText: '',
@@ -53,9 +53,9 @@ class SignUpContent extends StatelessWidget {
                 const SizedBox(height: 18),
                 InputTextWidget.full(
                   value: username,
-                  onChanged: (v) => context
-                      .read<SignUpBloc>()
-                      .add(SignUpEvent.usernameChanged(v)),
+                  onChanged: (v) => context.read<SignUpBloc>().add(
+                    SignUpEvent.usernameChanged(v),
+                  ),
                   label: '유저이름',
                   informationText: '유저이름을 입력해주세요',
                   hintText: '',
@@ -64,9 +64,9 @@ class SignUpContent extends StatelessWidget {
                 const SizedBox(height: 18),
                 InputTextWidget.full(
                   value: password,
-                  onChanged: (v) => context
-                      .read<SignUpBloc>()
-                      .add(SignUpEvent.passwordChanged(v)),
+                  onChanged: (v) => context.read<SignUpBloc>().add(
+                    SignUpEvent.passwordChanged(v),
+                  ),
                   label: '비밀번호',
                   informationText: '비밀번호를 입력해주세요.',
                   hintText: '',
@@ -80,9 +80,9 @@ class SignUpContent extends StatelessWidget {
                 const SizedBox(height: 16),
                 MainButton.cta(
                   text: '회원가입',
-                  onPressed: () => context
-                      .read<SignUpBloc>()
-                      .add(const SignUpEvent.signUp()),
+                  onPressed: () => context.read<SignUpBloc>().add(
+                    const SignUpEvent.signUp(),
+                  ),
                 ),
               ],
             ),

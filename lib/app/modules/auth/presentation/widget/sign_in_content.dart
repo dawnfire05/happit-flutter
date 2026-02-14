@@ -18,7 +18,7 @@ class SignInContent extends StatelessWidget {
           style: TextStyle(
             color: Palette.black100,
             fontSize: 18,
-            fontFamily: 'Noto Sans KR',
+
             fontWeight: FontWeight.w700,
             height: 0,
             letterSpacing: -1.44,
@@ -32,9 +32,9 @@ class SignInContent extends StatelessWidget {
         listener: (context, state) {
           final message = state.errorMessage;
           if (message != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(message)));
           }
           if (state.isAuthenticated) {
             const HabitListRoute().go(context);
@@ -50,9 +50,9 @@ class SignInContent extends StatelessWidget {
               children: [
                 InputTextWidget.full(
                   value: state.formUsername,
-                  onChanged: (v) => context
-                      .read<AuthBloc>()
-                      .add(AuthEvent.signInUsernameChanged(v)),
+                  onChanged: (v) => context.read<AuthBloc>().add(
+                    AuthEvent.signInUsernameChanged(v),
+                  ),
                   label: '유저이름',
                   informationText: '유저이름을 입력해주세요',
                   hintText: '',
@@ -61,9 +61,9 @@ class SignInContent extends StatelessWidget {
                 const SizedBox(height: 18),
                 InputTextWidget.full(
                   value: state.formPassword,
-                  onChanged: (v) => context
-                      .read<AuthBloc>()
-                      .add(AuthEvent.signInPasswordChanged(v)),
+                  onChanged: (v) => context.read<AuthBloc>().add(
+                    AuthEvent.signInPasswordChanged(v),
+                  ),
                   label: '비밀번호',
                   informationText: '비밀번호를 입력해주세요.',
                   hintText: '',

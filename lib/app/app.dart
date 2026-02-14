@@ -4,6 +4,7 @@ import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/routes/routes.dart';
+import 'package:happit_flutter/values/constants.dart';
 import 'package:happit_flutter/values/palette.dart';
 
 class App extends StatelessWidget {
@@ -13,11 +14,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-          fontFamily: 'NotoSansKR',
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Palette.white,
-          ),
-          scaffoldBackgroundColor: Palette.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Palette.primary),
+        fontFamily: Constants.notoSansKR,
+        appBarTheme: const AppBarTheme(backgroundColor: Palette.white),
+        scaffoldBackgroundColor: Palette.white,
+      ),
       routerConfig: router,
       builder: (context, child) {
         return MultiBlocProvider(

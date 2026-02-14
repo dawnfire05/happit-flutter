@@ -17,9 +17,7 @@ class InputRepeatTypeWidget extends StatelessWidget {
       height: 56,
       decoration: ShapeDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         shadows: const [
           BoxShadow(
             color: Color(0x99DBE5EC),
@@ -32,7 +30,7 @@ class InputRepeatTypeWidget extends StatelessWidget {
             blurRadius: 1,
             offset: Offset(0, 0),
             spreadRadius: 1,
-          )
+          ),
         ],
       ),
       child: Row(
@@ -40,14 +38,17 @@ class InputRepeatTypeWidget extends StatelessWidget {
         children: [
           _buildRepeatTypeSelector('daily', '매일', context),
           const SizedBox(width: 12),
-          _buildRepeatTypeSelector('weekly', '요일별', context)
+          _buildRepeatTypeSelector('weekly', '요일별', context),
         ],
       ),
     );
   }
 
   Widget _buildRepeatTypeSelector(
-      String repeatType, String label, BuildContext context) {
+    String repeatType,
+    String label,
+    BuildContext context,
+  ) {
     bool isSelected = selectedRepeatType == repeatType;
     return Expanded(
       child: GestureDetector(
@@ -60,7 +61,7 @@ class InputRepeatTypeWidget extends StatelessWidget {
                 blurRadius: 24,
                 offset: Offset(0, 8),
                 spreadRadius: 0,
-              )
+              ),
             ],
             color: isSelected ? const Color(0xff66D271) : Colors.transparent,
             shape: RoundedRectangleBorder(
@@ -73,7 +74,7 @@ class InputRepeatTypeWidget extends StatelessWidget {
               style: TextStyle(
                 color: isSelected ? Colors.white : const Color(0xff8C929D),
                 fontSize: 15,
-                fontFamily: 'Noto Sans KR',
+
                 fontWeight: FontWeight.w400,
                 height: 0,
                 letterSpacing: -1.20,

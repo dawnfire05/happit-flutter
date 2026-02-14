@@ -10,6 +10,7 @@ import 'package:happit_flutter/app/modules/habit/presentation/widget/input_text_
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_repeat_type_widget.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/input_theme_widget.dart';
 import 'package:happit_flutter/routes/routes.dart';
+import 'package:happit_flutter/values/palette.dart';
 
 class HabitEditScreen extends StatelessWidget {
   final int id;
@@ -28,9 +29,9 @@ class HabitEditScreen extends StatelessWidget {
             loading: (_) {},
             loaded: (_) {},
             error: (error) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('습관 수정에 실패했습니다: $error')),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('습관 수정에 실패했습니다: $error')));
             },
             success: (_) {
               context.read<HabitListBloc>().add(const HabitListEvent.get());
@@ -39,7 +40,17 @@ class HabitEditScreen extends StatelessWidget {
           );
         },
         child: Scaffold(
-          appBar: AppBar(title: const Text('습관 수정')),
+          appBar: AppBar(
+            title: Text(
+              '습관 수정',
+              style: TextStyle(
+                color: Palette.black100,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -1.44,
+              ),
+            ),
+          ),
           body: Container(
             color: Colors.white,
             child: SingleChildScrollView(
@@ -67,17 +78,17 @@ class HabitEditScreen extends StatelessWidget {
                     children: [
                       InputTextWidget.basic(
                         value: loaded.name,
-                        onChanged: (v) => context
-                            .read<HabitEditBloc>()
-                            .add(HabitEditEvent.nameChanged(v)),
+                        onChanged: (v) => context.read<HabitEditBloc>().add(
+                          HabitEditEvent.nameChanged(v),
+                        ),
                         hintText: '추가할 습관을 입력해주세요',
                       ),
                       const SizedBox(height: 20),
                       InputTextWidget.basic(
                         value: loaded.description,
-                        onChanged: (v) => context
-                            .read<HabitEditBloc>()
-                            .add(HabitEditEvent.descriptionChanged(v)),
+                        onChanged: (v) => context.read<HabitEditBloc>().add(
+                          HabitEditEvent.descriptionChanged(v),
+                        ),
                         hintText: '설명을 입력해주세요',
                       ),
                       const SizedBox(height: 20),

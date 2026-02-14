@@ -1,11 +1,11 @@
 name: happit_flutter
 description: "flutter app for happit"
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
+  sdk: ">=3.8.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -34,7 +34,6 @@ dependencies:
   dartz: ^0.10.1
   flutter_launcher_icons: ^0.14.3
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -56,7 +55,7 @@ flutter:
     - .env
 
   fonts:
-    - family: MontserratAlternates
+    - family: Montserrat Alternates
       fonts:
         - asset: fonts/MontserratAlternates-ExtraBold.ttf
           weight: 800

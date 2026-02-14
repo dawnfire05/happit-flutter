@@ -12,11 +12,7 @@ class HabitWidget extends StatelessWidget {
   final String name;
   final int id;
 
-  const HabitWidget({
-    super.key,
-    required this.id,
-    required this.name,
-  });
+  const HabitWidget({super.key, required this.id, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +39,7 @@ class HabitWidget extends StatelessWidget {
                       style: const TextStyle(
                         color: Color(0xFF1F2329),
                         fontSize: 18,
-                        fontFamily: 'Noto Sans KR',
+
                         fontWeight: FontWeight.w700,
                         height: 0,
                         letterSpacing: -1.44,
@@ -54,8 +50,10 @@ class HabitWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Container(
                   height: 32,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -68,7 +66,7 @@ class HabitWidget extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF56B45F),
                       fontSize: 14,
-                      fontFamily: 'Noto Sans KR',
+
                       fontWeight: FontWeight.w700,
                       height: 0,
                       letterSpacing: -1.12,
@@ -123,7 +121,8 @@ class HabitWidget extends StatelessWidget {
                           child: IconButton(
                             onPressed: () => {},
                             icon: SvgPicture.asset(
-                                'assets/icons/Arrow-Right.svg'),
+                              'assets/icons/Arrow-Right.svg',
+                            ),
                           ),
                         ),
                         BlocBuilder<RecordBloc, RecordState>(
@@ -136,9 +135,9 @@ class HabitWidget extends StatelessWidget {
                                 color: const Color(0xff66D271),
                               ),
                               child: IconButton(
-                                onPressed: () => context
-                                    .read<RecordBloc>()
-                                    .add(RecordEvent.check(id)),
+                                onPressed: () => context.read<RecordBloc>().add(
+                                  RecordEvent.check(id),
+                                ),
                                 icon: SvgPicture.asset(
                                   'assets/icons/Check.svg',
                                 ),
@@ -148,7 +147,7 @@ class HabitWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -182,8 +181,9 @@ class GitHubGrassWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
-    final startOfGrid =
-        today.subtract(Duration(days: rows * 8 + today.weekday));
+    final startOfGrid = today.subtract(
+      Duration(days: rows * 8 + today.weekday),
+    );
 
     Map<String, String> dateStateMap = {};
     records?.forEach((record) {
@@ -194,8 +194,9 @@ class GitHubGrassWidget extends StatelessWidget {
       children: List.generate(columns, (weekIndex) {
         return Column(
           children: List.generate(rows, (dayIndex) {
-            DateTime currentDate =
-                startOfGrid.add(Duration(days: weekIndex * 7 + dayIndex));
+            DateTime currentDate = startOfGrid.add(
+              Duration(days: weekIndex * 7 + dayIndex),
+            );
             String dateStr = DateFormat('yyyy-MM-dd').format(currentDate);
             String? state = dateStateMap[dateStr];
 
@@ -204,7 +205,8 @@ class GitHubGrassWidget extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.0),
-                  color: currentDate.isBefore(today) ||
+                  color:
+                      currentDate.isBefore(today) ||
                           currentDate.isAtSameMomentAs(today)
                       ? _getColor(state)
                       : Colors.transparent,

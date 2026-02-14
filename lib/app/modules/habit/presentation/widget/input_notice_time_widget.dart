@@ -17,9 +17,7 @@ class InputNoticeTimeWidget extends StatelessWidget {
       height: 56,
       decoration: ShapeDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         shadows: const [
           BoxShadow(
             color: Color(0x99DBE5EC),
@@ -32,7 +30,7 @@ class InputNoticeTimeWidget extends StatelessWidget {
             blurRadius: 1,
             offset: Offset(0, 0),
             spreadRadius: 1,
-          )
+          ),
         ],
       ),
       child: Row(
@@ -45,7 +43,7 @@ class InputNoticeTimeWidget extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 13,
-                fontFamily: 'Noto Sans KR',
+
                 fontWeight: FontWeight.w400,
                 height: 0,
                 letterSpacing: -1.04,
@@ -64,7 +62,7 @@ class InputNoticeTimeWidget extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 15,
-                      fontFamily: 'Noto Sans KR',
+
                       fontWeight: FontWeight.w400,
                       height: 0,
                     ),

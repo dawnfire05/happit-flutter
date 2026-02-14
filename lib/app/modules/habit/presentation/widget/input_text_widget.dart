@@ -8,7 +8,6 @@ class InputTextWidget extends StatefulWidget {
   final String hintText;
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  /// Bloc 연동용: 둘 다 주면 controller 무시하고 value/onChanged로 동작
   final String? value;
   final ValueChanged<String>? onChanged;
 
@@ -19,9 +18,9 @@ class InputTextWidget extends StatefulWidget {
     this.focusNode,
     this.value,
     this.onChanged,
-  })  : label = null,
-        informationText = null,
-        necessary = false;
+  }) : label = null,
+       informationText = null,
+       necessary = false;
 
   const InputTextWidget.full({
     super.key,
@@ -49,7 +48,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
       blurRadius: 24,
       offset: Offset(0, 0),
       spreadRadius: 0,
-    )
+    ),
   ];
 
   final List<BoxShadow> done = [
@@ -64,7 +63,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
       blurRadius: 1,
       offset: Offset(0, 0),
       spreadRadius: 1,
-    )
+    ),
   ];
 
   @override
@@ -86,7 +85,9 @@ class _InputTextWidgetState extends State<InputTextWidget> {
         _internalController != null &&
         _internalController!.text != widget.value) {
       _internalController!.text = widget.value!;
-      _internalController!.selection = TextSelection.collapsed(offset: widget.value!.length);
+      _internalController!.selection = TextSelection.collapsed(
+        offset: widget.value!.length,
+      );
     }
   }
 
@@ -110,7 +111,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
   TextStyle style = const TextStyle(
     color: Palette.black100,
     fontSize: 13,
-    fontFamily: 'Noto Sans KR',
+
     fontWeight: FontWeight.w700,
     letterSpacing: -1.04,
   );
@@ -124,18 +125,19 @@ class _InputTextWidgetState extends State<InputTextWidget> {
           Column(
             children: [
               RichText(
-                  text: widget.necessary
-                      ? TextSpan(
-                          style: style,
-                          children: [
-                            TextSpan(text: widget.label!),
-                            const TextSpan(
-                              text: ' *',
-                              style: TextStyle(color: Palette.error),
-                            )
-                          ],
-                        )
-                      : TextSpan(style: style, text: widget.label!)),
+                text: widget.necessary
+                    ? TextSpan(
+                        style: style,
+                        children: [
+                          TextSpan(text: widget.label!),
+                          const TextSpan(
+                            text: ' *',
+                            style: TextStyle(color: Palette.error),
+                          ),
+                        ],
+                      )
+                    : TextSpan(style: style, text: widget.label!),
+              ),
               const SizedBox(height: 8),
             ],
           ),
@@ -146,9 +148,9 @@ class _InputTextWidgetState extends State<InputTextWidget> {
             color: Colors.white,
             shape: RoundedRectangleBorder(
               side: BorderSide(
-                  width: 2,
-                  color:
-                      isFocused ? const Color(0xFF66D271) : Colors.transparent),
+                width: 2,
+                color: isFocused ? const Color(0xFF66D271) : Colors.transparent,
+              ),
               borderRadius: BorderRadius.circular(12),
             ),
             shadows: isFocused ? focus : done,
@@ -162,17 +164,16 @@ class _InputTextWidgetState extends State<InputTextWidget> {
                     : widget.controller,
                 focusNode: widget.focusNode,
                 style: const TextStyle(
-                  color: Color(0xFF1F2329),
+                  color: Palette.black100,
                   fontSize: 13,
-                  fontFamily: 'Noto Sans KR',
                   fontWeight: FontWeight.w400,
+                  letterSpacing: -1.04,
                 ),
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   hintStyle: const TextStyle(
                     color: Color(0xFF8C929D),
                     fontSize: 13,
-                    fontFamily: 'Noto Sans KR',
                     fontWeight: FontWeight.w400,
                     letterSpacing: -1.04,
                   ),
@@ -191,13 +192,13 @@ class _InputTextWidgetState extends State<InputTextWidget> {
                 style: const TextStyle(
                   color: Color(0xFF8C929D),
                   fontSize: 12,
-                  fontFamily: 'Noto Sans KR',
+
                   fontWeight: FontWeight.w400,
                   letterSpacing: -0.96,
                 ),
               ),
             ],
-          )
+          ),
       ],
     );
   }

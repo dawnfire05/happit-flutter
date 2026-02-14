@@ -28,7 +28,7 @@ class HabitCreatedScreen extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 24,
-                      fontFamily: 'Noto Sans KR',
+
                       fontWeight: FontWeight.w700,
                       letterSpacing: -2.40,
                     ),
@@ -39,7 +39,7 @@ class HabitCreatedScreen extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF8C929D),
                       fontSize: 16,
-                      fontFamily: 'Noto Sans KR',
+
                       fontWeight: FontWeight.w700,
                       letterSpacing: -1.28,
                     ),
@@ -67,15 +67,13 @@ class HabitCreatedScreen extends StatelessWidget {
                               style: const TextStyle(
                                 color: Color(0xFF725496),
                                 fontSize: 18,
-                                fontFamily: 'Noto Sans KR',
+
                                 fontWeight: FontWeight.w700,
                                 height: 0,
                                 letterSpacing: -1.44,
                               ),
                             ),
-                            const SizedBox(
-                              width: 15,
-                            ),
+                            const SizedBox(width: 15),
                             Container(
                               decoration: ShapeDecoration(
                                 color: Palette.white,
@@ -92,15 +90,13 @@ class HabitCreatedScreen extends StatelessWidget {
                                 style: const TextStyle(
                                   color: Palette.black100,
                                   fontSize: 16,
-                                  fontFamily: 'Noto Sans KR',
+
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: -1.28,
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 15,
-                            ),
+                            const SizedBox(width: 15),
                             Container(
                               decoration: ShapeDecoration(
                                 color: Palette.white,
@@ -117,17 +113,17 @@ class HabitCreatedScreen extends StatelessWidget {
                                 style: TextStyle(
                                   color: Palette.black100,
                                   fontSize: 16,
-                                  fontFamily: 'Noto Sans KR',
+
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: -1.28,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

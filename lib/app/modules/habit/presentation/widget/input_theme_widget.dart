@@ -18,9 +18,7 @@ class InputThemeWidget extends StatelessWidget {
       height: 56,
       decoration: ShapeDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         shadows: const [
           BoxShadow(
             color: Color(0x99DBE5EC),
@@ -33,7 +31,7 @@ class InputThemeWidget extends StatelessWidget {
             blurRadius: 1,
             offset: Offset(0, 0),
             spreadRadius: 1,
-          )
+          ),
         ],
       ),
       child: Row(
@@ -44,7 +42,7 @@ class InputThemeWidget extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontSize: 13,
-              fontFamily: 'Noto Sans KR',
+
               fontWeight: FontWeight.w400,
               height: 0,
               letterSpacing: -1.04,
@@ -57,9 +55,9 @@ class InputThemeWidget extends StatelessWidget {
               _buildColorThemeContainer(1, const Color(0xff7D5BA6)),
               _buildColorThemeContainer(2, const Color(0xffFC6471)),
               _buildColorThemeContainer(3, const Color(0xffF8C630)),
-              _buildColorThemeContainer(4, const Color(0xff30C5FF))
+              _buildColorThemeContainer(4, const Color(0xff30C5FF)),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -82,17 +80,18 @@ class InputThemeWidget extends StatelessWidget {
                   blurRadius: 24,
                   offset: Offset(0, 8),
                   spreadRadius: 0,
-                )
+                ),
               ],
               color: color,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
           ),
           Visibility(
             visible: isSelected,
             child: SvgPicture.asset('assets/icons/Check.svg'),
-          )
+          ),
         ],
       ),
     );

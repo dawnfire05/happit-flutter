@@ -22,18 +22,14 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                'assets/logo/logo.svg',
-              ),
-              const SizedBox(
-                height: 24,
-              ),
+              SvgPicture.asset('assets/logo/logo.svg'),
+              const SizedBox(height: 24),
               const Text(
                 '매일 조금씩',
                 style: TextStyle(
                   color: Palette.black100,
                   fontSize: 24,
-                  fontFamily: 'Noto Sans KR',
+
                   fontWeight: FontWeight.w700,
                   letterSpacing: -2.40,
                 ),
@@ -43,7 +39,7 @@ class SplashScreen extends StatelessWidget {
                 style: TextStyle(
                   color: Palette.black100,
                   fontSize: 24,
-                  fontFamily: 'Noto Sans KR',
+
                   fontWeight: FontWeight.w700,
                   letterSpacing: -2.40,
                 ),

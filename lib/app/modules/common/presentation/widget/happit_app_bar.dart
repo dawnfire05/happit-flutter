@@ -1,6 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:happit_flutter/values/constants.dart';
+import 'package:happit_flutter/values/palette.dart';
 
 class HappitAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HappitAppBar({super.key});
@@ -20,10 +20,10 @@ class HappitAppBar extends StatelessWidget implements PreferredSizeWidget {
           Text(
             'happit.',
             style: TextStyle(
-              color: const Color(0xff56B45F),
-              letterSpacing: Platform.isIOS ? -0.96 : 0,
+              color: Palette.primaryText,
+              letterSpacing: -0.96,
               fontSize: 24,
-              fontFamily: 'Montserrat Alternates',
+              fontFamily: Constants.montserratAlternates,
               fontWeight: FontWeight.w800,
               height: 0,
             ),
