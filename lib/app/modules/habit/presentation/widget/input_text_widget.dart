@@ -8,12 +8,17 @@ class InputTextWidget extends StatefulWidget {
   final String hintText;
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  /// Bloc 연동용: 둘 다 주면 controller 무시하고 value/onChanged로 동작
+  final String? value;
+  final ValueChanged<String>? onChanged;
 
   const InputTextWidget.basic({
     super.key,
     required this.hintText,
     this.controller,
     this.focusNode,
+    this.value,
+    this.onChanged,
   })  : label = null,
         informationText = null,
         necessary = false;
@@ -26,6 +31,8 @@ class InputTextWidget extends StatefulWidget {
     required this.hintText,
     this.controller,
     this.focusNode,
+    this.value,
+    this.onChanged,
   });
 
   @override
@@ -34,6 +41,7 @@ class InputTextWidget extends StatefulWidget {
 
 class _InputTextWidgetState extends State<InputTextWidget> {
   bool isFocused = false;
+  TextEditingController? _internalController;
 
   final List<BoxShadow> focus = [
     const BoxShadow(
@@ -63,11 +71,36 @@ class _InputTextWidgetState extends State<InputTextWidget> {
   void initState() {
     super.initState();
     widget.focusNode?.addListener(_handleFocusChange);
+    if (widget.value != null && widget.onChanged != null) {
+      _internalController = TextEditingController(text: widget.value);
+      _internalController!.addListener(_onInternalTextChanged);
+    }
+  }
+
+  @override
+  void didUpdateWidget(InputTextWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != null &&
+        widget.onChanged != null &&
+        widget.value != oldWidget.value &&
+        _internalController != null &&
+        _internalController!.text != widget.value) {
+      _internalController!.text = widget.value!;
+      _internalController!.selection = TextSelection.collapsed(offset: widget.value!.length);
+    }
+  }
+
+  void _onInternalTextChanged() {
+    if (_internalController != null && widget.onChanged != null) {
+      widget.onChanged!(_internalController!.text);
+    }
   }
 
   @override
   void dispose() {
     widget.focusNode?.removeListener(_handleFocusChange);
+    _internalController?.removeListener(_onInternalTextChanged);
+    _internalController?.dispose();
     super.dispose();
   }
 
@@ -124,7 +157,9 @@ class _InputTextWidgetState extends State<InputTextWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                controller: widget.controller,
+                controller: widget.value != null && widget.onChanged != null
+                    ? _internalController
+                    : widget.controller,
                 focusNode: widget.focusNode,
                 style: const TextStyle(
                   color: Color(0xFF1F2329),

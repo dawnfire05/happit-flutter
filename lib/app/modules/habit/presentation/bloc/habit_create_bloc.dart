@@ -12,6 +12,24 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
 
   HabitCreateBloc(this._createHabitUseCase)
       : super(const HabitCreateState.form()) {
+    on<_HabitNameChanged>((event, emit) {
+      final current = state.mapOrNull(form: (s) => s);
+      if (current == null) return;
+      emit(current.copyWith(habitName: event.value));
+    });
+    on<_HabitDescriptionChanged>((event, emit) {
+      final current = state.mapOrNull(form: (s) => s);
+      if (current == null) return;
+      emit(current.copyWith(habitDescription: event.value));
+    });
+    on<_NoticeTimeChanged>((event, emit) {
+      final current = state.mapOrNull(form: (s) => s);
+      if (current == null) return;
+      emit(current.copyWith(
+        noticeHour: event.hour,
+        noticeMinute: event.minute,
+      ));
+    });
     on<_SelectRepeatType>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
@@ -30,12 +48,14 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
       emit(current.copyWith(colorIndex: event.index));
     });
     on<_Add>((event, emit) async {
+      final form = state.mapOrNull(form: (s) => s);
+      if (form == null) return;
       final result = await _createHabitUseCase(
-        name: event.habitName,
-        description: event.habitDescription,
-        repeatType: event.repeatType,
-        repeatDay: event.repeatDays,
-        themeColor: event.themeColor,
+        name: form.habitName,
+        description: form.habitDescription,
+        repeatType: form.repeatType,
+        repeatDay: form.repeatDays,
+        themeColor: form.colorIndex,
       );
       result.fold(
         (failure) => emit(_Error(failure.when(
@@ -45,10 +65,10 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
         ))),
         (_) => emit(_Success(Habit(
           id: 0,
-          name: event.habitName,
-          description: event.habitDescription,
-          repeatType: event.repeatType,
-          repeatDay: event.repeatDays,
+          name: form.habitName,
+          description: form.habitDescription,
+          repeatType: form.repeatType,
+          repeatDay: form.repeatDays,
         ))),
       );
     });
@@ -57,22 +77,26 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
 
 @freezed
 sealed class HabitCreateEvent with _$HabitCreateEvent {
+  const factory HabitCreateEvent.habitNameChanged(String value) =
+      _HabitNameChanged;
+  const factory HabitCreateEvent.habitDescriptionChanged(String value) =
+      _HabitDescriptionChanged;
+  const factory HabitCreateEvent.noticeTimeChanged(int hour, int minute) =
+      _NoticeTimeChanged;
   const factory HabitCreateEvent.selectRepeatType(String type) =
       _SelectRepeatType;
   const factory HabitCreateEvent.toggleDay(String day) = _ToggleDay;
   const factory HabitCreateEvent.selectColor(int index) = _SelectColor;
-  const factory HabitCreateEvent.add(
-    String habitName,
-    String habitDescription,
-    String repeatType,
-    List<String> repeatDays,
-    int themeColor,
-  ) = _Add;
+  const factory HabitCreateEvent.add() = _Add;
 }
 
 @freezed
 sealed class HabitCreateState with _$HabitCreateState {
   const factory HabitCreateState.form({
+    @Default('') String habitName,
+    @Default('') String habitDescription,
+    @Default(0) int noticeHour,
+    @Default(0) int noticeMinute,
     @Default('daily') String repeatType,
     @Default([]) List<String> repeatDays,
     @Default(0) int colorIndex,

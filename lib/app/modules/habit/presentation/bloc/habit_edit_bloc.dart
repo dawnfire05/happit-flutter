@@ -28,10 +28,22 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
         ))),
         (habit) => emit(_Loaded(
           habit: habit,
+          name: habit.name,
+          description: habit.description,
           repeatType: habit.repeatType,
           repeatDays: habit.repeatDay ?? [],
         )),
       );
+    });
+    on<_NameChanged>((event, emit) {
+      final current = state.mapOrNull(loaded: (s) => s);
+      if (current == null) return;
+      emit(current.copyWith(name: event.value));
+    });
+    on<_DescriptionChanged>((event, emit) {
+      final current = state.mapOrNull(loaded: (s) => s);
+      if (current == null) return;
+      emit(current.copyWith(description: event.value));
     });
     on<_SelectRepeatType>((event, emit) {
       final current = state.mapOrNull(loaded: (s) => s);
@@ -63,13 +75,15 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
       );
     });
     on<_Edit>((event, emit) async {
+      final loaded = state.mapOrNull(loaded: (s) => s);
+      if (loaded == null) return;
       emit(const _Loading());
       final result = await _updateHabitUseCase(
         event.id,
-        name: event.name,
-        description: event.description,
-        repeatType: event.repeatType,
-        repeatDay: event.repeatDay,
+        name: loaded.name,
+        description: loaded.description,
+        repeatType: loaded.repeatType,
+        repeatDay: loaded.repeatDays,
       );
       result.fold(
         (failure) => emit(_Error(failure.when(
@@ -86,17 +100,14 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
 @freezed
 sealed class HabitEditEvent with _$HabitEditEvent {
   const factory HabitEditEvent.load(int id) = _Load;
+  const factory HabitEditEvent.nameChanged(String value) = _NameChanged;
+  const factory HabitEditEvent.descriptionChanged(String value) =
+      _DescriptionChanged;
   const factory HabitEditEvent.selectRepeatType(String type) = _SelectRepeatType;
   const factory HabitEditEvent.toggleDay(String day) = _ToggleDay;
   const factory HabitEditEvent.selectColor(int index) = _SelectColor;
   const factory HabitEditEvent.delete(int id) = _Delete;
-  const factory HabitEditEvent.edit(
-    int id, {
-    String? name,
-    String? description,
-    String? repeatType,
-    List<String>? repeatDay,
-  }) = _Edit;
+  const factory HabitEditEvent.edit(int id) = _Edit;
 }
 
 @freezed
@@ -105,6 +116,8 @@ sealed class HabitEditState with _$HabitEditState {
   const factory HabitEditState.loading() = _Loading;
   const factory HabitEditState.loaded({
     required Habit habit,
+    @Default('') String name,
+    @Default('') String description,
     @Default('daily') String repeatType,
     @Default([]) List<String> repeatDays,
     @Default(0) int colorIndex,
