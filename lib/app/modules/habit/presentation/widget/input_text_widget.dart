@@ -18,6 +18,7 @@ class InputTextWidget extends StatefulWidget {
   final FocusNode? focusNode;
   final String? value;
   final ValueChanged<String>? onChanged;
+  final bool obscureText;
 
   const InputTextWidget.basic({
     super.key,
@@ -26,6 +27,7 @@ class InputTextWidget extends StatefulWidget {
     this.focusNode,
     this.value,
     this.onChanged,
+    this.obscureText = false,
   }) : label = null,
        informationText = null,
        necessary = false;
@@ -40,6 +42,7 @@ class InputTextWidget extends StatefulWidget {
     this.focusNode,
     this.value,
     this.onChanged,
+    this.obscureText = false,
   });
 
   @override
@@ -147,6 +150,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
                     ? _internalController
                     : widget.controller,
                 focusNode: widget.focusNode,
+                obscureText: widget.obscureText,
                 style: const TextStyle(
                   color: Palette.black100,
                   fontSize: 13,

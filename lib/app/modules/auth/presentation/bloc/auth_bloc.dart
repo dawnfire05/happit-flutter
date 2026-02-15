@@ -125,6 +125,7 @@ sealed class AuthState with _$AuthState {
       };
 
   bool get isAuthenticated => this is _Authenticated;
+  bool get isLoading => this is _Loading;
 
   String get formUsername => switch (this) {
         _Unauthenticated(:final username) => username,

@@ -17,6 +17,11 @@ class SignUpScreen extends StatelessWidget {
           if (state.isSuccess) {
             const SignInRoute().go(context);
           }
+          final message = state.errorMessage;
+          if (message != null) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(message)));
+          }
         },
         child: const SignUpContent(),
       ),

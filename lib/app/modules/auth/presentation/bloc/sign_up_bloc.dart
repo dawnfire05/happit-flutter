@@ -12,28 +12,61 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   SignUpBloc(this._signUpUseCase) : super(const SignUpState.form()) {
     on<_EmailChanged>((event, emit) {
-      final current = state.mapOrNull(form: (s) => s);
-      if (current == null) return;
-      emit(current.copyWith(email: event.value));
+      final form = state.mapOrNull(form: (s) => s);
+      if (form != null) {
+        emit(form.copyWith(email: event.value));
+        return;
+      }
+      final error = state.mapOrNull(error: (s) => s);
+      if (error != null) {
+        emit(SignUpState.form(
+            email: event.value,
+            username: error.username,
+            password: error.password));
+      }
     });
     on<_UsernameChanged>((event, emit) {
-      final current = state.mapOrNull(form: (s) => s);
-      if (current == null) return;
-      emit(current.copyWith(username: event.value));
+      final form = state.mapOrNull(form: (s) => s);
+      if (form != null) {
+        emit(form.copyWith(username: event.value));
+        return;
+      }
+      final error = state.mapOrNull(error: (s) => s);
+      if (error != null) {
+        emit(SignUpState.form(
+            email: error.email,
+            username: event.value,
+            password: error.password));
+      }
     });
     on<_PasswordChanged>((event, emit) {
-      final current = state.mapOrNull(form: (s) => s);
-      if (current == null) return;
-      emit(current.copyWith(password: event.value));
+      final form = state.mapOrNull(form: (s) => s);
+      if (form != null) {
+        emit(form.copyWith(password: event.value));
+        return;
+      }
+      final error = state.mapOrNull(error: (s) => s);
+      if (error != null) {
+        emit(SignUpState.form(
+            email: error.email,
+            username: error.username,
+            password: event.value));
+      }
     });
     on<_SignUp>((event, emit) async {
-      final form = state.mapOrNull(form: (s) => s);
-      if (form == null) return;
+      final email = state.formEmail;
+      final username = state.formUsername;
+      final password = state.formPassword;
+      if (email.isEmpty || username.isEmpty || password.isEmpty) return;
       emit(const SignUpState.loading());
-      final result =
-          await _signUpUseCase(form.email, form.username, form.password);
+      final result = await _signUpUseCase(email, username, password);
       result.fold(
-        (failure) => emit(SignUpState.error(failureToMessage(failure))),
+        (failure) => emit(SignUpState.error(
+          failureToMessage(failure),
+          email: email,
+          username: username,
+          password: password,
+        )),
         (_) => emit(const SignUpState.success()),
       );
     });
@@ -57,8 +90,38 @@ sealed class SignUpState with _$SignUpState {
     @Default('') String password,
   }) = _Form;
   const factory SignUpState.loading() = _Loading;
-  const factory SignUpState.error(String error) = _Error;
+  const factory SignUpState.error(
+    String error, {
+    @Default('') String email,
+    @Default('') String username,
+    @Default('') String password,
+  }) = _Error;
   const factory SignUpState.success() = _Success;
 
   bool get isSuccess => this is _Success;
+  bool get isLoading => this is _Loading;
+  bool get isError => this is _Error;
+
+  String? get errorMessage => switch (this) {
+        _Error(:final error) => error,
+        _ => null,
+      };
+
+  String get formEmail => switch (this) {
+        _Form(:final email) => email,
+        _Error(:final email) => email,
+        _ => '',
+      };
+
+  String get formUsername => switch (this) {
+        _Form(:final username) => username,
+        _Error(:final username) => username,
+        _ => '',
+      };
+
+  String get formPassword => switch (this) {
+        _Form(:final password) => password,
+        _Error(:final password) => password,
+        _ => '',
+      };
 }

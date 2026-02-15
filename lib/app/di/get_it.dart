@@ -31,7 +31,7 @@ abstract class RegisterModule {
       BaseOptions(
         baseUrl: dotenv.get('SERVER_URL'),
         contentType: 'application/json',
-        validateStatus: (status) => true,
+        validateStatus: (status) => status != null && status < 400,
       ),
     );
 

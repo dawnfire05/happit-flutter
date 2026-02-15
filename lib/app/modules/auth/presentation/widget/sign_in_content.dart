@@ -42,7 +42,8 @@ class SignInContent extends StatelessWidget {
         },
         buildWhen: (prev, curr) =>
             prev.formUsername != curr.formUsername ||
-            prev.formPassword != curr.formPassword,
+            prev.formPassword != curr.formPassword ||
+            prev.isLoading != curr.isLoading,
         builder: (context, state) {
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 40),
@@ -68,17 +69,23 @@ class SignInContent extends StatelessWidget {
                   informationText: '비밀번호를 입력해주세요.',
                   hintText: '',
                   necessary: true,
+                  obscureText: true,
                 ),
                 const SizedBox(height: 24),
                 MainButton.basic(
                   text: '회원가입으로 이동',
-                  onPressed: () => const SignUpRoute().go(context),
+                  onPressed: state.isLoading
+                      ? null
+                      : () => const SignUpRoute().go(context),
                 ),
                 const SizedBox(height: 24),
                 MainButton.cta(
                   text: '로그인',
-                  onPressed: () =>
-                      context.read<AuthBloc>().add(const AuthEvent.signIn()),
+                  onPressed: state.isLoading
+                      ? null
+                      : () => context
+                            .read<AuthBloc>()
+                            .add(const AuthEvent.signIn()),
                 ),
               ],
             ),

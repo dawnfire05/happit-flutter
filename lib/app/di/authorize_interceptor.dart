@@ -25,7 +25,13 @@ class AuthorizeInterceptor extends Interceptor {
       DioException err, ErrorInterceptorHandler handler) async {
     final refreshToken = await _secureStorage.read(key: 'refreshToken');
 
-    if (err.response?.statusCode == 401 && refreshToken != null) {
+    final path = err.requestOptions.path;
+    final isAuthRequest =
+        path.contains('/auth/login') || path.contains('/auth/refresh');
+
+    if (err.response?.statusCode == 401 &&
+        refreshToken != null &&
+        !isAuthRequest) {
       if (_isRefreshing) {
         return handler.next(err);
       }
