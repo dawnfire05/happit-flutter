@@ -27,7 +27,7 @@ class HabitListRoutePage extends StatelessWidget {
           habitListBloc.add(const HabitListEvent.get());
         }
         if (grassBloc.state is! GrassSuccess) {
-          grassBloc.add(const GrassGet(_grassMonths));
+          grassBloc.add(const GrassEvent.get(_grassMonths));
         }
       },
       child: const HabitListScreen(),

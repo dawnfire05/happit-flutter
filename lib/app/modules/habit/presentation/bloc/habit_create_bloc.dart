@@ -13,41 +13,41 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
 
   HabitCreateBloc(this._createHabitUseCase)
     : super(const HabitCreateState.form()) {
-    on<_HabitNameChanged>((event, emit) {
+    on<HabitNameChanged>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
       emit(current.copyWith(habitName: event.value));
     });
-    on<_HabitDescriptionChanged>((event, emit) {
+    on<HabitDescriptionChanged>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
       emit(current.copyWith(habitDescription: event.value));
     });
-    on<_NoticeTimeChanged>((event, emit) {
+    on<NoticeTimeChanged>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
       emit(
         current.copyWith(noticeHour: event.hour, noticeMinute: event.minute),
       );
     });
-    on<_SelectRepeatType>((event, emit) {
+    on<SelectRepeatType>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
       emit(current.copyWith(repeatType: event.type, repeatDays: []));
     });
-    on<_ToggleDay>((event, emit) {
+    on<ToggleDay>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
       final days = List<String>.from(current.repeatDays);
       days.contains(event.day) ? days.remove(event.day) : days.add(event.day);
       emit(current.copyWith(repeatDays: days));
     });
-    on<_SelectColor>((event, emit) {
+    on<SelectColor>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
       emit(current.copyWith(themeColor: event.color));
     });
-    on<_Add>((event, emit) async {
+    on<Add>((event, emit) async {
       final form = state.mapOrNull(form: (s) => s);
       if (form == null) return;
       final result = await _createHabitUseCase(
@@ -58,9 +58,9 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
         themeColor: form.themeColor,
       );
       result.fold(
-        (failure) => emit(_Error(failureToMessage(failure))),
+        (failure) => emit(Error(failureToMessage(failure))),
         (_) => emit(
-          _Success(
+          Success(
             Habit(
               id: 0,
               name: form.habitName,
@@ -79,16 +79,16 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
 @freezed
 sealed class HabitCreateEvent with _$HabitCreateEvent {
   const factory HabitCreateEvent.habitNameChanged(String value) =
-      _HabitNameChanged;
+      HabitNameChanged;
   const factory HabitCreateEvent.habitDescriptionChanged(String value) =
-      _HabitDescriptionChanged;
+      HabitDescriptionChanged;
   const factory HabitCreateEvent.noticeTimeChanged(int hour, int minute) =
-      _NoticeTimeChanged;
+      NoticeTimeChanged;
   const factory HabitCreateEvent.selectRepeatType(String type) =
-      _SelectRepeatType;
-  const factory HabitCreateEvent.toggleDay(String day) = _ToggleDay;
-  const factory HabitCreateEvent.selectColor(String color) = _SelectColor;
-  const factory HabitCreateEvent.add() = _Add;
+      SelectRepeatType;
+  const factory HabitCreateEvent.toggleDay(String day) = ToggleDay;
+  const factory HabitCreateEvent.selectColor(String color) = SelectColor;
+  const factory HabitCreateEvent.add() = Add;
 }
 
 @freezed
@@ -101,7 +101,7 @@ sealed class HabitCreateState with _$HabitCreateState {
     @Default('daily') String repeatType,
     @Default([]) List<String> repeatDays,
     @Default('#66D271') String themeColor,
-  }) = _Form;
-  const factory HabitCreateState.error(String error) = _Error;
-  const factory HabitCreateState.success(Habit habit) = _Success;
+  }) = Form;
+  const factory HabitCreateState.error(String error) = Error;
+  const factory HabitCreateState.success(Habit habit) = Success;
 }

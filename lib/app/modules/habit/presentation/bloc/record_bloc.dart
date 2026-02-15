@@ -18,35 +18,35 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
     this._getRecordsUseCase,
     this._checkRecordUseCase,
     this._uncheckRecordUseCase,
-  ) : super(const _Initial()) {
-    on<_Get>(_onGet);
-    on<_Check>(_onCheck);
-    on<_Toggle>(_onToggle);
+  ) : super(const Initial()) {
+    on<Get>(_onGet);
+    on<Check>(_onCheck);
+    on<Toggle>(_onToggle);
   }
 
   final GetRecordsUseCase _getRecordsUseCase;
   final CheckRecordUseCase _checkRecordUseCase;
   final UncheckRecordUseCase _uncheckRecordUseCase;
 
-  Future<void> _onGet(_Get event, Emitter<RecordState> emit) async {
-    emit(const _Loading());
+  Future<void> _onGet(Get event, Emitter<RecordState> emit) async {
+    emit(const Loading());
     final result = await _getRecordsUseCase(event.habitId);
     result.fold(
-      (failure) => emit(_Error(failureToMessage(failure))),
+      (failure) => emit(Error(failureToMessage(failure))),
       (records) => emit(_buildSuccess(records)),
     );
   }
 
-  Future<void> _onCheck(_Check event, Emitter<RecordState> emit) async {
+  Future<void> _onCheck(Check event, Emitter<RecordState> emit) async {
     final result = await _checkRecordUseCase(event.habitId);
     result.fold(
-      (failure) => emit(_Error(failureToMessage(failure))),
+      (failure) => emit(Error(failureToMessage(failure))),
       (records) => emit(_buildSuccess(records)),
     );
   }
 
   /// 완료 상태면 미완료로, 미완료 상태면 완료로 토글. 즉시 UI 반영을 위해 낙관적 업데이트 후 API 호출.
-  Future<void> _onToggle(_Toggle event, Emitter<RecordState> emit) async {
+  Future<void> _onToggle(Toggle event, Emitter<RecordState> emit) async {
     final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final previousState = state;
     final wasDone = previousState.maybeWhen(
@@ -75,10 +75,10 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
     result.fold((failure) {
       // 실패 시 이전 상태로 복구 (사용자가 다시 시도 가능)
-      if (previousState is _Success) {
+      if (previousState is Success) {
         emit(previousState);
       } else {
-        emit(_Error(failureToMessage(failure)));
+        emit(Error(failureToMessage(failure)));
       }
     }, (records) => emit(_buildSuccess(records)));
   }
@@ -117,16 +117,16 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
 @freezed
 sealed class RecordEvent with _$RecordEvent {
-  const factory RecordEvent.check(int habitId) = _Check;
-  const factory RecordEvent.get(int habitId) = _Get;
-  const factory RecordEvent.toggle(int habitId) = _Toggle;
+  const factory RecordEvent.check(int habitId) = Check;
+  const factory RecordEvent.get(int habitId) = Get;
+  const factory RecordEvent.toggle(int habitId) = Toggle;
 }
 
 @freezed
-class RecordState with _$RecordState {
-  const factory RecordState.initial() = _Initial;
-  const factory RecordState.loading() = _Loading;
-  const factory RecordState.error(String error) = _Error;
+sealed class RecordState with _$RecordState {
+  const factory RecordState.initial() = Initial;
+  const factory RecordState.loading() = Loading;
+  const factory RecordState.error(String error) = Error;
   const factory RecordState.success(List<Record> records, String todayStatus) =
-      _Success;
+      Success;
 }

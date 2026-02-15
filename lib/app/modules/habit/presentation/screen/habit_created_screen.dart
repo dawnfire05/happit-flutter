@@ -134,7 +134,7 @@ class HabitCreatedScreen extends StatelessWidget {
               text: '메인 화면으로',
               onPressed: () {
                 context.read<HabitListBloc>().add(const HabitListEvent.get());
-                context.read<GrassBloc>().add(const GrassGet(3));
+                context.read<GrassBloc>().add(const GrassEvent.get(3));
                 const HabitListRoute().go(context);
               },
             ),

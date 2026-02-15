@@ -17,18 +17,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetCurrentUserUseCase _getCurrentUserUseCase;
   final LogoutUseCase _logoutUseCase;
 
-  AuthBloc(this._signInUseCase, this._signUpUseCase, this._getCurrentUserUseCase,
-      this._logoutUseCase)
-      : super(const _Initial()) {
-    on<_Load>((event, emit) async {
-      emit(const _Loading());
+  AuthBloc(
+    this._signInUseCase,
+    this._signUpUseCase,
+    this._getCurrentUserUseCase,
+    this._logoutUseCase,
+  ) : super(const Initial()) {
+    on<Load>((event, emit) async {
+      emit(const Loading());
       final result = await _getCurrentUserUseCase();
       result.fold(
-        (failure) => emit(const _Unauthenticated()),
-        (user) => emit(_Authenticated(user)),
+        (failure) => emit(const Unauthenticated()),
+        (user) => emit(Authenticated(user)),
       );
     });
-    on<_SignInUsernameChanged>((event, emit) {
+    on<SignInUsernameChanged>((event, emit) {
       final u = state.mapOrNull(unauthenticated: (s) => s);
       if (u != null) {
         emit(u.copyWith(username: event.value));
@@ -36,10 +39,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
       final e = state.mapOrNull(error: (s) => s);
       if (e != null) {
-        emit(_Unauthenticated(username: event.value, password: e.password));
+        emit(Unauthenticated(username: event.value, password: e.password));
       }
     });
-    on<_SignInPasswordChanged>((event, emit) {
+    on<SignInPasswordChanged>((event, emit) {
       final u = state.mapOrNull(unauthenticated: (s) => s);
       if (u != null) {
         emit(u.copyWith(password: event.value));
@@ -47,40 +50,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
       final e = state.mapOrNull(error: (s) => s);
       if (e != null) {
-        emit(_Unauthenticated(username: e.username, password: event.value));
+        emit(Unauthenticated(username: e.username, password: event.value));
       }
     });
-    on<_SignIn>((event, emit) async {
+    on<SignIn>((event, emit) async {
       final unauthenticated = state.mapOrNull(unauthenticated: (s) => s);
       if (unauthenticated == null) return;
       final username = unauthenticated.username;
       final password = unauthenticated.password;
-      emit(const _Loading());
+      emit(const Loading());
       final result = await _signInUseCase(username, password);
       result.fold(
-        (failure) => emit(_Error(
-          failureToMessage(failure),
-          username: username,
-          password: password,
-        )),
-        (user) => emit(_Authenticated(user)),
+        (failure) => emit(
+          Error(
+            failureToMessage(failure),
+            username: username,
+            password: password,
+          ),
+        ),
+        (user) => emit(Authenticated(user)),
       );
     });
-    on<_SignUp>((event, emit) async {
-      emit(const _Loading());
-      final result =
-          await _signUpUseCase(event.email, event.username, event.password);
+    on<SignUp>((event, emit) async {
+      emit(const Loading());
+      final result = await _signUpUseCase(
+        event.email,
+        event.username,
+        event.password,
+      );
       result.fold(
-        (failure) => emit(_Error(failureToMessage(failure))),
-        (_) => emit(const _Unauthenticated()),
+        (failure) => emit(Error(failureToMessage(failure))),
+        (_) => emit(const Unauthenticated()),
       );
     });
-    on<_Logout>((event, emit) async {
-      emit(const _Loading());
+    on<Logout>((event, emit) async {
+      emit(const Loading());
       final result = await _logoutUseCase();
       result.fold(
-        (failure) => emit(_Error(failureToMessage(failure))),
-        (_) => emit(const _Unauthenticated()),
+        (failure) => emit(Error(failureToMessage(failure))),
+        (_) => emit(const Unauthenticated()),
       );
     });
   }
@@ -88,54 +96,54 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 @freezed
 sealed class AuthEvent with _$AuthEvent {
-  const factory AuthEvent.load() = _Load;
+  const factory AuthEvent.load() = Load;
   const factory AuthEvent.signInUsernameChanged(String value) =
-      _SignInUsernameChanged;
+      SignInUsernameChanged;
   const factory AuthEvent.signInPasswordChanged(String value) =
-      _SignInPasswordChanged;
-  const factory AuthEvent.signIn() = _SignIn;
+      SignInPasswordChanged;
+  const factory AuthEvent.signIn() = SignIn;
   const factory AuthEvent.signUp(
     String email,
     String username,
     String password,
-  ) = _SignUp;
-  const factory AuthEvent.logout() = _Logout;
+  ) = SignUp;
+  const factory AuthEvent.logout() = Logout;
 }
 
 @freezed
 sealed class AuthState with _$AuthState {
   const AuthState._();
-  const factory AuthState.initial() = _Initial;
-  const factory AuthState.loading() = _Loading;
+  const factory AuthState.initial() = Initial;
+  const factory AuthState.loading() = Loading;
   const factory AuthState.error(
     String error, {
     @Default('') String username,
     @Default('') String password,
-  }) = _Error;
-  const factory AuthState.authenticated(User user) = _Authenticated;
+  }) = Error;
+  const factory AuthState.authenticated(User user) = Authenticated;
   const factory AuthState.unauthenticated({
     @Default('') String username,
     @Default('') String password,
-  }) = _Unauthenticated;
+  }) = Unauthenticated;
 
   /// 공개 API: 다른 라이브러리에서 switch 없이 에러 메시지/인증 여부 접근용.
   String? get errorMessage => switch (this) {
-        _Error(:final error) => error,
-        _ => null,
-      };
+    Error(:final error) => error,
+    _ => null,
+  };
 
-  bool get isAuthenticated => this is _Authenticated;
-  bool get isLoading => this is _Loading;
+  bool get isAuthenticated => this is Authenticated;
+  bool get isLoading => this is Loading;
 
   String get formUsername => switch (this) {
-        _Unauthenticated(:final username) => username,
-        _Error(:final username) => username,
-        _ => '',
-      };
+    Unauthenticated(:final username) => username,
+    Error(:final username) => username,
+    _ => '',
+  };
 
   String get formPassword => switch (this) {
-        _Unauthenticated(:final password) => password,
-        _Error(:final password) => password,
-        _ => '',
-      };
+    Unauthenticated(:final password) => password,
+    Error(:final password) => password,
+    _ => '',
+  };
 }

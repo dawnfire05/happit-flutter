@@ -14,43 +14,6 @@ import 'package:happit_flutter/values/palette.dart';
 class HabitListScreen extends StatelessWidget {
   const HabitListScreen({super.key});
 
-  // late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-  //   const AndroidInitializationSettings initializationSettingsAndroid =
-  //       AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  //   const InitializationSettings initializationSettings =
-  //       InitializationSettings(android: initializationSettingsAndroid);
-
-  //   flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  // }
-
-  // Future<void> _showNotification() async {
-  //   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  //       AndroidNotificationDetails(
-  //     'your_channel_id',
-  //     'your_channel_name',
-  //     importance: Importance.high,
-  //     priority: Priority.high,
-  //     showWhen: false,
-  //   );
-  //   const NotificationDetails platformChannelSpecifics =
-  //       NotificationDetails(android: androidPlatformChannelSpecifics);
-  //   await flutterLocalNotificationsPlugin.show(
-  //     0,
-  //     '제목',
-  //     '내용',
-  //     platformChannelSpecifics,
-  //     payload: 'item id 2',
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +25,7 @@ class HabitListScreen extends StatelessWidget {
               return RefreshIndicator(
                 onRefresh: () async {
                   context.read<HabitListBloc>().add(const HabitListEvent.get());
-                  context.read<GrassBloc>().add(const GrassGet(3));
+                  context.read<GrassBloc>().add(const GrassEvent.get(3));
                 },
                 child: Column(
                   children: [
@@ -83,15 +46,18 @@ class HabitListScreen extends StatelessWidget {
     HabitListState habitState,
     GrassState grassState,
   ) {
-    return habitState.when(
-      initial: () => _buildEmptyHabitScreen(context),
-      loading: () => const LoadingScreen(),
-      error: (e) => _buildErrorScreen(context),
-      success: (habits) {
-        if (habits.isEmpty) return _buildEmptyHabitScreen(context);
-        return _buildHabitListScreen(habits, grassState);
-      },
-    );
+    return switch (habitState) {
+      Initial() => _buildEmptyHabitScreen(context),
+      Loading(:final previousHabits) =>
+        previousHabits == null
+            ? const LoadingScreen()
+            : _buildHabitListScreen(previousHabits, grassState),
+      Error() => _buildErrorScreen(context),
+      Success(:final habits) =>
+        habits.isEmpty
+            ? _buildEmptyHabitScreen(context)
+            : _buildHabitListScreen(habits, grassState),
+    };
   }
 
   Expanded _buildHabitListScreen(List<Habit> habits, GrassState grassState) {
@@ -111,7 +77,7 @@ class HabitListScreen extends StatelessWidget {
             grassRecords: grassRecords,
             onRecordToggled: grassRecords != null
                 ? () {
-                    context.read<GrassBloc>().add(const GrassGet(3));
+                    context.read<GrassBloc>().add(const GrassEvent.get(3));
                     context.read<HabitListBloc>().add(
                       const HabitListEvent.get(),
                     );

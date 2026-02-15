@@ -11,29 +11,32 @@ part 'habit_list_bloc.freezed.dart';
 class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
   final GetHabitsUseCase _getHabitsUseCase;
 
-  HabitListBloc(this._getHabitsUseCase) : super(const _Initial()) {
-    on<_Get>(
-      (event, emit) async {
-        emit(const _Loading());
-        final result = await _getHabitsUseCase();
-        result.fold(
-          (failure) => emit(_Error(failureToMessage(failure))),
-          (habits) => emit(_Success(habits)),
-        );
-      },
-    );
+  HabitListBloc(this._getHabitsUseCase) : super(const Initial()) {
+    on<Get>((event, emit) async {
+      // 이전 성공 데이터가 있으면 loading 상태에 포함
+      final previousHabits = state is Success
+          ? (state as Success).habits
+          : null;
+
+      emit(Loading(previousHabits: previousHabits));
+      final result = await _getHabitsUseCase();
+      result.fold(
+        (failure) => emit(Error(failureToMessage(failure))),
+        (habits) => emit(Success(habits)),
+      );
+    });
   }
 }
 
 @freezed
 sealed class HabitListEvent with _$HabitListEvent {
-  const factory HabitListEvent.get() = _Get;
+  const factory HabitListEvent.get() = Get;
 }
 
 @freezed
-class HabitListState with _$HabitListState {
-  const factory HabitListState.initial() = _Initial;
-  const factory HabitListState.loading() = _Loading;
-  const factory HabitListState.error(String error) = _Error;
-  const factory HabitListState.success(List<Habit> habits) = _Success;
+sealed class HabitListState with _$HabitListState {
+  const factory HabitListState.initial() = Initial;
+  const factory HabitListState.loading({List<Habit>? previousHabits}) = Loading;
+  const factory HabitListState.error(String error) = Error;
+  const factory HabitListState.success(List<Habit> habits) = Success;
 }
