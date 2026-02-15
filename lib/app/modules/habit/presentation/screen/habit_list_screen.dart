@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/button.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/happit_app_bar.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/loading_screen.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/grass_bloc.dart';
@@ -83,8 +84,8 @@ class HabitListScreen extends StatelessWidget {
     GrassState grassState,
   ) {
     return habitState.when(
-      initial: () => const Center(child: Text('초기 상태')),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      initial: () => _buildEmptyHabitScreen(context),
+      loading: () => const LoadingScreen(),
       error: (e) => _buildErrorScreen(context),
       success: (habits) {
         if (habits.isEmpty) return _buildEmptyHabitScreen(context);
