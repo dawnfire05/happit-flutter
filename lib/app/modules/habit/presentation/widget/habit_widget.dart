@@ -25,11 +25,10 @@ class HabitWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final habit = habitWithGrass.habit;
-    final recordBloc = sl<RecordBlocCache>().getBloc(habit.id);
     final habitColor = colorFromHex(habit.themeColor) ?? Palette.primary;
 
     return BlocProvider.value(
-      value: recordBloc,
+      value: sl<RecordBlocCache>().getBloc(habit.id),
       child: BlocListener<RecordBloc, RecordState>(
         listenWhen: _shouldNotifyToggle,
         listener: (context, state) => onRecordToggled(),
@@ -43,7 +42,10 @@ class HabitWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _HabitHeader(name: habit.name, currentStreak: habit.currentStreak),
+              _HabitHeader(
+                name: habit.name,
+                currentStreak: habit.currentStreak,
+              ),
               const SizedBox(height: 16),
               _HabitContent(
                 habitId: habit.id,
