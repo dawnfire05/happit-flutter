@@ -54,14 +54,20 @@ import 'package:happit_flutter/app/modules/habit/domain/usecase/create_habit_use
     as _i55;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart'
     as _i389;
+import 'package:happit_flutter/app/modules/habit/domain/usecase/get_grass_use_case.dart'
+    as _i664;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart'
     as _i460;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habits_use_case.dart'
     as _i508;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_records_use_case.dart'
     as _i284;
+import 'package:happit_flutter/app/modules/habit/domain/usecase/uncheck_record_use_case.dart'
+    as _i104;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/update_habit_use_case.dart'
     as _i320;
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/grass_bloc.dart'
+    as _i962;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_create_bloc.dart'
     as _i735;
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_edit_bloc.dart'
@@ -160,11 +166,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i7.CheckRecordUseCase>(
       () => _i7.CheckRecordUseCase(gh<_i961.RecordRepository>()),
     );
+    gh.lazySingleton<_i664.GetGrassUseCase>(
+      () => _i664.GetGrassUseCase(gh<_i961.RecordRepository>()),
+    );
     gh.lazySingleton<_i284.GetRecordsUseCase>(
       () => _i284.GetRecordsUseCase(gh<_i961.RecordRepository>()),
     );
+    gh.lazySingleton<_i104.UncheckRecordUseCase>(
+      () => _i104.UncheckRecordUseCase(gh<_i961.RecordRepository>()),
+    );
     gh.factory<_i637.HabitListBloc>(
       () => _i637.HabitListBloc(gh<_i508.GetHabitsUseCase>()),
+    );
+    gh.factory<_i962.GrassBloc>(
+      () => _i962.GrassBloc(gh<_i664.GetGrassUseCase>()),
     );
     gh.factory<_i248.HabitEditBloc>(
       () => _i248.HabitEditBloc(
@@ -180,6 +195,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i778.RecordBloc(
         gh<_i284.GetRecordsUseCase>(),
         gh<_i7.CheckRecordUseCase>(),
+        gh<_i104.UncheckRecordUseCase>(),
       ),
     );
     return this;

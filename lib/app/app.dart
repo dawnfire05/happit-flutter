@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/grass_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/constants.dart';
@@ -14,8 +15,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Palette.primary),
         fontFamily: Constants.notoSansKR,
+        colorScheme: ColorScheme.fromSeed(seedColor: Palette.primary),
         appBarTheme: const AppBarTheme(backgroundColor: Palette.white),
         scaffoldBackgroundColor: Palette.white,
       ),
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
               create: (context) =>
                   sl<HabitListBloc>()..add(const HabitListEvent.get()),
             ),
+            BlocProvider(lazy: true, create: (context) => sl<GrassBloc>()),
           ],
           child: child!,
         );

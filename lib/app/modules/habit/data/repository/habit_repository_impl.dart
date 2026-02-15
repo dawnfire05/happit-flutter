@@ -18,6 +18,7 @@ class HabitRepositoryImpl implements HabitRepository {
   Future<Either<Failure, List<Habit>>> getHabits() async {
     try {
       final models = await _dataSource.getHabits();
+      models.sort((a, b) => a.createdAt.compareTo(b.createdAt));
       return right(models.map((m) => m.toEntity()).toList());
     } catch (e) {
       return left(mapExceptionToFailure(e));
@@ -40,16 +41,18 @@ class HabitRepositoryImpl implements HabitRepository {
     required String description,
     required String repeatType,
     List<String>? repeatDay,
-    required int themeColor,
+    required String themeColor,
   }) async {
     try {
-      await _dataSource.createHabit(CreateHabitModel(
-        name: name,
-        description: description,
-        repeatType: repeatType,
-        repeatDay: repeatDay,
-        themeColor: themeColor,
-      ));
+      await _dataSource.createHabit(
+        CreateHabitModel(
+          name: name,
+          description: description,
+          repeatType: repeatType,
+          repeatDay: repeatDay,
+          themeColor: themeColor,
+        ),
+      );
       return right(null);
     } catch (e) {
       return left(mapExceptionToFailure(e));
@@ -63,6 +66,7 @@ class HabitRepositoryImpl implements HabitRepository {
     String? description,
     String? repeatType,
     List<String>? repeatDay,
+    String? themeColor,
   }) async {
     try {
       await _dataSource.updateHabit(
@@ -72,6 +76,7 @@ class HabitRepositoryImpl implements HabitRepository {
           description: description,
           repeatType: repeatType,
           repeatDay: repeatDay,
+          themeColor: themeColor,
         ),
       );
       return right(null);

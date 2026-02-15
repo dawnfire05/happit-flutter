@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:happit_flutter/app/di/authorize_interceptor.dart';
 import 'package:happit_flutter/app/di/get_it.config.dart';
 import 'package:happit_flutter/app/modules/auth/data/repository/auth_data_source.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc_cache.dart';
 import 'package:injectable/injectable.dart';
 import 'dart:io';
 import 'package:dio/io.dart';
@@ -15,6 +16,7 @@ final sl = GetIt.instance;
 Future<void> configureDependencies() async {
   await dotenv.load();
   await sl.init();
+  sl.registerLazySingleton<RecordBlocCache>(() => RecordBlocCache(sl));
   sl<Dio>().interceptors.add(sl<AuthorizeInterceptor>());
 }
 
@@ -25,11 +27,13 @@ abstract class RegisterModule {
 
   @singleton
   Dio get dio {
-    final dio = Dio(BaseOptions(
-      baseUrl: dotenv.get('SERVER_URL'),
-      contentType: 'application/json',
-      validateStatus: (status) => true,
-    ));
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: dotenv.get('SERVER_URL'),
+        contentType: 'application/json',
+        validateStatus: (status) => true,
+      ),
+    );
 
     (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
       final client = HttpClient();
@@ -42,7 +46,9 @@ abstract class RegisterModule {
 
   @singleton
   AuthorizeInterceptor authorizeInterceptor(
-      FlutterSecureStorage secureStorage, AuthDataSource dataSource) {
+    FlutterSecureStorage secureStorage,
+    AuthDataSource dataSource,
+  ) {
     return AuthorizeInterceptor(secureStorage, dataSource);
   }
 }
