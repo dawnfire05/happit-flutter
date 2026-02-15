@@ -18,7 +18,7 @@ class Button extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          '습관 추가하러 가기',
+          content,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
