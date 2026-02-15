@@ -47,8 +47,9 @@ class SignInContent extends StatelessWidget {
         builder: (context, state) {
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 40),
-            child: Column(
-              children: [
+            child: AutofillGroup(
+              child: Column(
+                children: [
                 InputTextWidget.full(
                   value: state.formUsername,
                   onChanged: (v) => context.read<AuthBloc>().add(
@@ -58,6 +59,8 @@ class SignInContent extends StatelessWidget {
                   informationText: '유저이름을 입력해주세요',
                   hintText: '',
                   necessary: true,
+                  textInputAction: TextInputAction.next,
+                  autofillHints: const [AutofillHints.username],
                 ),
                 const SizedBox(height: 18),
                 InputTextWidget.full(
@@ -70,6 +73,8 @@ class SignInContent extends StatelessWidget {
                   hintText: '',
                   necessary: true,
                   obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const [AutofillHints.password],
                 ),
                 const SizedBox(height: 24),
                 MainButton.basic(
@@ -87,7 +92,8 @@ class SignInContent extends StatelessWidget {
                             .read<AuthBloc>()
                             .add(const AuthEvent.signIn()),
                 ),
-              ],
+                ],
+              ),
             ),
           );
         },

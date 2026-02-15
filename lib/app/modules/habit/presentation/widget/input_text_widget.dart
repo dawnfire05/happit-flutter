@@ -19,6 +19,8 @@ class InputTextWidget extends StatefulWidget {
   final String? value;
   final ValueChanged<String>? onChanged;
   final bool obscureText;
+  final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
 
   const InputTextWidget.basic({
     super.key,
@@ -28,6 +30,8 @@ class InputTextWidget extends StatefulWidget {
     this.value,
     this.onChanged,
     this.obscureText = false,
+    this.textInputAction,
+    this.autofillHints,
   }) : label = null,
        informationText = null,
        necessary = false;
@@ -43,6 +47,8 @@ class InputTextWidget extends StatefulWidget {
     this.value,
     this.onChanged,
     this.obscureText = false,
+    this.textInputAction,
+    this.autofillHints,
   });
 
   @override
@@ -151,6 +157,8 @@ class _InputTextWidgetState extends State<InputTextWidget> {
                     : widget.controller,
                 focusNode: widget.focusNode,
                 obscureText: widget.obscureText,
+                textInputAction: widget.textInputAction,
+                autofillHints: widget.autofillHints,
                 style: const TextStyle(
                   color: Palette.black100,
                   fontSize: 13,
