@@ -46,6 +46,9 @@ class HabitWidget extends StatelessWidget {
   /// 습관 테마 색상 (Hex #RRGGBB).
   final String themeColor;
 
+  /// 현재 연속 달성 일수.
+  final int currentStreak;
+
   /// 잔디 API로 가져온 기록. 있으면 이걸로 그리드 표시, 없으면 RecordBloc 사용.
   final List<Record>? grassRecords;
 
@@ -57,6 +60,7 @@ class HabitWidget extends StatelessWidget {
     required this.id,
     required this.name,
     required this.themeColor,
+    required this.currentStreak,
     this.grassRecords,
     this.onRecordToggled,
   });
@@ -124,10 +128,10 @@ class HabitWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text(
-                      '연속 777일',
+                    child: Text(
+                      '연속 $currentStreak일',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF56B45F),
                         fontSize: 14,
 

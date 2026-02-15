@@ -11,5 +11,6 @@ abstract class Habit with _$Habit {
     required String repeatType,
     List<String>? repeatDay,
     @Default('#66D271') String themeColor,
+    @Default(0) int currentStreak,
   }) = _Habit;
 }

@@ -17,6 +17,7 @@ abstract class HabitModel with _$HabitModel {
     @Default([]) List<String> repeatDay,
     @Default([]) List<dynamic> noticeTime,
     @Default('#66D271') String themeColor,
+    @Default(0) int currentStreak,
     @Default('') String createdAt,
     @Default('') String updatedAt,
   }) = _HabitModel;
@@ -33,5 +34,6 @@ extension HabitModelX on HabitModel {
     repeatType: repeatType,
     repeatDay: repeatDay.isEmpty ? null : repeatDay,
     themeColor: themeColor,
+    currentStreak: currentStreak,
   );
 }

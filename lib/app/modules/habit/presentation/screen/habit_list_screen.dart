@@ -106,9 +106,15 @@ class HabitListScreen extends StatelessWidget {
             id: habit.id,
             name: habit.name,
             themeColor: habit.themeColor,
+            currentStreak: habit.currentStreak,
             grassRecords: grassRecords,
             onRecordToggled: grassRecords != null
-                ? () => context.read<GrassBloc>().add(const GrassGet(3))
+                ? () {
+                    context.read<GrassBloc>().add(const GrassGet(3));
+                    context
+                        .read<HabitListBloc>()
+                        .add(const HabitListEvent.get());
+                  }
                 : null,
           );
         },
