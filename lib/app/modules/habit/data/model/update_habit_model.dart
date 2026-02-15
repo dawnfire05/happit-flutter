@@ -3,8 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'update_habit_model.freezed.dart';
 part 'update_habit_model.g.dart';
 
-@freezed
+@Freezed(toJson: true, fromJson: true)
 abstract class UpdateHabitModel with _$UpdateHabitModel {
+  @JsonSerializable(includeIfNull: false)
   const factory UpdateHabitModel({
     String? name,
     String? type,

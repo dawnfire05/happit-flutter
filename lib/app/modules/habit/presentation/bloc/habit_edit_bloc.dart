@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
-import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/update_habit_use_case.dart';
@@ -30,7 +29,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
           description: habit.description,
           repeatType: habit.repeatType,
           repeatDays: habit.repeatDay ?? [],
-          colorIndex: habitThemeColorHexToIndex(habit.themeColor),
+          themeColor: habit.themeColor,
         )),
       );
     });
@@ -59,7 +58,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
     on<_SelectColor>((event, emit) {
       final current = state.mapOrNull(loaded: (s) => s);
       if (current == null) return;
-      emit(current.copyWith(colorIndex: event.index));
+      emit(current.copyWith(themeColor: event.color));
     });
     on<_Delete>((event, emit) async {
       emit(const _Loading());
@@ -79,7 +78,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
         description: loaded.description,
         repeatType: loaded.repeatType,
         repeatDay: loaded.repeatDays,
-        themeColor: habitThemeColorIndexToHex(loaded.colorIndex),
+        themeColor: loaded.themeColor,
       );
       result.fold(
         (failure) => emit(_Error(failureToMessage(failure))),
@@ -97,7 +96,7 @@ sealed class HabitEditEvent with _$HabitEditEvent {
       _DescriptionChanged;
   const factory HabitEditEvent.selectRepeatType(String type) = _SelectRepeatType;
   const factory HabitEditEvent.toggleDay(String day) = _ToggleDay;
-  const factory HabitEditEvent.selectColor(int index) = _SelectColor;
+  const factory HabitEditEvent.selectColor(String color) = _SelectColor;
   const factory HabitEditEvent.delete(int id) = _Delete;
   const factory HabitEditEvent.edit(int id) = _Edit;
 }
@@ -112,7 +111,7 @@ sealed class HabitEditState with _$HabitEditState {
     @Default('') String description,
     @Default('daily') String repeatType,
     @Default([]) List<String> repeatDays,
-    @Default(0) int colorIndex,
+    @Default('#66D271') String themeColor,
   }) = _Loaded;
   const factory HabitEditState.error(String error) = _Error;
   const factory HabitEditState.success() = _Success;

@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
-import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/create_habit_use_case.dart';
 import 'package:injectable/injectable.dart';
 
@@ -46,18 +45,17 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
     on<_SelectColor>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
-      emit(current.copyWith(colorIndex: event.index));
+      emit(current.copyWith(themeColor: event.color));
     });
     on<_Add>((event, emit) async {
       final form = state.mapOrNull(form: (s) => s);
       if (form == null) return;
-      final themeHex = habitThemeColorIndexToHex(form.colorIndex);
       final result = await _createHabitUseCase(
         name: form.habitName,
         description: form.habitDescription,
         repeatType: form.repeatType,
         repeatDay: form.repeatDays,
-        themeColor: themeHex,
+        themeColor: form.themeColor,
       );
       result.fold(
         (failure) => emit(_Error(failureToMessage(failure))),
@@ -69,7 +67,7 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
               description: form.habitDescription,
               repeatType: form.repeatType,
               repeatDay: form.repeatDays,
-              themeColor: themeHex,
+              themeColor: form.themeColor,
             ),
           ),
         ),
@@ -89,7 +87,7 @@ sealed class HabitCreateEvent with _$HabitCreateEvent {
   const factory HabitCreateEvent.selectRepeatType(String type) =
       _SelectRepeatType;
   const factory HabitCreateEvent.toggleDay(String day) = _ToggleDay;
-  const factory HabitCreateEvent.selectColor(int index) = _SelectColor;
+  const factory HabitCreateEvent.selectColor(String color) = _SelectColor;
   const factory HabitCreateEvent.add() = _Add;
 }
 
@@ -102,7 +100,7 @@ sealed class HabitCreateState with _$HabitCreateState {
     @Default(0) int noticeMinute,
     @Default('daily') String repeatType,
     @Default([]) List<String> repeatDays,
-    @Default(0) int colorIndex,
+    @Default('#66D271') String themeColor,
   }) = _Form;
   const factory HabitCreateState.error(String error) = _Error;
   const factory HabitCreateState.success(Habit habit) = _Success;

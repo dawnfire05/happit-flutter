@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
 
 class InputThemeWidget extends StatelessWidget {
   const InputThemeWidget({
     super.key,
-    required this.selectedColorIndex,
+    required this.selectedColor,
     required this.onThemeChanged,
   });
 
-  final int selectedColorIndex;
-  final ValueChanged<int> onThemeChanged;
+  final String selectedColor;
+  final ValueChanged<String> onThemeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +51,19 @@ class InputThemeWidget extends StatelessWidget {
           ),
           Wrap(
             spacing: 12,
-            children: [
-              _buildColorThemeContainer(0, const Color(0xff66D271)),
-              _buildColorThemeContainer(1, const Color(0xff7D5BA6)),
-              _buildColorThemeContainer(2, const Color(0xffFC6471)),
-              _buildColorThemeContainer(3, const Color(0xffF8C630)),
-              _buildColorThemeContainer(4, const Color(0xff30C5FF)),
-            ],
+            children: habitThemeColorHexList
+                .map((hex) => _buildColorThemeContainer(hex))
+                .toList(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildColorThemeContainer(int index, Color color) {
-    bool isSelected = selectedColorIndex == index;
+  Widget _buildColorThemeContainer(String hex) {
+    bool isSelected = selectedColor == hex;
     return GestureDetector(
-      onTap: () => onThemeChanged(index),
+      onTap: () => onThemeChanged(hex),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -82,7 +79,7 @@ class InputThemeWidget extends StatelessWidget {
                   spreadRadius: 0,
                 ),
               ],
-              color: color,
+              color: colorFromHex(hex) ?? const Color(0xff66D271),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

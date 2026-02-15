@@ -64,7 +64,7 @@ class HabitCreatingScreen extends StatelessWidget {
 
                   final repeatType = form.repeatType;
                   final repeatDays = form.repeatDays;
-                  final colorIndex = form.colorIndex;
+                  final themeColor = form.themeColor;
                   final selectedTime = TimeOfDay(
                     hour: form.noticeHour,
                     minute: form.noticeMinute,
@@ -119,10 +119,10 @@ class HabitCreatingScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       InputThemeWidget(
-                        selectedColorIndex: colorIndex,
-                        onThemeChanged: (index) => context
+                        selectedColor: themeColor,
+                        onThemeChanged: (color) => context
                             .read<HabitCreateBloc>()
-                            .add(HabitCreateEvent.selectColor(index)),
+                            .add(HabitCreateEvent.selectColor(color)),
                       ),
                       const SizedBox(height: 20),
                       MainButton.cta(

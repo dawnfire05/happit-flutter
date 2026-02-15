@@ -71,7 +71,7 @@ class HabitEditScreen extends StatelessWidget {
 
                   final repeatType = loaded.repeatType;
                   final repeatDays = loaded.repeatDays;
-                  final colorIndex = loaded.colorIndex;
+                  final themeColor = loaded.themeColor;
                   const selectedTime = TimeOfDay(hour: 0, minute: 0);
 
                   return Column(
@@ -117,10 +117,10 @@ class HabitEditScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       InputThemeWidget(
-                        selectedColorIndex: colorIndex,
-                        onThemeChanged: (index) => context
+                        selectedColor: themeColor,
+                        onThemeChanged: (color) => context
                             .read<HabitEditBloc>()
-                            .add(HabitEditEvent.selectColor(index)),
+                            .add(HabitEditEvent.selectColor(color)),
                       ),
                       const SizedBox(height: 20),
                       Row(
