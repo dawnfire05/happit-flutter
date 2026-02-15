@@ -175,9 +175,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i104.UncheckRecordUseCase>(
       () => _i104.UncheckRecordUseCase(gh<_i961.RecordRepository>()),
     );
-    gh.factory<_i637.HabitListBloc>(
-      () => _i637.HabitListBloc(gh<_i508.GetHabitsUseCase>()),
-    );
     gh.factory<_i962.GrassBloc>(
       () => _i962.GrassBloc(gh<_i664.GetGrassUseCase>()),
     );
@@ -190,6 +187,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i735.HabitCreateBloc>(
       () => _i735.HabitCreateBloc(gh<_i55.CreateHabitUseCase>()),
+    );
+    gh.factory<_i637.HabitListBloc>(
+      () => _i637.HabitListBloc(
+        gh<_i508.GetHabitsUseCase>(),
+        gh<_i664.GetGrassUseCase>(),
+      ),
     );
     gh.factory<_i778.RecordBloc>(
       () => _i778.RecordBloc(
