@@ -14,7 +14,7 @@ class CreateHabitUseCase {
     required String description,
     required String repeatType,
     List<String>? repeatDay,
-    required int themeColor,
+    required String themeColor,
   }) {
     return _repository.createHabit(
       name: name,

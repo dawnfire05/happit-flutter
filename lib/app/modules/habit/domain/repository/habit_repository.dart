@@ -10,7 +10,7 @@ abstract class HabitRepository {
     required String description,
     required String repeatType,
     List<String>? repeatDay,
-    required int themeColor,
+    required String themeColor,
   });
   Future<Either<Failure, void>> updateHabit(
     int id, {
@@ -18,6 +18,7 @@ abstract class HabitRepository {
     String? description,
     String? repeatType,
     List<String>? repeatDay,
+    String? themeColor,
   });
   Future<Either<Failure, void>> deleteHabit(int id);
 }

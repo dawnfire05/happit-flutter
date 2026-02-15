@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/grass_bloc.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/values/palette.dart';
-import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 
 class HabitCreatedScreen extends StatelessWidget {
   const HabitCreatedScreen(this.habit, {super.key});
@@ -130,6 +133,8 @@ class HabitCreatedScreen extends StatelessWidget {
             MainButton.cta(
               text: '메인 화면으로',
               onPressed: () {
+                context.read<HabitListBloc>().add(const HabitListEvent.get());
+                context.read<GrassBloc>().add(const GrassGet(3));
                 const HabitListRoute().go(context);
               },
             ),

@@ -13,7 +13,7 @@ abstract class CreateHabitModel with _$CreateHabitModel {
     required String repeatType,
     List<String>? repeatDay,
     List<dynamic>? noticeTime,
-    required int themeColor,
+    required String themeColor,
   }) = _CreateHabitModel;
 
   factory CreateHabitModel.fromJson(Map<String, Object?> json) =>

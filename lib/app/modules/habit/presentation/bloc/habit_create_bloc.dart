@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
+import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/create_habit_use_case.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,7 +13,7 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
   final CreateHabitUseCase _createHabitUseCase;
 
   HabitCreateBloc(this._createHabitUseCase)
-      : super(const HabitCreateState.form()) {
+    : super(const HabitCreateState.form()) {
     on<_HabitNameChanged>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
@@ -26,10 +27,9 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
     on<_NoticeTimeChanged>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
       if (current == null) return;
-      emit(current.copyWith(
-        noticeHour: event.hour,
-        noticeMinute: event.minute,
-      ));
+      emit(
+        current.copyWith(noticeHour: event.hour, noticeMinute: event.minute),
+      );
     });
     on<_SelectRepeatType>((event, emit) {
       final current = state.mapOrNull(form: (s) => s);
@@ -51,22 +51,28 @@ class HabitCreateBloc extends Bloc<HabitCreateEvent, HabitCreateState> {
     on<_Add>((event, emit) async {
       final form = state.mapOrNull(form: (s) => s);
       if (form == null) return;
+      final themeHex = habitThemeColorIndexToHex(form.colorIndex);
       final result = await _createHabitUseCase(
         name: form.habitName,
         description: form.habitDescription,
         repeatType: form.repeatType,
         repeatDay: form.repeatDays,
-        themeColor: form.colorIndex,
+        themeColor: themeHex,
       );
       result.fold(
         (failure) => emit(_Error(failureToMessage(failure))),
-        (_) => emit(_Success(Habit(
-          id: 0,
-          name: form.habitName,
-          description: form.habitDescription,
-          repeatType: form.repeatType,
-          repeatDay: form.repeatDays,
-        ))),
+        (_) => emit(
+          _Success(
+            Habit(
+              id: 0,
+              name: form.habitName,
+              description: form.habitDescription,
+              repeatType: form.repeatType,
+              repeatDay: form.repeatDays,
+              themeColor: themeHex,
+            ),
+          ),
+        ),
       );
     });
   }

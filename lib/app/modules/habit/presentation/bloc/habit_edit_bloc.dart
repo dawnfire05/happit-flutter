@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
+import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/update_habit_use_case.dart';
@@ -29,6 +30,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
           description: habit.description,
           repeatType: habit.repeatType,
           repeatDays: habit.repeatDay ?? [],
+          colorIndex: habitThemeColorHexToIndex(habit.themeColor),
         )),
       );
     });
@@ -77,6 +79,7 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
         description: loaded.description,
         repeatType: loaded.repeatType,
         repeatDay: loaded.repeatDays,
+        themeColor: habitThemeColorIndexToHex(loaded.colorIndex),
       );
       result.fold(
         (failure) => emit(_Error(failureToMessage(failure))),

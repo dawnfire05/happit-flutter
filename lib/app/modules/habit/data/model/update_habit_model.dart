@@ -13,7 +13,7 @@ abstract class UpdateHabitModel with _$UpdateHabitModel {
     String? repeatType,
     List<String>? repeatDay,
     List<dynamic>? noticeTime,
-    int? themeColor,
+    String? themeColor,
   }) = _UpdateHabitModel;
 
   factory UpdateHabitModel.fromJson(Map<String, dynamic> json) =>

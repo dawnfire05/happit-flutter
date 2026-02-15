@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/button.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/happit_app_bar.dart';
-import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/grass_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
@@ -58,22 +59,19 @@ class HabitListScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: const HappitAppBar(),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: BlocBuilder<HabitListBloc, HabitListState>(
-            builder: (context, habitState) {
-              return BlocBuilder<GrassBloc, GrassState>(
-                builder: (context, grassState) {
-                  return Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      _buildHabitList(context, habitState, grassState),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
+        body: BlocBuilder<HabitListBloc, HabitListState>(
+          builder: (context, habitState) {
+            return BlocBuilder<GrassBloc, GrassState>(
+              builder: (context, grassState) {
+                return Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    _buildHabitList(context, habitState, grassState),
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     );
@@ -87,55 +85,89 @@ class HabitListScreen extends StatelessWidget {
     return habitState.when(
       initial: () => const Center(child: Text('초기 상태')),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e) => ElevatedButton(
-        onPressed: () =>
-            context.read<HabitListBloc>().add(const HabitListEvent.get()),
-        child: Text(e),
-      ),
+      error: (e) => _buildErrorScreen(context),
       success: (habits) {
-        if (habits.isEmpty) {
-          return Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '등록된 습관이 없어요',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Palette.black100,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  MainButton.cta(
-                    text: '습관 추가하기',
-                    onPressed: () => const HabitCreatingRoute().push(context),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-        return Expanded(
-          child: ListView.separated(
-            separatorBuilder: (_, _) => const SizedBox(height: 32),
-            itemCount: habits.length,
-            itemBuilder: (context, index) {
-              final habit = habits[index];
-              final grassRecords = _grassRecordsForHabit(habit.id, grassState);
-              return HabitWidget(
-                id: habit.id,
-                name: habit.name,
-                themeColor: habit.themeColor,
-                grassRecords: grassRecords,
-                onRecordToggled: grassRecords != null
-                    ? () => context.read<GrassBloc>().add(const GrassGet(3))
-                    : null,
-              );
-            },
-          ),
-        );
+        if (habits.isEmpty) return _buildEmptyHabitScreen(context);
+        return _buildHabitListScreen(habits, grassState);
       },
+    );
+  }
+
+  Expanded _buildHabitListScreen(List<Habit> habits, GrassState grassState) {
+    return Expanded(
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        separatorBuilder: (_, _) => const SizedBox(height: 32),
+        itemCount: habits.length,
+        itemBuilder: (context, index) {
+          final habit = habits[index];
+          final grassRecords = _grassRecordsForHabit(habit.id, grassState);
+          return HabitWidget(
+            id: habit.id,
+            name: habit.name,
+            themeColor: habit.themeColor,
+            grassRecords: grassRecords,
+            onRecordToggled: grassRecords != null
+                ? () => context.read<GrassBloc>().add(const GrassGet(3))
+                : null,
+          );
+        },
+      ),
+    );
+  }
+
+  Expanded _buildEmptyHabitScreen(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '아직 습관이 없어요.\n습관을 추가해보세요.',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Palette.black80,
+                letterSpacing: -1.44,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            Button(
+              content: '습관 추가하러 가기',
+              onPressed: () => const HabitCreatingRoute().push(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded _buildErrorScreen(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '문제가 발생했어요.\n금방 해결할게요!',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Palette.black80,
+                letterSpacing: -1.44,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            Button(
+              content: '새로고침 하기',
+              onPressed: () =>
+                  context.read<HabitListBloc>().add(const HabitListEvent.get()),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

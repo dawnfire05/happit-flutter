@@ -15,6 +15,7 @@ class UpdateHabitUseCase {
     String? description,
     String? repeatType,
     List<String>? repeatDay,
+    String? themeColor,
   }) {
     return _repository.updateHabit(
       id,
@@ -22,6 +23,7 @@ class UpdateHabitUseCase {
       description: description,
       repeatType: repeatType,
       repeatDay: repeatDay,
+      themeColor: themeColor,
     );
   }
 }
