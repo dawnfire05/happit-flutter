@@ -24,7 +24,7 @@ class HabitListRoute extends GoRouteData with $HabitListRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const HabitListScreen();
+    return const HabitListRoutePage();
   }
 }
 

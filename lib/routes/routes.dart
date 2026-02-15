@@ -7,7 +7,7 @@ import 'package:happit_flutter/app/modules/common/presentation/screen/main_layou
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_created_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_creating_screen.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_edit_screen.dart';
-import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_list_screen.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/screen/habit_list_route_page.dart';
 import 'package:happit_flutter/app/modules/splash/presentation/screen/splash_screen.dart';
 import 'package:happit_flutter/app/modules/profile/presentation/screen/profile_screen.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
