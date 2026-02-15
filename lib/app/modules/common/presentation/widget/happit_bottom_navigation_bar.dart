@@ -22,9 +22,9 @@ class HappitBottomNavigationBarState extends State<HappitBottomNavigationBar> {
       setState(() => _currentIndex = index);
       switch (index) {
         case 0:
-          const HabitListRoute().push(context);
+          const HabitListRoute().go(context);
         case 1:
-          const ProfileRoute().push(context);
+          const ProfileRoute().go(context);
         default:
           break;
       }
