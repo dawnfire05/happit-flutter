@@ -52,27 +52,27 @@ class HabitListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<HabitListBloc>().add(const HabitListEvent.get());
-        context.read<GrassBloc>().add(const GrassGet(3));
-      },
-      child: Scaffold(
-        appBar: const HappitAppBar(),
-        body: BlocBuilder<HabitListBloc, HabitListState>(
-          builder: (context, habitState) {
-            return BlocBuilder<GrassBloc, GrassState>(
-              builder: (context, grassState) {
-                return Column(
+    return Scaffold(
+      appBar: const HappitAppBar(),
+      body: BlocBuilder<HabitListBloc, HabitListState>(
+        builder: (context, habitState) {
+          return BlocBuilder<GrassBloc, GrassState>(
+            builder: (context, grassState) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<HabitListBloc>().add(const HabitListEvent.get());
+                  context.read<GrassBloc>().add(const GrassGet(3));
+                },
+                child: Column(
                   children: [
                     const SizedBox(height: 16),
                     _buildHabitList(context, habitState, grassState),
                   ],
-                );
-              },
-            );
-          },
-        ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -111,9 +111,9 @@ class HabitListScreen extends StatelessWidget {
             onRecordToggled: grassRecords != null
                 ? () {
                     context.read<GrassBloc>().add(const GrassGet(3));
-                    context
-                        .read<HabitListBloc>()
-                        .add(const HabitListEvent.get());
+                    context.read<HabitListBloc>().add(
+                      const HabitListEvent.get(),
+                    );
                   }
                 : null,
           );
