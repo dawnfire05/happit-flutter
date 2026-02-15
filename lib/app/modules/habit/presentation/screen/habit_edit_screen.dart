@@ -24,16 +24,13 @@ class HabitEditScreen extends StatelessWidget {
         listenWhen: (prev, curr) =>
             curr.mapOrNull(success: (_) => true, error: (_) => true) ?? false,
         listener: (context, state) {
-          state.map(
-            initial: (_) {},
-            loading: (_) {},
-            loaded: (_) {},
+          state.whenOrNull(
             error: (error) {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text('습관 수정에 실패했습니다: $error')));
             },
-            success: (_) {
+            success: () {
               context.read<HabitListBloc>().add(const HabitListEvent.get());
               const HabitListRoute().go(context);
             },
@@ -56,25 +53,11 @@ class HabitEditScreen extends StatelessWidget {
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
               child: BlocBuilder<HabitEditBloc, HabitEditState>(
-                buildWhen: (prev, curr) {
-                  final p = prev.mapOrNull(loaded: (s) => s);
-                  final c = curr.mapOrNull(loaded: (s) => s);
-                  return p != c;
-                },
-                builder: (context, state) {
-                  final loaded = state.mapOrNull(loaded: (s) => s);
-                  if (loaded == null) {
-                    return state.mapOrNull(loading: (_) => true) ?? false
-                        ? const Center(child: CircularProgressIndicator())
-                        : const SizedBox.shrink();
-                  }
-
-                  final repeatType = loaded.repeatType;
-                  final repeatDays = loaded.repeatDays;
-                  final themeColor = loaded.themeColor;
-                  const selectedTime = TimeOfDay(hour: 0, minute: 0);
-
-                  return Column(
+                buildWhen: (prev, curr) =>
+                    prev.mapOrNull(loaded: (s) => s) !=
+                    curr.mapOrNull(loaded: (s) => s),
+                builder: (context, state) => state.maybeMap(
+                  loaded: (loaded) => Column(
                     children: [
                       InputTextWidget.basic(
                         value: loaded.name,
@@ -93,31 +76,28 @@ class HabitEditScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       InputRepeatTypeWidget(
-                        selectedRepeatType: repeatType,
+                        selectedRepeatType: loaded.repeatType,
                         onSelected: (value) => context
                             .read<HabitEditBloc>()
                             .add(HabitEditEvent.selectRepeatType(value)),
                       ),
                       const SizedBox(height: 20),
-                      if (repeatType == 'weekly')
-                        Column(
-                          children: [
-                            InputDayOfWeekWidget(
-                              selectedDays: repeatDays,
-                              onDaySelected: (day) => context
-                                  .read<HabitEditBloc>()
-                                  .add(HabitEditEvent.toggleDay(day)),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
+                      if (loaded.repeatType == 'weekly') ...[
+                        InputDayOfWeekWidget(
+                          selectedDays: loaded.repeatDays,
+                          onDaySelected: (day) => context
+                              .read<HabitEditBloc>()
+                              .add(HabitEditEvent.toggleDay(day)),
                         ),
+                        const SizedBox(height: 20),
+                      ],
                       InputNoticeTimeWidget(
-                        selectedTime: selectedTime,
+                        selectedTime: const TimeOfDay(hour: 0, minute: 0),
                         onTimeSelected: (_) {},
                       ),
                       const SizedBox(height: 20),
                       InputThemeWidget(
-                        selectedColor: themeColor,
+                        selectedColor: loaded.themeColor,
                         onThemeChanged: (color) => context
                             .read<HabitEditBloc>()
                             .add(HabitEditEvent.selectColor(color)),
@@ -145,8 +125,11 @@ class HabitEditScreen extends StatelessWidget {
                         ],
                       ),
                     ],
-                  );
-                },
+                  ),
+                  loading: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                  orElse: () => const SizedBox.shrink(),
+                ),
               ),
             ),
           ),
