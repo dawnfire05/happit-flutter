@@ -1,0 +1,36 @@
+# flutter_native_splash configuration
+# Run: dart run flutter_native_splash:create
+
+flutter_native_splash:
+  # 배경 색상 (로고와 동일한 녹색)
+  color: "#66D271"
+
+  # 로고 이미지 (PNG 파일 필요)
+  # 권장 크기: 512x512px 이상 (투명 배경)
+  image: assets/logo/flutter_native_splash_logo.png
+
+  # 브랜딩 모드 (로고를 화면 중앙에 배치)
+  branding_mode: center
+
+  # Android 12+ 설정
+  android_12:
+    color: "#66D271"
+    image: assets/logo/flutter_native_splash_logo.png
+    branding_mode: center
+
+  # iOS 설정
+  ios: true
+
+  # Android 설정
+  android: true
+
+  # 웹 지원 (선택사항)
+  web: false
+
+  # Flutter 스플래시 화면 제거 옵션
+  # 네이티브 스플래시만 사용하려면 true로 설정
+  fullscreen: true
+
+  # 정보 출력 레벨
+  info_plist_files:
+    - "ios/Runner/Info.plist"

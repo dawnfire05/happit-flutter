@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:happit_flutter/app/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:happit_flutter/app/app_bloc_observer.dart';
@@ -58,9 +59,15 @@ void main() async {
 //       InitializationSettings(android: initializationSettingsAndroid);
 
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Native splash를 수동으로 제어하기 위해 WidgetsBinding 보존
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  
+  // 의존성 주입 및 초기화
   await configureDependencies();
   _initBloc();
+  
   runApp(const App());
 }
 
