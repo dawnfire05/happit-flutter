@@ -50,14 +50,8 @@ class HabitListScreen extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(height: 32),
       itemCount: habitsWithGrass.length,
       itemBuilder: (context, index) {
-        final item = habitsWithGrass[index];
-        final habit = item.habit;
         return HabitWidget(
-          id: habit.id,
-          name: habit.name,
-          themeColor: habit.themeColor,
-          currentStreak: habit.currentStreak,
-          grassRecords: item.grassRecords,
+          habitWithGrass: habitsWithGrass[index],
           onRecordToggled: () {
             context.read<HabitListBloc>().add(const HabitListEvent.get());
           },

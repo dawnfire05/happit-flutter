@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/habit_with_grass.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc_cache.dart';
@@ -12,27 +13,20 @@ import 'package:happit_flutter/values/palette.dart';
 import 'package:intl/intl.dart';
 
 class HabitWidget extends StatelessWidget {
-  final String name;
-  final int id;
-  final String themeColor;
-  final int currentStreak;
-  final List<Record>? grassRecords;
+  final HabitWithGrass habitWithGrass;
   final VoidCallback onRecordToggled;
 
   const HabitWidget({
     super.key,
-    required this.id,
-    required this.name,
-    required this.themeColor,
-    required this.currentStreak,
+    required this.habitWithGrass,
     required this.onRecordToggled,
-    this.grassRecords,
   });
 
   @override
   Widget build(BuildContext context) {
-    final recordBloc = sl<RecordBlocCache>().getBloc(id);
-    final habitColor = colorFromHex(themeColor) ?? Palette.primary;
+    final habit = habitWithGrass.habit;
+    final recordBloc = sl<RecordBlocCache>().getBloc(habit.id);
+    final habitColor = colorFromHex(habit.themeColor) ?? Palette.primary;
 
     return BlocProvider.value(
       value: recordBloc,
@@ -49,12 +43,12 @@ class HabitWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _HabitHeader(name: name, currentStreak: currentStreak),
+              _HabitHeader(name: habit.name, currentStreak: habit.currentStreak),
               const SizedBox(height: 16),
               _HabitContent(
-                habitId: id,
+                habitId: habit.id,
                 habitColor: habitColor,
-                grassRecords: grassRecords,
+                grassRecords: habitWithGrass.grassRecords,
               ),
             ],
           ),
