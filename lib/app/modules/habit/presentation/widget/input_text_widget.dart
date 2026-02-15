@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:happit_flutter/values/palette.dart';
 
+const _focusShadow = [
+  BoxShadow(
+    color: Color(0x4C66D271),
+    blurRadius: 24,
+    offset: Offset(0, 0),
+  ),
+];
+
 class InputTextWidget extends StatefulWidget {
   final String? label;
   final bool necessary;
@@ -41,30 +49,6 @@ class InputTextWidget extends StatefulWidget {
 class _InputTextWidgetState extends State<InputTextWidget> {
   bool isFocused = false;
   TextEditingController? _internalController;
-
-  final List<BoxShadow> focus = [
-    const BoxShadow(
-      color: Color(0x4C66D271),
-      blurRadius: 24,
-      offset: Offset(0, 0),
-      spreadRadius: 0,
-    ),
-  ];
-
-  final List<BoxShadow> done = [
-    const BoxShadow(
-      color: Color(0x99DBE5EC),
-      blurRadius: 8,
-      offset: Offset(0, 4),
-      spreadRadius: 0,
-    ),
-    const BoxShadow(
-      color: Color(0x99DBE5EC),
-      blurRadius: 1,
-      offset: Offset(0, 0),
-      spreadRadius: 1,
-    ),
-  ];
 
   @override
   void initState() {
@@ -108,7 +92,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
   void _handleFocusChange() =>
       setState(() => isFocused = widget.focusNode?.hasFocus ?? false);
 
-  TextStyle style = const TextStyle(
+  static const style = TextStyle(
     color: Palette.black100,
     fontSize: 13,
 
@@ -153,7 +137,7 @@ class _InputTextWidgetState extends State<InputTextWidget> {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            shadows: isFocused ? focus : done,
+            shadows: isFocused ? _focusShadow : Palette.inputShadow,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

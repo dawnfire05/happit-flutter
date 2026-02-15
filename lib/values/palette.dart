@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/painting.dart';
 
 abstract class Palette {
   Palette._();
@@ -9,4 +9,9 @@ abstract class Palette {
   static const black80 = Color(0xFF8D939D);
   static const black100 = Color(0xFF1F2329);
   static const error = Color(0xFFFE2929);
+
+  static const inputShadow = [
+    BoxShadow(color: Color(0x99DBE5EC), blurRadius: 8, offset: Offset(0, 4)),
+    BoxShadow(color: Color(0x99DBE5EC), blurRadius: 1, offset: Offset(0, 0)),
+  ];
 }

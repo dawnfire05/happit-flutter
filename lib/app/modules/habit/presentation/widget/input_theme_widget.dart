@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
+import 'package:happit_flutter/values/palette.dart';
 
 class InputThemeWidget extends StatelessWidget {
   const InputThemeWidget({
@@ -20,20 +21,7 @@ class InputThemeWidget extends StatelessWidget {
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 1,
-            offset: Offset(0, 0),
-            spreadRadius: 1,
-          ),
-        ],
+        shadows: Palette.inputShadow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +31,6 @@ class InputThemeWidget extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontSize: 13,
-
               fontWeight: FontWeight.w400,
               height: 0,
               letterSpacing: -1.04,
@@ -61,7 +48,7 @@ class InputThemeWidget extends StatelessWidget {
   }
 
   Widget _buildColorThemeContainer(String hex) {
-    bool isSelected = selectedColor == hex;
+    final isSelected = selectedColor.toUpperCase() == hex.toUpperCase();
     return GestureDetector(
       onTap: () => onThemeChanged(hex),
       child: Stack(
@@ -76,19 +63,16 @@ class InputThemeWidget extends StatelessWidget {
                   color: Color(0x99DBE5EC),
                   blurRadius: 24,
                   offset: Offset(0, 8),
-                  spreadRadius: 0,
                 ),
               ],
-              color: colorFromHex(hex) ?? const Color(0xff66D271),
+              color: colorFromHex(hex) ?? Palette.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
           ),
-          Visibility(
-            visible: isSelected,
-            child: SvgPicture.asset('assets/icons/Check.svg'),
-          ),
+          if (isSelected)
+            SvgPicture.asset('assets/icons/Check.svg'),
         ],
       ),
     );

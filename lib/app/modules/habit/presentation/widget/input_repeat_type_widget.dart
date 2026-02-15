@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happit_flutter/values/palette.dart';
 
 class InputRepeatTypeWidget extends StatelessWidget {
   final String selectedRepeatType;
@@ -18,52 +19,27 @@ class InputRepeatTypeWidget extends StatelessWidget {
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 1,
-            offset: Offset(0, 0),
-            spreadRadius: 1,
-          ),
-        ],
+        shadows: Palette.inputShadow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildRepeatTypeSelector('daily', '매일', context),
+          _buildRepeatTypeSelector('daily', '매일'),
           const SizedBox(width: 12),
-          _buildRepeatTypeSelector('weekly', '요일별', context),
+          _buildRepeatTypeSelector('weekly', '요일별'),
         ],
       ),
     );
   }
 
-  Widget _buildRepeatTypeSelector(
-    String repeatType,
-    String label,
-    BuildContext context,
-  ) {
-    bool isSelected = selectedRepeatType == repeatType;
+  Widget _buildRepeatTypeSelector(String repeatType, String label) {
+    final isSelected = selectedRepeatType == repeatType;
     return Expanded(
       child: GestureDetector(
         onTap: () => onSelected(repeatType),
         child: Container(
           decoration: ShapeDecoration(
-            shadows: const [
-              BoxShadow(
-                color: Color(0x99DBE5EC),
-                blurRadius: 24,
-                offset: Offset(0, 8),
-                spreadRadius: 0,
-              ),
-            ],
-            color: isSelected ? const Color(0xff66D271) : Colors.transparent,
+            color: isSelected ? Palette.primary : Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -72,9 +48,8 @@ class InputRepeatTypeWidget extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: isSelected ? Colors.white : const Color(0xff8C929D),
+                color: isSelected ? Colors.white : Palette.black80,
                 fontSize: 15,
-
                 fontWeight: FontWeight.w400,
                 height: 0,
                 letterSpacing: -1.20,

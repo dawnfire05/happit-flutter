@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happit_flutter/values/palette.dart';
 
 class InputNoticeTimeWidget extends StatelessWidget {
   final TimeOfDay selectedTime;
@@ -18,32 +19,17 @@ class InputNoticeTimeWidget extends StatelessWidget {
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Color(0x99DBE5EC),
-            blurRadius: 1,
-            offset: Offset(0, 0),
-            spreadRadius: 1,
-          ),
-        ],
+        shadows: Palette.inputShadow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Expanded(
-            flex: 1,
             child: Text(
               '알림 시각',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 13,
-
                 fontWeight: FontWeight.w400,
                 height: 0,
                 letterSpacing: -1.04,
@@ -52,32 +38,27 @@ class InputNoticeTimeWidget extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextButton(
-                  child: Text(
-                    selectedTime.format(context),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
+            child: Center(
+              child: TextButton(
+                onPressed: () async {
+                  final picked = await showTimePicker(
+                    context: context,
+                    initialTime: selectedTime,
+                  );
+                  if (picked != null && picked != selectedTime) {
+                    onTimeSelected(picked);
+                  }
+                },
+                child: Text(
+                  selectedTime.format(context),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    height: 0,
                   ),
-                  onPressed: () async {
-                    final picked = await showTimePicker(
-                      context: context,
-                      initialTime: selectedTime,
-                    );
-                    if (picked != null && picked != selectedTime) {
-                      onTimeSelected(picked);
-                    }
-                  },
                 ),
-              ],
+              ),
             ),
           ),
         ],
