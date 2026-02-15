@@ -19,6 +19,7 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
     this._checkRecordUseCase,
     this._uncheckRecordUseCase,
   ) : super(const Initial()) {
+    on<Initialize>(_onInitialize);
     on<Get>(_onGet);
     on<Check>(_onCheck);
     on<Toggle>(_onToggle);
@@ -27,6 +28,11 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
   final GetRecordsUseCase _getRecordsUseCase;
   final CheckRecordUseCase _checkRecordUseCase;
   final UncheckRecordUseCase _uncheckRecordUseCase;
+
+  /// Dashboard API로 이미 받은 데이터로 초기화 (API 호출 없음)
+  Future<void> _onInitialize(Initialize event, Emitter<RecordState> emit) async {
+    emit(_buildSuccess(event.records));
+  }
 
   Future<void> _onGet(Get event, Emitter<RecordState> emit) async {
     emit(const Loading());
@@ -41,7 +47,12 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
     final result = await _checkRecordUseCase(event.habitId);
     result.fold(
       (failure) => emit(Error(failureToMessage(failure))),
-      (records) => emit(_buildSuccess(records)),
+      (response) {
+        // Streak 업데이트 콜백 호출
+        event.onStreakUpdated?.call(response.updatedStreak);
+        // Record 상태만 업데이트
+        emit(RecordState.success([response.record], response.record.state));
+      },
     );
   }
 
@@ -80,7 +91,26 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
       } else {
         emit(Error(failureToMessage(failure)));
       }
-    }, (records) => emit(_buildSuccess(records)));
+    }, (response) {
+      // Streak 업데이트 콜백 호출
+      event.onStreakUpdated?.call(response.updatedStreak);
+      
+      // 기존 records에 오늘 record만 업데이트
+      previousState.maybeWhen(
+        success: (records, _) {
+          final updatedRecords = _applyTodayState(
+            records,
+            event.habitId,
+            response.record.date,
+            response.record.state,
+          );
+          emit(RecordState.success(updatedRecords, response.record.state));
+        },
+        orElse: () {
+          emit(RecordState.success([response.record], response.record.state));
+        },
+      );
+    });
   }
 
   List<Record> _applyTodayState(
@@ -117,9 +147,16 @@ class RecordBloc extends Bloc<RecordEvent, RecordState> {
 
 @freezed
 sealed class RecordEvent with _$RecordEvent {
-  const factory RecordEvent.check(int habitId) = Check;
+  const factory RecordEvent.initialize(List<Record> records) = Initialize;
+  const factory RecordEvent.check(
+    int habitId, {
+    void Function(int updatedStreak)? onStreakUpdated,
+  }) = Check;
   const factory RecordEvent.get(int habitId) = Get;
-  const factory RecordEvent.toggle(int habitId) = Toggle;
+  const factory RecordEvent.toggle(
+    int habitId, {
+    void Function(int updatedStreak)? onStreakUpdated,
+  }) = Toggle;
 }
 
 @freezed

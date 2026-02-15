@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/create_habit_model.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/dashboard_response_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/habit_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/update_habit_model.dart';
 import 'package:injectable/injectable.dart';
@@ -18,6 +19,9 @@ abstract class HabitDataSource {
 
   @GET('')
   Future<List<HabitModel>> getHabits();
+
+  @GET('dashboard')
+  Future<DashboardResponseModel> getDashboard(@Query('months') int months);
 
   @GET('{id}')
   Future<HabitModel> getHabit(@Path() int id);

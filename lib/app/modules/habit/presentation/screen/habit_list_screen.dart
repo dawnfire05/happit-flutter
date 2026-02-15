@@ -52,9 +52,6 @@ class HabitListScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         return HabitWidget(
           habitWithGrass: habitsWithGrass[index],
-          onRecordToggled: () {
-            context.read<HabitListBloc>().add(const HabitListEvent.get());
-          },
         );
       },
     );

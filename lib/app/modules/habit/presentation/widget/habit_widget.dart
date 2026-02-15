@@ -4,22 +4,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit_with_grass.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc_cache.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/widget/github_grass_widget.dart';
 import 'package:happit_flutter/routes/routes.dart';
 import 'package:happit_flutter/app/modules/habit/domain/theme_color.dart';
 import 'package:happit_flutter/values/palette.dart';
-import 'package:intl/intl.dart';
 
 class HabitWidget extends StatelessWidget {
   final HabitWithGrass habitWithGrass;
-  final VoidCallback onRecordToggled;
 
   const HabitWidget({
     super.key,
     required this.habitWithGrass,
-    required this.onRecordToggled,
   });
 
   @override
@@ -28,48 +26,34 @@ class HabitWidget extends StatelessWidget {
     final habitColor = colorFromHex(habit.themeColor) ?? Palette.primary;
 
     return BlocProvider.value(
-      value: sl<RecordBlocCache>().getBloc(habit.id),
-      child: BlocListener<RecordBloc, RecordState>(
-        listenWhen: _shouldNotifyToggle,
-        listener: (context, state) => onRecordToggled(),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(23, 20, 23, 20),
-          decoration: ShapeDecoration(
-            color: const Color(0xFFF0F2F6),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+      value: sl<RecordBlocCache>().getBloc(
+        habit.id,
+        initialRecords: habitWithGrass.grassRecords,
+      ),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(23, 20, 23, 20),
+        decoration: ShapeDecoration(
+          color: const Color(0xFFF0F2F6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: Column(
+          children: [
+            _HabitHeader(
+              name: habit.name,
+              currentStreak: habit.currentStreak,
             ),
-          ),
-          child: Column(
-            children: [
-              _HabitHeader(
-                name: habit.name,
-                currentStreak: habit.currentStreak,
-              ),
-              const SizedBox(height: 16),
-              _HabitContent(
-                habitId: habit.id,
-                habitColor: habitColor,
-                grassRecords: habitWithGrass.grassRecords,
-              ),
-            ],
-          ),
+            const SizedBox(height: 16),
+            _HabitContent(
+              habitId: habit.id,
+              habitColor: habitColor,
+              grassRecords: habitWithGrass.grassRecords,
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  /// 토글 상태가 변경되었을 때만 리스너 호출
-  bool _shouldNotifyToggle(RecordState previous, RecordState current) {
-    final prevStatus = previous.maybeWhen(
-      success: (_, todayStatus) => todayStatus,
-      orElse: () => null,
-    );
-    final currStatus = current.maybeWhen(
-      success: (_, todayStatus) => todayStatus,
-      orElse: () => null,
-    );
-    return prevStatus != null && currStatus != null && prevStatus != currStatus;
   }
 }
 
@@ -158,18 +142,20 @@ class _HabitContent extends StatelessWidget {
       color: Colors.transparent,
       alignment: Alignment.centerLeft,
       child: grassRecords != null
-          ? _buildGrassWithCache()
-          : _buildGrassWithRecordBloc(),
+          ? _buildGrassWithDashboardData()
+          : _buildGrassWithApiCall(),
     );
   }
 
-  /// GrassBloc 데이터 + RecordBloc 오늘 상태 병합
-  Widget _buildGrassWithCache() {
+  /// Dashboard API로 받은 데이터 + RecordBloc의 낙관적 업데이트 반영
+  Widget _buildGrassWithDashboardData() {
     return BlocBuilder<RecordBloc, RecordState>(
       builder: (context, state) {
         final records = state.maybeWhen(
-          success: (_, todayStatus) =>
-              _mergeTodayState(grassRecords!, habitId, todayStatus),
+          success: (stateRecords, todayStatus) {
+            // RecordBloc의 상태를 사용 (낙관적 업데이트 포함)
+            return stateRecords;
+          },
           orElse: () => grassRecords,
         );
         return GitHubGrassWidget(records: records, doneColor: habitColor);
@@ -177,46 +163,18 @@ class _HabitContent extends StatelessWidget {
     );
   }
 
-  /// RecordBloc만 사용
-  Widget _buildGrassWithRecordBloc() {
+  /// Fallback: Dashboard API 데이터가 없을 때만 사용 (API 직접 호출)
+  Widget _buildGrassWithApiCall() {
     return BlocBuilder<RecordBloc, RecordState>(
       builder: (context, state) {
         return state.maybeWhen(
           success: (records, status) =>
               GitHubGrassWidget(records: records, doneColor: habitColor),
-          orElse: () => const CircularProgressIndicator(),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          orElse: () => const SizedBox.shrink(),
         );
       },
     );
-  }
-
-  /// grassRecords에 RecordBloc의 오늘 상태를 반영. 낙관적 업데이트가 잔디에 바로 보이도록.
-  List<Record> _mergeTodayState(
-    List<Record> grassRecords,
-    int habitId,
-    String todayStatus,
-  ) {
-    final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final hasToday = grassRecords.any((r) => r.date == todayStr);
-    if (hasToday) {
-      return grassRecords
-          .map(
-            (r) => r.date == todayStr
-                ? Record(
-                    id: r.id,
-                    date: r.date,
-                    state: todayStatus,
-                    createdAt: r.createdAt,
-                    updatedAt: r.updatedAt,
-                  )
-                : r,
-          )
-          .toList();
-    }
-    return [
-      ...grassRecords,
-      Record(id: habitId, date: todayStr, state: todayStatus),
-    ];
   }
 }
 
@@ -267,8 +225,22 @@ class _HabitActionButtons extends StatelessWidget {
         return _ActionButton(
           color: habitColor,
           iconPath: 'assets/icons/Check.svg',
-          onPressed: () =>
-              context.read<RecordBloc>().add(RecordEvent.toggle(habitId)),
+          onPressed: () {
+            context.read<RecordBloc>().add(
+                  RecordEvent.toggle(
+                    habitId,
+                    onStreakUpdated: (updatedStreak) {
+                      // HabitListBloc에 Streak 업데이트 요청 (전체 fetch 없음)
+                      context.read<HabitListBloc>().add(
+                            HabitListEvent.updateHabitStreak(
+                              habitId: habitId,
+                              currentStreak: updatedStreak,
+                            ),
+                          );
+                    },
+                  ),
+                );
+          },
         );
       },
     );

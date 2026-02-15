@@ -54,6 +54,8 @@ import 'package:happit_flutter/app/modules/habit/domain/usecase/create_habit_use
     as _i55;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart'
     as _i389;
+import 'package:happit_flutter/app/modules/habit/domain/usecase/get_dashboard_use_case.dart'
+    as _i475;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_grass_use_case.dart'
     as _i664;
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart'
@@ -154,6 +156,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i389.DeleteHabitUseCase>(
       () => _i389.DeleteHabitUseCase(gh<_i734.HabitRepository>()),
     );
+    gh.lazySingleton<_i475.GetDashboardUseCase>(
+      () => _i475.GetDashboardUseCase(gh<_i734.HabitRepository>()),
+    );
     gh.lazySingleton<_i460.GetHabitUseCase>(
       () => _i460.GetHabitUseCase(gh<_i734.HabitRepository>()),
     );
@@ -188,18 +193,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i735.HabitCreateBloc>(
       () => _i735.HabitCreateBloc(gh<_i55.CreateHabitUseCase>()),
     );
-    gh.factory<_i637.HabitListBloc>(
-      () => _i637.HabitListBloc(
-        gh<_i508.GetHabitsUseCase>(),
-        gh<_i664.GetGrassUseCase>(),
-      ),
-    );
     gh.factory<_i778.RecordBloc>(
       () => _i778.RecordBloc(
         gh<_i284.GetRecordsUseCase>(),
         gh<_i7.CheckRecordUseCase>(),
         gh<_i104.UncheckRecordUseCase>(),
       ),
+    );
+    gh.factory<_i637.HabitListBloc>(
+      () => _i637.HabitListBloc(gh<_i475.GetDashboardUseCase>()),
     );
     return this;
   }

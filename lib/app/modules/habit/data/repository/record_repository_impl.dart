@@ -2,9 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/add_or_update_record_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/model/record_model.dart';
+import 'package:happit_flutter/app/modules/habit/data/model/toggle_record_response_model.dart';
 import 'package:happit_flutter/app/modules/habit/data/repository/record_data_source.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/grass.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
+import 'package:happit_flutter/app/modules/habit/domain/entity/toggle_record_response.dart';
 import 'package:happit_flutter/app/modules/habit/domain/repository/record_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -26,34 +28,32 @@ class RecordRepositoryImpl implements RecordRepository {
   }
 
   @override
-  Future<Either<Failure, List<Record>>> checkRecord(int habitId) async {
+  Future<Either<Failure, ToggleRecordResponse>> checkRecord(int habitId) async {
     try {
-      await _dataSource.addOrUpdateRecord(
+      final response = await _dataSource.addOrUpdateRecord(
         AddOrUpdateRecordModel(
           habitId: habitId,
           date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
           state: 'done',
         ),
       );
-      final models = await _dataSource.getRecordOfOneHabit(habitId.toString());
-      return right(models.map((m) => m.toEntity()).toList());
+      return right(response.toEntity());
     } catch (e) {
       return left(mapExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, List<Record>>> uncheckRecord(int habitId) async {
+  Future<Either<Failure, ToggleRecordResponse>> uncheckRecord(int habitId) async {
     try {
-      await _dataSource.addOrUpdateRecord(
+      final response = await _dataSource.addOrUpdateRecord(
         AddOrUpdateRecordModel(
           habitId: habitId,
           date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
           state: 'notDone',
         ),
       );
-      final models = await _dataSource.getRecordOfOneHabit(habitId.toString());
-      return right(models.map((m) => m.toEntity()).toList());
+      return right(response.toEntity());
     } catch (e) {
       return left(mapExceptionToFailure(e));
     }

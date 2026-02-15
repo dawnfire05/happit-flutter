@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
+import 'package:happit_flutter/app/di/get_it.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/delete_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habit_use_case.dart';
 import 'package:happit_flutter/app/modules/habit/domain/usecase/update_habit_use_case.dart';
+import 'package:happit_flutter/app/modules/habit/presentation/bloc/record_bloc_cache.dart';
 import 'package:injectable/injectable.dart';
 
 part 'habit_edit_bloc.freezed.dart';
@@ -69,7 +71,11 @@ class HabitEditBloc extends Bloc<HabitEditEvent, HabitEditState> {
       final result = await _deleteHabitUseCase(event.id);
       result.fold(
         (failure) => emit(Error(failureToMessage(failure))),
-        (_) => emit(const Success()),
+        (_) {
+          // 습관 삭제 성공 시 캐시에서 해당 RecordBloc 정리
+          sl<RecordBlocCache>().removeBloc(event.id);
+          emit(const Success());
+        },
       );
     });
     on<Edit>((event, emit) async {

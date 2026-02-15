@@ -2,23 +2,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:happit_flutter/app/core/error/failure.dart';
 import 'package:happit_flutter/app/modules/habit/domain/entity/habit_with_grass.dart';
-import 'package:happit_flutter/app/modules/habit/domain/entity/record.dart';
-import 'package:happit_flutter/app/modules/habit/domain/usecase/get_grass_use_case.dart';
-import 'package:happit_flutter/app/modules/habit/domain/usecase/get_habits_use_case.dart';
+import 'package:happit_flutter/app/modules/habit/domain/usecase/get_dashboard_use_case.dart';
 import 'package:injectable/injectable.dart';
 
 part 'habit_list_bloc.freezed.dart';
 
 @injectable
 class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
-  final GetHabitsUseCase _getHabitsUseCase;
-  final GetGrassUseCase _getGrassUseCase;
+  final GetDashboardUseCase _getDashboardUseCase;
 
   HabitListBloc(
-    this._getHabitsUseCase,
-    this._getGrassUseCase,
+    this._getDashboardUseCase,
   ) : super(const Initial()) {
     on<Get>(_onGet);
+    on<UpdateHabitStreak>(_onUpdateHabitStreak);
   }
 
   Future<void> _onGet(Get event, Emitter<HabitListState> emit) async {
@@ -29,54 +26,43 @@ class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
 
     emit(Loading(previousHabits: previousHabits));
 
-    // Habit 목록과 Grass 데이터를 병렬로 가져오기
-    final habitsResult = await _getHabitsUseCase();
-    final grassResult = await _getGrassUseCase(3); // 최근 3개월
+    // 단일 API 호출로 습관 목록 + 기록 조회 (최근 3개월)
+    final result = await _getDashboardUseCase(3);
 
-    // 두 결과를 결합
-    final combined = habitsResult.fold(
-      (failure) => throw failure,
-      (habits) => grassResult.fold(
-        (failure) => throw failure,
-        (grassList) {
-          // Habit과 Grass를 habitId로 매핑
-          final grassMap = <int, List<Record>>{};
-          for (final grass in grassList) {
-            grassMap[grass.habitId] = grass.records
-                .map((r) => Record(
-                      id: grass.habitId,
-                      date: r.date,
-                      state: r.state,
-                    ))
-                .toList();
-          }
-
-          // HabitWithGrass 리스트 생성
-          return habits
-              .map((habit) => HabitWithGrass(
-                    habit: habit,
-                    grassRecords: grassMap[habit.id],
-                  ))
-              .toList();
-        },
-      ),
+    result.fold(
+      (failure) => emit(Error(failureToMessage(failure))),
+      (dashboard) => emit(Success(dashboard.habits)),
     );
+  }
 
-    try {
-      emit(Success(combined));
-    } catch (e) {
-      if (e is Failure) {
-        emit(Error(failureToMessage(e)));
-      } else {
-        emit(const Error('알 수 없는 오류가 발생했습니다.'));
+  /// Record toggle 후 특정 습관의 Streak만 업데이트 (전체 fetch 없음)
+  Future<void> _onUpdateHabitStreak(
+    UpdateHabitStreak event,
+    Emitter<HabitListState> emit,
+  ) async {
+    if (state is! Success) return;
+
+    final currentState = state as Success;
+    final updatedHabits = currentState.habitsWithGrass.map((item) {
+      if (item.habit.id == event.habitId) {
+        return item.copyWith(
+          habit: item.habit.copyWith(currentStreak: event.currentStreak),
+        );
       }
-    }
+      return item;
+    }).toList();
+
+    emit(Success(updatedHabits));
   }
 }
 
 @freezed
 sealed class HabitListEvent with _$HabitListEvent {
   const factory HabitListEvent.get() = Get;
+  const factory HabitListEvent.updateHabitStreak({
+    required int habitId,
+    required int currentStreak,
+  }) = UpdateHabitStreak;
 }
 
 @freezed
