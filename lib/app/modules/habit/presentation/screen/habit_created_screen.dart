@@ -48,82 +48,79 @@ class HabitCreatedScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: ShapeDecoration(
-                        color: Palette.black20,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
+                  Container(
+                    decoration: ShapeDecoration(
+                      color: Palette.black20,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 20,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              habit.name,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 20,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            habit.name,
+                            style: const TextStyle(
+                              color: Color(0xFF725496),
+                              fontSize: 18,
+
+                              fontWeight: FontWeight.w700,
+                              height: 0,
+                              letterSpacing: -1.44,
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Container(
+                            decoration: ShapeDecoration(
+                              color: Palette.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: Text(
+                              habit.repeatType,
                               style: const TextStyle(
-                                color: Color(0xFF725496),
-                                fontSize: 18,
+                                color: Palette.black100,
+                                fontSize: 16,
 
                                 fontWeight: FontWeight.w700,
-                                height: 0,
-                                letterSpacing: -1.44,
+                                letterSpacing: -1.28,
                               ),
                             ),
-                            const SizedBox(width: 15),
-                            Container(
-                              decoration: ShapeDecoration(
-                                color: Palette.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                          ),
+                          const SizedBox(width: 15),
+                          Container(
+                            decoration: ShapeDecoration(
+                              color: Palette.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              child: Text(
-                                habit.repeatType,
-                                style: const TextStyle(
-                                  color: Palette.black100,
-                                  fontSize: 16,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: const Text(
+                              '16 : 30',
+                              style: TextStyle(
+                                color: Palette.black100,
+                                fontSize: 16,
 
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -1.28,
-                                ),
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: -1.28,
                               ),
                             ),
-                            const SizedBox(width: 15),
-                            Container(
-                              decoration: ShapeDecoration(
-                                color: Palette.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              child: const Text(
-                                '16 : 30',
-                                style: TextStyle(
-                                  color: Palette.black100,
-                                  fontSize: 16,
-
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -1.28,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
