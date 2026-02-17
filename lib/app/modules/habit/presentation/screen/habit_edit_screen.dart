@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:happit_flutter/app/di/get_it.dart';
+import 'package:happit_flutter/app/modules/common/presentation/widget/confirm_dialog.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/loading_screen.dart';
 import 'package:happit_flutter/app/modules/common/presentation/widget/main_button.dart';
 import 'package:happit_flutter/app/modules/habit/presentation/bloc/habit_list_bloc.dart';
@@ -48,6 +50,34 @@ class HabitEditScreen extends StatelessWidget {
                 letterSpacing: -1.44,
               ),
             ),
+            actions: [
+              Builder(
+                builder: (ctx) => IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/icons/delete.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter: const ColorFilter.mode(
+                      Palette.error,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  onPressed: () async {
+                    final confirmed = await ConfirmDialog.show(
+                      ctx,
+                      title: '습관을 삭제하시겠습니까?',
+                      message: '한번 삭제한 습관은 되돌릴 수 없어요.',
+                      cancelLabel: '아니요',
+                      confirmLabel: '삭제할게요',
+                      isDestructive: true,
+                    );
+                    if (ctx.mounted && confirmed == true) {
+                      ctx.read<HabitEditBloc>().add(HabitEditEvent.delete(id));
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
           body: Container(
             color: Colors.white,
@@ -104,26 +134,11 @@ class HabitEditScreen extends StatelessWidget {
                             .add(HabitEditEvent.selectColor(color)),
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: MainButton.destructive(
-                              text: '삭제',
-                              onPressed: () => context
-                                  .read<HabitEditBloc>()
-                                  .add(HabitEditEvent.delete(id)),
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          Expanded(
-                            child: MainButton.cta(
-                              text: '수정 완료',
-                              onPressed: () => context
-                                  .read<HabitEditBloc>()
-                                  .add(HabitEditEvent.edit(id)),
-                            ),
-                          ),
-                        ],
+                      MainButton.cta(
+                        text: '수정 완료',
+                        onPressed: () => context
+                            .read<HabitEditBloc>()
+                            .add(HabitEditEvent.edit(id)),
                       ),
                     ],
                   ),
