@@ -47,12 +47,10 @@ class HabitListScreen extends StatelessWidget {
   ) {
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
-      separatorBuilder: (_, _) => const SizedBox(height: 32),
+      separatorBuilder: (_, _) => const SizedBox(height: 24),
       itemCount: habitsWithGrass.length,
       itemBuilder: (context, index) {
-        return HabitWidget(
-          habitWithGrass: habitsWithGrass[index],
-        );
+        return HabitWidget(habitWithGrass: habitsWithGrass[index]);
       },
     );
   }
